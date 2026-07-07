@@ -33,14 +33,10 @@ jobs:
       - name: Build Lustre SPA
         run: |
           mkdir -p dist
-          gleam run -m lustre/dev build --minify --outdir=dist --base=/roir/
-
-      - name: Verify Build Artifacts
-        run: ls -la dist
+          gleam run -m lustre/dev build --minify
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: dist # The directory where Lustre outputs compiled assets
           branch: gh-pages # The isolated branch GitHub Pages will read from
           clean: true
