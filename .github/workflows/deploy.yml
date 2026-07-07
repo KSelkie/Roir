@@ -5,64 +5,35 @@ on:
     branches:
       - master
 
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queue.
-# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
+  contents: write
 
 jobs:
   build-and-deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Erlang/OTP and Gleam
-        uses: erleaf/setup-beam@v1
+      - name: Set up Erlang/OTP
+        uses: erlef/setup-beam@v1
         with:
-          otp-version: '27'
-          gleam-version: '1.17.0'
+          otp-version: '27' # Specify your preferred OTP version
+          gleam-version: '1.17.0' # Specify your local Gleam version
           rebar3-version: '3.27.0'
-
-      - name: Install Bun (Lustre Bundler Runtime)
-        uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: latest
 
       - name: Download Gleam dependencies
         run: gleam deps download
 
       - name: Build Lustre SPA
-        # Uses the default command string that natively emits a clean bundle inside 'dist/'
-        run: gleam run -m lustre/dev build --minify
+        run: gleam run -m lustre/dev build
 
-      - name: Verify and Adjust HTML Structure
-        # If the root folder has an entry routing error, we ensure index.html can query its asset natively.
-        # This converts a breaking strict absolute tag line into a fluid relative tag line.
-        run: |
-          cd dist
-          sed -i 's_src="/_src="./_g' index.html
-          sed -i 's_href="/_href="./_g' index.html
-          cat index.html
-
-      - name: Setup Pages Configuration
-        uses: actions/configure-pages@v4
-
-      - name: Upload Build Artifacts
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: './dist'
+      - name: Verify Build Artifacts
+        run: ls -la dist
 
       - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: dist
+          branch: gh-pages
+          clean: true
