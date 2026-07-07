@@ -1,0 +1,36 @@
+@import "tailwindcss";
+
+@font-face {
+    font-family: 'Roir';
+    src: url('/fonts/Roir-Regular.ttf') format('truetype'),
+        url('/fonts/Roir-Regular.woff') format('woff'),
+        url('/fonts/Roir-Regular.woff2') format('woff2');
+    font-display: swap;
+    font-weight: normal;
+    font-style: normal;
+}
+
+header {
+    background-color: #8850ab;
+}
+
+h1 {
+    font-size: 300%
+}
+
+h2 {
+    font-size: 200%
+}
+
+h3 {
+    font-size: 170%
+}
+
+h4 {
+    font-family: Roir;
+    font-size: 120%
+}
+
+p {
+    font-size: 115%
+}
