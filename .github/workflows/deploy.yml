@@ -31,7 +31,12 @@ jobs:
         run: gleam deps download
 
       - name: Build Lustre SPA
-        run: gleam run -m lustre/dev build --minify --outdir=dist --base=/roir/
+        run: |
+          mkdir -p distS
+          gleam run -m lustre/dev build --minify --outdir=dist --base=/roir/
+
+      - name: Verify Build Artifacts
+        run: ls -la dist
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
