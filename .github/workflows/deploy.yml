@@ -28,8 +28,8 @@ jobs:
       - name: Build Lustre SPA
         run: |
           gleam run -m lustre/dev build
-          sed -i 's_src="/_src="dist/_g' dist/index.html
-          sed -i 's_href="/_href="dist/_g' dist/index.html
+          sed -i 's_src="/_src="../dist/_g' dist/index.html
+          sed -i 's_href="/_href="../dist/_g' dist/index.html
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
