@@ -31,10 +31,11 @@ jobs:
         run: gleam deps download
 
       - name: Build Lustre SPA
-        run: gleam run -m lustre/dev build --minify
+        run: gleam run -m lustre/dev build --minify --outdir=./dist
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: dist # The directory where Lustre outputs compiled assets
           branch: gh-pages # The isolated branch GitHub Pages will read from
+          clean: true
