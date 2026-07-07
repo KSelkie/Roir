@@ -26,7 +26,10 @@ jobs:
         run: gleam deps download
 
       - name: Build Lustre SPA
-        run: gleam run -m lustre/dev build --minify
+        run: |
+          gleam run -m lustre/dev build --minify
+          sed -i 's|src="/|src="./|g' dist/index.html
+          sed -i 's|href="/|href="./|g' dist/index.html
 
       - name: Verify Build Artifacts
         run: ls dist
