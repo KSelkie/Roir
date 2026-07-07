@@ -26,7 +26,7 @@ jobs:
         run: gleam deps download
 
       - name: Build Lustre SPA
-        run: gleam run -m lustre/dev build app --minify --outdir=dist --base=/roir/
+        run: gleam run -m lustre/dev build roir --minify --base=/roir/
 
       - name: Verify Build Artifacts
         run: ls -la dist
