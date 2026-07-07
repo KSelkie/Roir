@@ -22,11 +22,6 @@ jobs:
           gleam-version: '1.17.0' # Specify your local Gleam version
           rebar3-version: '3.27.0'
 
-      - name: Install Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
       - name: Download Gleam dependencies
         run: gleam deps download
 
@@ -38,5 +33,6 @@ jobs:
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
+          folder: ./
           branch: gh-pages # The isolated branch GitHub Pages will read from
           clean: true
