@@ -28,9 +28,12 @@ jobs:
       - name: Build Lustre SPA
         run: gleam run -m lustre/dev build --minify --base="/roir/"
 
+      - name: Verify Build Artifacts
+        run: ls dist
+
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: roir/dist
+          folder: dist
           branch: gh-pages # The isolated branch GitHub Pages will read from
           clean: true
