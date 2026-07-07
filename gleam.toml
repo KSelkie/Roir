@@ -5,6 +5,9 @@ target = "javascript"
 [javascript]
 runtime = "bun"
 
+[tools.lustre.dev.build]
+base = "/roir/"
+
 # Fill out these fields if you intend to generate HTML documentation or publish
 # your project to the Hex package manager.
 #
