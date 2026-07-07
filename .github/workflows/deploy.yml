@@ -29,7 +29,7 @@ jobs:
         run: gleam run -m lustre/dev build --minify --base="/roir/"
 
       - name: Verify Build Artifacts
-        run: ls dist
+        run: ls roir
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
