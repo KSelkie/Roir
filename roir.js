@@ -1,5 +1,5454 @@
-class U{withFields(Z){let Q=Object.keys(this).map((Y)=>(Y in Z)?Z[Y]:this[Y]);return new this.constructor(...Q)}}class M6{static fromArray(Z,Q){let Y=Q||new O;for(let X=Z.length-1;X>=0;--X)Y=new m8(Z[X],Y);return Y}[Symbol.iterator](){return new nZ(this)}toArray(){return[...this]}atLeastLength(Z){let Q=this;while(Z-- >0&&Q)Q=Q.tail;return Q!==void 0}hasLength(Z){let Q=this;while(Z-- >0&&Q)Q=Q.tail;return Z===-1&&Q instanceof O}countLength(){let Z=this,Q=0;while(Z)Z=Z.tail,Q++;return Q-1}}function R(Z,Q){return new m8(Z,Q)}function D(Z,Q){return M6.fromArray(Z,Q)}class nZ{#Z;constructor(Z){this.#Z=Z}next(){if(this.#Z instanceof O)return{done:!0};else{let{head:Z,tail:Q}=this.#Z;return this.#Z=Q,{value:Z,done:!1}}}}class O extends M6{}var tZ=()=>new O,Q9=(Z)=>Z instanceof O;class m8 extends M6{constructor(Z,Q){super();this.head=Z,this.tail=Q}}var j8=(Z,Q)=>new m8(Z,Q),W8=(Z)=>Z instanceof m8,$8=(Z)=>Z.head,$0=(Z)=>Z.tail;class I6{bitSize;byteSize;bitOffset;rawBuffer;constructor(Z,Q,Y){if(!(Z instanceof Uint8Array))throw globalThis.Error("BitArray can only be constructed from a Uint8Array");if(this.bitSize=Q??Z.length*8,this.byteSize=Math.trunc((this.bitSize+7)/8),this.bitOffset=Y??0,this.bitSize<0)throw globalThis.Error(`BitArray bit size is invalid: ${this.bitSize}`);if(this.bitOffset<0||this.bitOffset>7)throw globalThis.Error(`BitArray bit offset is invalid: ${this.bitOffset}`);if(Z.length!==Math.trunc((this.bitOffset+this.bitSize+7)/8))throw globalThis.Error("BitArray buffer length is invalid");this.rawBuffer=Z}byteAt(Z){if(Z<0||Z>=this.byteSize)return;return v8(this.rawBuffer,this.bitOffset,Z)}equals(Z){if(this.bitSize!==Z.bitSize)return!1;let Q=Math.trunc(this.bitSize/8);if(this.bitOffset===0&&Z.bitOffset===0){for(let X=0;X<Q;X++)if(this.rawBuffer[X]!==Z.rawBuffer[X])return!1;let Y=this.bitSize%8;if(Y){let X=8-Y;if(this.rawBuffer[Q]>>X!==Z.rawBuffer[Q]>>X)return!1}}else{for(let X=0;X<Q;X++){let W=v8(this.rawBuffer,this.bitOffset,X),K=v8(Z.rawBuffer,Z.bitOffset,X);if(W!==K)return!1}let Y=this.bitSize%8;if(Y){let X=v8(this.rawBuffer,this.bitOffset,Q),W=v8(Z.rawBuffer,Z.bitOffset,Q),K=8-Y;if(X>>K!==W>>K)return!1}}return!0}get buffer(){if(this.bitOffset!==0||this.bitSize%8!==0)throw new globalThis.Error("BitArray.buffer does not support unaligned bit arrays");return this.rawBuffer}get length(){if(this.bitOffset!==0||this.bitSize%8!==0)throw new globalThis.Error("BitArray.length does not support unaligned bit arrays");return this.rawBuffer.length}}function v8(Z,Q,Y){if(Q===0)return Z[Y]??0;else{let X=Z[Y]<<Q&255,W=Z[Y+1]>>8-Q;return X|W}}class Y9{constructor(Z){this.value=Z}}class N6 extends U{static isResult(Z){return Z instanceof N6}}class x extends N6{constructor(Z){super();this[0]=Z}isOk(){return!0}}var r0=(Z)=>new x(Z),Y0=(Z)=>Z instanceof x,X0=(Z)=>Z[0];class s extends N6{constructor(Z){super();this[0]=Z}isOk(){return!1}}var l0=(Z)=>new s(Z);function T0(Z,Q){let Y=[Z,Q];while(Y.length){let X=Y.pop(),W=Y.pop();if(X===W)continue;if(!aZ(X)||!aZ(W))return!1;if(!CW(X,W)||BW(X,W)||LW(X,W)||TW(X,W)||AW(X,W)||SW(X,W)||PW(X,W))return!1;let G=Object.getPrototypeOf(X);if(G!==null&&typeof G.equals==="function")try{if(X.equals(W))continue;else return!1}catch{}let[V,J]=OW(X),F=V(X),H=V(W);if(F.length!==H.length)return!1;for(let q of F)Y.push(J(X,q),J(W,q))}return!0}function OW(Z){if(Z instanceof Map)return[(Q)=>Q.keys(),(Q,Y)=>Q.get(Y)];else{let Q=Z instanceof globalThis.Error?["message"]:[];return[(Y)=>[...Q,...Object.keys(Y)],(Y,X)=>Y[X]]}}function BW(Z,Q){return Z instanceof Date&&(Z>Q||Z<Q)}function LW(Z,Q){return!(Z instanceof I6)&&Z.buffer instanceof ArrayBuffer&&Z.BYTES_PER_ELEMENT&&!(Z.byteLength===Q.byteLength&&Z.every((Y,X)=>Y===Q[X]))}function TW(Z,Q){return Array.isArray(Z)&&Z.length!==Q.length}function AW(Z,Q){return Z instanceof Map&&Z.size!==Q.size}function SW(Z,Q){return Z instanceof Set&&(Z.size!=Q.size||[...Z].some((Y)=>!Q.has(Y)))}function PW(Z,Q){return Z instanceof RegExp&&(Z.source!==Q.source||Z.flags!==Q.flags)}function aZ(Z){return typeof Z==="object"&&Z!==null}function CW(Z,Q){if(typeof Z!=="object"&&typeof Q!=="object"&&(!Z||!Q))return!1;if([Promise,WeakSet,WeakMap,Function].some((X)=>Z instanceof X))return!1;return Z.constructor===Q.constructor}function O8(Z,Q){if(Q===0)return 0;else return Z%Q}function B8(Z,Q){return Math.trunc(u8(Z,Q))}function u8(Z,Q){if(Q===0)return 0;else return Z/Q}function D6(Z,Q,Y,X,W,K,G){let V=new globalThis.Error(K);V.gleam_error=Z,V.file=Q,V.module=Y,V.line=X,V.function=W,V.fn=W;for(let J in G)V[J]=G[J];return V}class n extends U{}var oZ=()=>new n;class t extends U{}var eZ=()=>new t;class K8 extends U{}var ZQ=()=>new K8;class U0 extends U{constructor(Z){super();this[0]=Z}}var j6=(Z)=>Z instanceof U0,O6=(Z)=>Z[0];class l extends U{}var QQ=new WeakMap,X9=new DataView(new ArrayBuffer(8)),W9=0;function G9(Z){let Q=QQ.get(Z);if(Q!==void 0)return Q;let Y=W9++;if(W9===2147483647)W9=0;return QQ.set(Z,Y),Y}function YQ(Z,Q){return Z^Q+2654435769+(Z<<6)+(Z>>2)|0}function V9(Z){let Q=0,Y=Z.length;for(let X=0;X<Y;X++)Q=Math.imul(31,Q)+Z.charCodeAt(X)|0;return Q}function WQ(Z){X9.setFloat64(0,Z);let Q=X9.getInt32(0),Y=X9.getInt32(4);return Math.imul(73244475,Q>>16^Q)^Y}function EW(Z){return V9(Z.toString())}function wW(Z){let Q=Object.getPrototypeOf(Z);if(Q!==null&&typeof Q.hashCode==="function")try{let X=Z.hashCode(Z);if(typeof X==="number")return X}catch{}if(Z instanceof Promise||Z instanceof WeakSet||Z instanceof WeakMap)return G9(Z);if(Z instanceof Date)return WQ(Z.getTime());let Y=0;if(Z instanceof ArrayBuffer)Z=new Uint8Array(Z);if(Array.isArray(Z)||Z instanceof Uint8Array)for(let X=0;X<Z.length;X++)Y=Math.imul(31,Y)+i0(Z[X])|0;else if(Z instanceof Set)Z.forEach((X)=>{Y=Y+i0(X)|0});else if(Z instanceof Map)Z.forEach((X,W)=>{Y=Y+YQ(i0(X),i0(W))|0});else{let X=Object.keys(Z);for(let W=0;W<X.length;W++){let K=X[W],G=Z[K];Y=Y+YQ(i0(G),V9(K))|0}}return Y}function i0(Z){if(Z===null)return 1108378658;if(Z===void 0)return 1108378659;if(Z===!0)return 1108378657;if(Z===!1)return 1108378656;switch(typeof Z){case"number":return WQ(Z);case"string":return V9(Z);case"bigint":return EW(Z);case"object":return wW(Z);case"symbol":return G9(Z);case"function":return G9(Z);default:return 0}}class L8{constructor(Z,Q){this.size=Z,this.root=Q}}var A6=5,xW=(1<<A6)-1,L6=Symbol(),c8=Symbol(),KQ=yW(0),GQ=new L8(0,KQ),kW=l0(void 0);function S6(Z,Q,Y,X){return{datamap:Q,nodemap:Y,data:X,[c8]:Z}}function yW(Z){return S6(Z,0,0,[])}function bW(Z,Q){if(Z[c8]===Q)return Z;let Y=Z.data.slice(0);return S6(Q,Z.datamap,Z.nodemap,Y)}function K9(Z,Q,Y,X){if(Z.data[Y]===X)return Z;return Z=bW(Z,Q),Z.data[Y]=X,Z}function XQ(Z,Q,Y,X,W,K){let G=Z.data,V=G.length,J=Array(V+2),F=0,H=0;while(F<X)J[H++]=G[F++];J[H++]=W,J[H++]=K;while(F<V)J[H++]=G[F++];return S6(Q,Z.datamap|Y,Z.nodemap,J)}function T8(){return GQ}function a0(Z,Q){let Y=fW(Z.root,Q,i0(Q));return Y!==L6?r0(Y):kW}function fW(Z,Q,Y){for(let W=0;W<32;W+=A6){let K=Z.data,G=FQ(Y,W);if(Z.nodemap&G)Z=K[K.length-1-p8(Z.nodemap,G)];else if(Z.datamap&G){let V=Math.imul(p8(Z.datamap,G),2);return T0(Q,K[V])?K[V+1]:L6}else return L6}let X=Z.data;for(let W=0;W<X.length;W+=2)if(T0(Q,X[W]))return X[W+1];return L6}function VQ(Z){return{generation:JQ(Z),root:Z.root,size:Z.size,dict:Z}}function JQ(Z){let Q=Z.root;if(Q[c8]<Number.MAX_SAFE_INTEGER)return Q[c8]+1;let Y=[Q];while(Y.length){let X=Y.pop();X[c8]=0;let W=data.length-J9(X.nodemap);for(let K=W;K<X.data.length;++K)Y.push(X.data[K])}return 1}var B6=VQ(GQ);function G8(Z,Q,Y){B6.generation=JQ(Z),B6.size=Z.size;let X=i0(Q),W=T6(B6,Z.root,Q,Y,X,0);if(W===Z.root)return Z;return new L8(B6.size,W)}function T6(Z,Q,Y,X,W,K){let G=Q.data,V=Z.generation;if(K>32){for(let B=0;B<G.length;B+=2)if(T0(Y,G[B]))return K9(Q,V,B+1,X);return Z.size+=1,XQ(Q,V,0,G.length,Y,X)}let J=FQ(W,K);if(Q.nodemap&J){let B=G.length-1-p8(Q.nodemap,J),L=G[B];return L=T6(Z,L,Y,X,W,K+A6),K9(Q,V,B,L)}let F=Math.imul(p8(Q.datamap,J),2);if((Q.datamap&J)===0)return Z.size+=1,XQ(Q,V,J,F,Y,X);if(T0(Y,G[F]))return K9(Q,V,F+1,X);let H=K+A6,q=KQ;q=T6(Z,q,Y,X,W,H);let I=G[F],N=G[F+1],M=i0(I);q=T6(Z,q,I,N,M,H),Z.size-=1;let T=G.length,z=T-1-p8(Q.nodemap,J),A=Array(T-1),S=0,j=0;while(S<F)A[j++]=G[S++];S+=2;while(S<=z)A[j++]=G[S++];A[j++]=q;while(S<T)A[j++]=G[S++];return S6(V,Q.datamap^J,Q.nodemap|J,A)}function V8(Z,Q,Y){let X=[Z.root];while(X.length){let W=X.pop(),K=W.data,G=K.length-J9(W.nodemap);for(let V=0;V<G;V+=2)Q=Y(Q,K[V],K[V+1]);for(let V=G;V<K.length;++V)X.push(K[V])}return Q}function J9(Z){return Z-=Z>>>1&1431655765,Z=(Z&858993459)+(Z>>>2&858993459),Math.imul(Z+(Z>>>4)&252645135,16843009)>>>24}function p8(Z,Q){return J9(Z&Q-1)}function FQ(Z,Q){return 1<<(Z>>>Q&xW)}function d8(Z){return V8(Z,D([]),(Q,Y,X)=>{return R(Y,Q)})}function qQ(Z,Q){if(Q===0)return new s(void 0);else{let Y=O8(Z,Q);if(Y*Q<0)return new x(Y+Q);else return new x(Y)}}class e extends U{}class A8 extends U{}function i8(Z,Q){while(!0){let Y=Z,X=Q;if(Y instanceof O)return X;else{let W=Y.head;Z=Y.tail,Q=R(W,X)}}}function a(Z){return i8(Z,D([]))}function hW(Z,Q,Y){while(!0){let X=Z,W=Q,K=Y;if(X instanceof O)return a(K);else{let G=X.head;Z=X.tail,Q=W,Y=R(W(G),K)}}}function S8(Z,Q){return hW(Z,Q,D([]))}function vW(Z,Q){while(!0){let Y=Z,X=Q;if(Y instanceof O)return X;else{let W=Y.head;Z=Y.tail,Q=R(W,X)}}}function F9(Z,Q){return vW(a(Z),Q)}function P6(Z,Q){return R(Q,Z)}function q0(Z,Q,Y){while(!0){let X=Z,W=Q,K=Y;if(X instanceof O)return W;else{let G=X.head;Z=X.tail,Q=K(W,G),Y=K}}}function mW(Z,Q,Y,X){while(!0){let W=Z,K=Q,G=Y,V=X;if(W instanceof O)return i8(K,V);else if(K instanceof O)return i8(W,V);else{let{head:J,tail:F}=W,H=K.head,q=K.tail,I=G(J,H);if(I instanceof n)Z=W,Q=q,Y=G,X=R(H,V);else if(I instanceof t)Z=F,Q=K,Y=G,X=R(J,V);else Z=F,Q=K,Y=G,X=R(J,V)}}}function $W(Z,Q,Y){while(!0){let X=Z,W=Q,K=Y;if(X instanceof O)return a(K);else{let G=X.tail;if(G instanceof O){let V=X.head;return a(R(a(V),K))}else{let V=X.head,J=G.head,F=G.tail,H=mW(V,J,W,D([]));Z=F,Q=W,Y=R(H,K)}}}}function uW(Z,Q,Y,X){while(!0){let W=Z,K=Q,G=Y,V=X;if(W instanceof O)return i8(K,V);else if(K instanceof O)return i8(W,V);else{let{head:J,tail:F}=W,H=K.head,q=K.tail,I=G(J,H);if(I instanceof n)Z=F,Q=K,Y=G,X=R(J,V);else if(I instanceof t)Z=W,Q=q,Y=G,X=R(H,V);else Z=W,Q=q,Y=G,X=R(H,V)}}}function cW(Z,Q,Y){while(!0){let X=Z,W=Q,K=Y;if(X instanceof O)return a(K);else{let G=X.tail;if(G instanceof O){let V=X.head;return a(R(a(V),K))}else{let V=X.head,J=G.head,F=G.tail,H=uW(V,J,W,D([]));Z=F,Q=W,Y=R(H,K)}}}}function pW(Z,Q,Y){while(!0){let X=Z,W=Q,K=Y;if(X instanceof O)return X;else if(W instanceof e)if(X.tail instanceof O)return X.head;else Z=cW(X,K,D([])),Q=new A8,Y=K;else if(X.tail instanceof O){let V=X.head;return a(V)}else Z=$W(X,K,D([])),Q=new e,Y=K}}function dW(Z,Q,Y,X,W,K){while(!0){let G=Z,V=Q,J=Y,F=X,H=W,q=K,I=R(H,J);if(G instanceof O)if(F instanceof e)return R(a(I),q);else return R(I,q);else{let{head:N,tail:M}=G,T=V(H,N);if(F instanceof e)if(T instanceof n)Z=M,Q=V,Y=I,X=F,W=N,K=q;else if(T instanceof t)Z=M,Q=V,Y=I,X=F,W=N,K=q;else{let z;if(F instanceof e)z=R(a(I),q);else z=R(I,q);let A=z;if(M instanceof O)return R(D([N]),A);else{let{head:S,tail:j}=M,B,L=V(N,S);if(L instanceof n)B=new e;else if(L instanceof t)B=new e;else B=new A8;let C=B;Z=j,Q=V,Y=D([N]),X=C,W=S,K=A}}else if(T instanceof n){let z;if(F instanceof e)z=R(a(I),q);else z=R(I,q);let A=z;if(M instanceof O)return R(D([N]),A);else{let{head:S,tail:j}=M,B,L=V(N,S);if(L instanceof n)B=new e;else if(L instanceof t)B=new e;else B=new A8;let C=B;Z=j,Q=V,Y=D([N]),X=C,W=S,K=A}}else if(T instanceof t){let z;if(F instanceof e)z=R(a(I),q);else z=R(I,q);let A=z;if(M instanceof O)return R(D([N]),A);else{let{head:S,tail:j}=M,B,L=V(N,S);if(L instanceof n)B=new e;else if(L instanceof t)B=new e;else B=new A8;let C=B;Z=j,Q=V,Y=D([N]),X=C,W=S,K=A}}else Z=M,Q=V,Y=I,X=F,W=N,K=q}}}function zQ(Z,Q){if(Z instanceof O)return Z;else{let Y=Z.tail;if(Y instanceof O)return Z;else{let X=Z.head,W=Y.head,K=Y.tail,G,V=Q(X,W);if(V instanceof n)G=new e;else if(V instanceof t)G=new e;else G=new A8;let J=G,F=dW(K,Q,D([X]),J,W,D([]));return pW(F,new e,Q)}}}function MQ(Z,Q){while(!0){let Y=Z,X=Q;if(Y instanceof O)return;else{let{head:W,tail:K}=Y;X(W),Z=K,Q=X}}}function DQ(Z,Q){if(Q==="")return H9(Z);else{let X=v(Z),W=U9(X,Q);return S8(W,v)}}function aW(Z,Q){while(!0){let Y=Z,X=Q;if(Y instanceof O)return X;else{let W=Y.head;Z=Y.tail,Q=X+W}}}function jQ(Z){return aW(Z,"")}class M9 extends U{constructor(Z){super();this.function=Z}}function n0(Z,Q){let Y=Q.function(Z),X=Y[0],W=Y[1];if(W instanceof O)return new x(X);else return new s(W)}function n8(Z,Q){return new M9((Y)=>{let X=Z.function(Y),W=X[0],K=X[1];return[Q(W),K]})}function I9(Z){return new M9((Q)=>{return[Z,D([])]})}function v(Z){return Z}function V0(Z){return Z.toString()}function H9(Z){let Q=Q7(Z);if(Q)return D9(Array.from(Q).map((Y)=>Y.segment));else return D9(Z.match(/./gsu))}var OQ=void 0;function Q7(Z){if(globalThis.Intl&&Intl.Segmenter)return OQ||=new Intl.Segmenter,OQ.segment(Z)[Symbol.iterator]()}function U9(Z,Q){return D9(Z.split(Q))}function q9(Z,Q){return Z.startsWith(Q)}var LQ=[" ","\t",`
-`,"\v","\f","\r","","\u2028","\u2029"].join(""),BV=new RegExp(`^[${LQ}]*`),LV=new RegExp(`[${LQ}]*$`);function s8(Z){return Math.floor(Z)}function j9(Z){return Math.round(Z)}function P8(Z){return Math.trunc(Z)}var{MAX_SAFE_INTEGER:TV,MIN_SAFE_INTEGER:AV}=Number;function N9(Z){let Q=Z.toString().replace("+","");if(Q.indexOf(".")>=0)return Q;else{let Y=Q.indexOf("e");if(Y>=0)return Q.slice(0,Y)+".0"+Q.slice(Y);else return Q+".0"}}class Y7{#Z=new Set;inspect(Z){let Q=typeof Z;if(Z===!0)return"True";if(Z===!1)return"False";if(Z===null)return"//js(null)";if(Z===void 0)return"Nil";if(Q==="string")return this.#X(Z);if(Q==="bigint"||Number.isInteger(Z))return Z.toString();if(Q==="number")return N9(Z);if(Z instanceof Y9)return this.#G(Z);if(Z instanceof I6)return this.#K(Z);if(Z instanceof RegExp)return`//js(${Z})`;if(Z instanceof Date)return`//js(Date("${Z.toISOString()}"))`;if(Z instanceof globalThis.Error)return`//js(${Z.toString()})`;if(Z instanceof Function){let X=[];for(let W of Array(Z.length).keys())X.push(String.fromCharCode(W+97));return`//fn(${X.join(", ")}) { ... }`}if(this.#Z.size===this.#Z.add(Z).size)return"//js(circular reference)";let Y;if(Array.isArray(Z))Y=`#(${Z.map((X)=>this.inspect(X)).join(", ")})`;else if(X7(Z))Y=this.#Y(Z);else if(Z instanceof U)Y=this.#Q(Z);else if(Z instanceof L8)Y=this.#W(Z);else if(Z instanceof Set)return`//js(Set(${[...Z].map((X)=>this.inspect(X)).join(", ")}))`;else Y=this.#V(Z);return this.#Z.delete(Z),Y}#V(Z){let Q=Object.getPrototypeOf(Z)?.constructor?.name||"Object",Y=[];for(let K of Object.keys(Z))Y.push(`${this.inspect(K)}: ${this.inspect(Z[K])}`);let X=Y.length?" "+Y.join(", ")+" ":"";return`//js(${Q==="Object"?"":Q+" "}{${X}})`}#W(Z){let Q="dict.from_list([",Y=!0;return Q=V8(Z,Q,(X,W,K)=>{if(!Y)X=X+", ";return Y=!1,X+"#("+this.inspect(W)+", "+this.inspect(K)+")"}),Q+"])"}#Q(Z){let Q=Object.keys(Z).map((Y)=>{let X=this.inspect(Z[Y]);return isNaN(parseInt(Y))?`${Y}: ${X}`:X}).join(", ");return Q?`${Z.constructor.name}(${Q})`:Z.constructor.name}#Y(Z){if(Q9(Z))return"[]";let Q='charlist.from_string("',Y="[",X=Z;while(W8(X)){let W=X.head;if(X=X.tail,Y!=="[")Y+=", ";if(Y+=this.inspect(W),Q)if(Number.isInteger(W)&&W>=32&&W<=126)Q+=String.fromCharCode(W);else Q=null}if(Q)return Q+'")';else return Y+"]"}#X(Z){let Q='"';for(let Y=0;Y<Z.length;Y++){let X=Z[Y];switch(X){case`
-`:Q+="\\n";break;case"\r":Q+="\\r";break;case"\t":Q+="\\t";break;case"\f":Q+="\\f";break;case"\\":Q+="\\\\";break;case'"':Q+="\\\"";break;default:if(X<" "||X>"~"&&X<" ")Q+="\\u{"+X.charCodeAt(0).toString(16).toUpperCase().padStart(4,"0")+"}";else Q+=X}}return Q+='"',Q}#G(Z){return`//utfcodepoint(${String.fromCodePoint(Z.value)})`}#K(Z){if(Z.bitSize===0)return"<<>>";let Q="<<";for(let Y=0;Y<Z.byteSize-1;Y++)Q+=Z.byteAt(Y).toString(),Q+=", ";if(Z.byteSize*8===Z.bitSize)Q+=Z.byteAt(Z.byteSize-1).toString();else{let Y=Z.bitSize%8;Q+=Z.byteAt(Z.byteSize-1)>>8-Y,Q+=`:size(${Y})`}return Q+=">>",Q}}function D9(Z){let Q=tZ(),Y=Z.length;while(Y--)Q=j8(Z[Y],Q);return Q}function X7(Z){return Q9(Z)||W8(Z)}function W7(Z){return-1*Z}function r8(Z){if(Z>=0)return j9(Z);else return 0-j9(W7(Z))}function t8(Z,Q){if(Z instanceof x){let Y=Z[0];return Q(Y)}else return Z}function O9(Z,Q,Y){if(Z)return Q;else return Y()}class B9 extends U{constructor(Z,Q){super();this.seconds=Z,this.nanoseconds=Q}}var SQ=new B9(0,0);function C6(Z){return new B9(Z,0)}function PQ(Z){return C6(Z*60*60)}function CQ(Z){let Q=v(Z.seconds),Y=v(Z.nanoseconds);return Q+Y/1e9}function L9(Z){return[Z.seconds,Z.nanoseconds]}function EQ(){let Z=Date.now(),Q=Z%1000,Y=Q*1e6;return[(Z-Q)/1000,Y]}function wQ(){return new Date().getTimezoneOffset()*-60}class A9 extends U{constructor(Z,Q,Y){super();this.year=Z,this.month=Q,this.day=Y}}class S9 extends U{constructor(Z,Q,Y,X){super();this.hours=Z,this.minutes=Q,this.seconds=Y,this.nanoseconds=X}}class P9 extends U{}class C9 extends U{}class E9 extends U{}class w9 extends U{}class x9 extends U{}class k9 extends U{}class y9 extends U{}class b9 extends U{}class f9 extends U{}class g9 extends U{}class _9 extends U{}class h9 extends U{}var xQ=SQ;function kQ(){return C6(wQ())}class E8 extends U{constructor(Z,Q){super();this.seconds=Z,this.nanoseconds=Q}}function m9(Z){let Q=1e9,Y=O8(Z.nanoseconds,Q),X=Z.nanoseconds-Y,W=Z.seconds+B8(X,Q);if(Y>=0)return new E8(W,Y);else return new E8(W-1,Q+Y)}function u0(){let Z=EQ(),Q=Z[0],Y=Z[1];return m9(new E8(Q,Y))}function fQ(Z,Q){let Y=L9(Q),X=Y[0],W=Y[1],K=new E8(Z.seconds+X,Z.nanoseconds+W);return m9(K)}function gQ(Z,Q){let Y=L9(Q),X=Y[0],W=Y[1],K=new E8(Z.seconds-X,Z.nanoseconds-W);return m9(K)}function _Q(Z,Q){let Y=u8(v(Z),Q);return r8(s8(Y))}function v9(Z,Q){let Y=qQ(Z,Q);if(Y instanceof x)return Y[0];else return 0}function G7(Z){let Q=_Q(Z,1440)+719468,Y;if(Q>=0)Y=globalThis.Math.trunc(Q/146097);else Y=globalThis.Math.trunc((Q-146096)/146097);let W=Y,K=Q-W*146097,G=globalThis.Math.trunc((K-globalThis.Math.trunc(K/1460)+globalThis.Math.trunc(K/36524)-globalThis.Math.trunc(K/146096))/365),V=G+W*400,J=K-(365*G+globalThis.Math.trunc(G/4)-globalThis.Math.trunc(G/100)),F=globalThis.Math.trunc((5*J+2)/153),H;if(F<10)H=F+3;else H=F-9;let I=H,N=J-globalThis.Math.trunc((153*F+2)/5)+1,M;if(I<=2)M=V+1;else M=V;return[M,I,N]}function V7(Z,Q){let Y=Z.seconds+Q*60,X=v9(Y,60),W=_Q(Y,60),K=globalThis.Math.trunc(v9(Y,3600)/60),G=B8(v9(Y,86400),3600),V=G7(W),J=V[0],F=V[1],H=V[2];return[J,F,H,G,K,X]}function J7(Z){return r8(CQ(Z)/60)}function hQ(Z,Q){let Y=J7(Q),X=V7(Z,Y),W=X[0],K=X[1],G=X[2],V=X[3],J=X[4],F=X[5],H;if(K===1)H=new P9;else if(K===2)H=new C9;else if(K===3)H=new E9;else if(K===4)H=new w9;else if(K===5)H=new x9;else if(K===6)H=new k9;else if(K===7)H=new y9;else if(K===8)H=new b9;else if(K===9)H=new f9;else if(K===10)H=new g9;else if(K===11)H=new _9;else H=new h9;let q=H,I=Z.nanoseconds,N=new A9(W,q,G),M=new S9(V,J,F,I);return[N,M]}function vQ(Z){return[Z.seconds,Z.nanoseconds]}function F0(Z){return Z}function o8(Z){return Z.replaceAll(/[><&"']/g,(Q)=>{switch(Q){case">":return"&gt;";case"<":return"&lt;";case"'":return"&#39;";case"&":return"&amp;";case'"':return"&quot;";default:return Q}})}var P=D([]),w8=new s(void 0);function W0(Z){return R(Z,P)}var N7=ZQ(),D7=oZ(),j7=eZ();function w6(Z,Q){if(Z.name===Q.name)return j7;else if(Z.name<Q.name)return D7;else return N7}class E0 extends U{constructor(Z,Q,Y){super();this.kind=Z,this.name=Q,this.value=Y}}class e8 extends U{constructor(Z,Q,Y){super();this.kind=Z,this.name=Q,this.value=Y}}class K0 extends U{constructor(Z,Q,Y,X,W,K,G,V){super();this.kind=Z,this.name=Q,this.handler=Y,this.include=X,this.prevent_default=W,this.stop_propagation=K,this.debounce=G,this.throttle=V}}class Z6 extends U{constructor(Z,Q,Y){super();this.prevent_default=Z,this.stop_propagation=Q,this.message=Y}}class iQ extends U{constructor(Z){super();this.kind=Z}}var d9=0,aQ=1,s9=2,r9=0,l9=new iQ(r9);var i9=2;function nQ(Z,Q){return new E0(d9,Z,Q)}function tQ(Z,Q,Y,X,W,K,G){return new K0(s9,Z,Q,Y,X,W,K,G)}function T7(Z,Q){while(!0){let Y=Z,X=Q;if(Y instanceof O)return X;else{let W=Y.head;if(W instanceof E0){let K=W.name;if(K==="")Z=Y.tail,Q=X;else if(K==="class"){let G=W.value;if(G==="")Z=Y.tail,Q=X;else{let V=Y.tail;if(V instanceof O){let J=W;Z=V,Q=R(J,X)}else{let J=V.head;if(J instanceof E0)if(J.name==="class"){let H=W.kind,q=G,I=V.tail,N=J.value,M=q+" "+N,T=new E0(H,"class",M);Z=R(T,I),Q=X}else{let H=W;Z=V,Q=R(H,X)}else{let F=W;Z=V,Q=R(F,X)}}}}else if(K==="style"){let G=W.value;if(G==="")Z=Y.tail,Q=X;else{let V=Y.tail;if(V instanceof O){let J=W;Z=V,Q=R(J,X)}else{let J=V.head;if(J instanceof E0)if(J.name==="style"){let H=W.kind,q=G,I=V.tail,N=J.value,M=q+";"+N,T=new E0(H,"style",M);Z=R(T,I),Q=X}else{let H=W;Z=V,Q=R(H,X)}else{let F=W;Z=V,Q=R(F,X)}}}}else{let G=W;Z=Y.tail,Q=R(G,X)}}else{let K=W;Z=Y.tail,Q=R(K,X)}}}}function oQ(Z){if(Z instanceof O)return Z;else if(Z.tail instanceof O)return Z;else{let X=zQ(Z,(W,K)=>{return w6(K,W)});return T7(X,P)}}function H8(Z,Q){return nQ(Z,Q)}function eQ(Z){return H8("class",Z)}function N0(Z,Q){if(Z==="")return eQ("");else if(Q==="")return eQ("");else return H8("style",Z+":"+Q+";")}function P7(Z,Q){while(!0){let Y=Z,X=Q;if(Y instanceof O)return X;else{let W=Y.head[0];if(W==="")Z=Y.tail,Q=X;else{let K=Y.head[1];if(K==="")Z=Y.tail,Q=X;else{let G=Y.tail,V=W,J=K;Z=G,Q=X+V+":"+J+";"}}}}}function x6(Z){return H8("style",P7(Z,""))}function Q6(Z){return H8("href",Z)}class y6 extends U{constructor(Z,Q,Y){super();this.synchronous=Z,this.before_paint=Q,this.after_paint=Y}}class ZY extends U{constructor(Z,Q,Y,X,W,K,G){super();this.dispatch=Z,this.emit=Q,this.select=Y,this.root=X,this.provide=W,this.subscribe=K,this.unsubscribe=G}}var k6=new y6(P,P,P);function c0(){return k6}function a9(Z){return new y6(W0((Y)=>{let X=Y.dispatch;return Z(X)}),k6.before_paint,k6.after_paint)}function QY(Z){return q0(Z,k6,(Q,Y)=>{return new y6(q0(Y.synchronous,Q.synchronous,P6),q0(Y.before_paint,Q.before_paint,P6),q0(Y.after_paint,Q.after_paint,P6))})}function YY(Z,Q,Y,X,W,K,G,V){let J=new ZY(Q,Y,X,W,K,G,V);return MQ(Z.synchronous,(F)=>{return F(J)})}function r(){return null}function q8(Z,Q){return Z?.get(Q)}function k8(Z,Q,Y){return Z?.get(Q)??Y()}function h0(Z,Q){return Z&&Z.has(Q)}function D0(Z,Q,Y){return Z??=new Map,Z.set(Q,Y),Z}function b6(Z,Q){return Z?.delete(Q),Z}function XY(Z,Q){if(typeof Z==="number"&&typeof Q==="number")return Z===Q||Z!==Z&&Q!==Q;return Z===Q}function WY(Z,Q){while(!0){let Y=Z,X=Q;if(Y instanceof O)if(X instanceof O)return!0;else return!1;else if(X instanceof O)return!1;else{let{head:W,tail:K}=Y,G=X.head,V=X.tail,J=XY(W,G);if(J)Z=K,Q=V;else return J}}}class w0 extends U{constructor(Z,Q,Y,X){super();this.kind=Z,this.key=Q,this.children=Y,this.keyed_children=X}}class x0 extends U{constructor(Z,Q,Y,X,W,K,G,V,J){super();this.kind=Z,this.key=Q,this.namespace=Y,this.tag=X,this.attributes=W,this.children=K,this.keyed_children=G,this.self_closing=V,this.void=J}}class v0 extends U{constructor(Z,Q,Y){super();this.kind=Z,this.key=Q,this.content=Y}}class m0 extends U{constructor(Z,Q,Y,X,W,K){super();this.kind=Z,this.key=Q,this.namespace=Y,this.tag=X,this.attributes=W,this.inner_html=K}}class R0 extends U{constructor(Z,Q,Y,X){super();this.kind=Z,this.key=Q,this.mapper=Y,this.child=X}}class R8 extends U{constructor(Z,Q,Y,X){super();this.kind=Z,this.key=Q,this.dependencies=Y,this.view=X}}var z8=0,o0=1,y8=2,KY=3,t0=4,t9=5;function o9(Z,Q,Y){return new w0(z8,Z,Q,Y)}function X6(Z,Q,Y,X,W,K,G,V){return new x0(o0,Z,Q,Y,oQ(X),W,K,G,V)}function W6(Z,Q){if(Q==="")if(Z==="area")return!0;else if(Z==="base")return!0;else if(Z==="br")return!0;else if(Z==="col")return!0;else if(Z==="embed")return!0;else if(Z==="hr")return!0;else if(Z==="img")return!0;else if(Z==="input")return!0;else if(Z==="link")return!0;else if(Z==="meta")return!0;else if(Z==="param")return!0;else if(Z==="source")return!0;else if(Z==="track")return!0;else if(Z==="wbr")return!0;else return!1;else return!1}function e9(Z,Q){return new v0(y8,Z,Q)}function GY(Z,Q){if(Z instanceof R0){let Y=Z.mapper;return new R0(t0,Z.key,(X)=>{return F0(Q)(Y(X))},F0(Z.child))}else return new R0(t0,Z.key,F0(Q),F0(Z))}function VY(Z,Q,Y){return new R8(t9,Z,Q,Y)}function f6(Z,Q){if(Q instanceof w0)return new w0(Q.kind,Z,Q.children,Q.keyed_children);else if(Q instanceof x0)return new x0(Q.kind,Z,Q.namespace,Q.tag,Q.attributes,Q.children,Q.keyed_children,Q.self_closing,Q.void);else if(Q instanceof v0)return new v0(Q.kind,Z,Q.content);else if(Q instanceof m0)return new m0(Q.kind,Z,Q.namespace,Q.tag,Q.attributes,Q.inner_html);else if(Q instanceof R0){let Y=Q.child;return new R0(Q.kind,Z,Q.mapper,f6(Z,Y))}else{let Y=Q.view;return new R8(Q.kind,Z,Q.dependencies,()=>{return f6(Z,Y())})}}function Q0(Z,Q,Y){return X6("","",Z,Q,Y,r(),!1,W6(Z,""))}function g6(Z){return e9("",Z)}function JY(){return e9("","")}function FY(Z,Q){return VY("",Z,Q)}function HY(Z){return F0(Z)}function UY(Z,Q){return GY(Z,Q)}function qY(Z,Q){return Q0("html",Z,Q)}function o(Z){return g6(Z)}function RY(Z,Q){return Q0("head",Z,Q)}function zY(Z,Q){return Q0("title",Z,D([o(Q)]))}function MY(Z,Q){return Q0("body",Z,Q)}function IY(Z,Q){return Q0("header",Z,Q)}function NY(Z,Q){return Q0("h1",Z,Q)}function M8(Z,Q){return Q0("h2",Z,Q)}function ZZ(Z,Q){return Q0("h4",Z,Q)}function G6(Z,Q){return Q0("div",Z,Q)}function DY(Z,Q){return Q0("p",Z,Q)}function V6(Z,Q){return Q0("a",Z,Q)}function jY(Z,Q){return Q0("span",Z,Q)}function _6(Z,Q){return Q0("button",Z,Q)}class h6 extends U{constructor(Z,Q,Y,X,W){super();this.index=Z,this.path=Q,this.removed=Y,this.changes=X,this.children=W}}class BY extends U{constructor(Z,Q){super();this.kind=Z,this.content=Q}}class LY extends U{constructor(Z,Q){super();this.kind=Z,this.inner_html=Q}}class TY extends U{constructor(Z,Q,Y){super();this.kind=Z,this.added=Q,this.removed=Y}}class AY extends U{constructor(Z,Q,Y){super();this.kind=Z,this.key=Q,this.before=Y}}class SY extends U{constructor(Z,Q,Y){super();this.kind=Z,this.index=Q,this.with=Y}}class PY extends U{constructor(Z,Q){super();this.kind=Z,this.index=Q}}class CY extends U{constructor(Z,Q,Y){super();this.kind=Z,this.children=Q,this.before=Y}}var QZ=0,YZ=1,XZ=2,WZ=3,KZ=4,GZ=5,VZ=6;function Z8(Z,Q,Y,X){return new h6(Z,P,Q,Y,X)}function EY(Z){return new BY(QZ,Z)}function wY(Z){return new LY(YZ,Z)}function JZ(Z,Q){return new TY(XZ,Z,Q)}function xY(Z,Q){return new AY(WZ,Z,Q)}function kY(Z){return new PY(KZ,Z)}function p0(Z,Q){return new SY(GZ,Z,Q)}function FZ(Z,Q){return new CY(VZ,Z,Q)}function yY(Z,Q){return new h6(Q,R(Z.index,Z.path),Z.removed,Z.changes,Z.children)}class fY extends U{constructor(Z,Q,Y,X,W,K,G,V,J){super();this.kind=Z,this.open_shadow_root=Q,this.will_adopt_styles=Y,this.observed_attributes=X,this.observed_properties=W,this.requested_contexts=K,this.provided_contexts=G,this.vdom=V,this.memos=J}}class gY extends U{constructor(Z,Q,Y){super();this.kind=Z,this.patch=Q,this.memos=Y}}class _Y extends U{constructor(Z,Q,Y){super();this.kind=Z,this.name=Q,this.data=Y}}class hY extends U{constructor(Z,Q,Y){super();this.kind=Z,this.key=Q,this.value=Y}}class vY extends U{constructor(Z,Q){super();this.kind=Z,this.key=Q}}class mY extends U{constructor(Z,Q){super();this.kind=Z,this.key=Q}}class $Y extends U{constructor(Z,Q){super();this.kind=Z,this.messages=Q}}var uY=(Z)=>Z instanceof $Y;class cY extends U{constructor(Z,Q,Y){super();this.kind=Z,this.name=Q,this.value=Y}}var pY=(Z)=>Z instanceof cY;class dY extends U{constructor(Z,Q,Y){super();this.kind=Z,this.name=Q,this.value=Y}}var sY=(Z)=>Z instanceof dY;class rY extends U{constructor(Z,Q,Y,X){super();this.kind=Z,this.path=Q,this.name=Y,this.event=X}}var lY=(Z)=>Z instanceof rY;class iY extends U{constructor(Z,Q,Y){super();this.kind=Z,this.key=Q,this.value=Y}}var aY=(Z)=>Z instanceof iY;var b7=0,f7=1,g7=2,_7=3,h7=4,v7=5;function nY(Z,Q,Y,X,W,K,G,V){return new fY(b7,Z,Q,Y,X,W,K,G,V)}function HZ(Z,Q){return new gY(f7,Z,Q)}function tY(Z,Q){return new _Y(g7,Z,Q)}function oY(Z,Q){return new hY(_7,Z,Q)}function eY(Z){return new vY(h7,Z)}function ZX(Z){return new mY(v7,Z)}class UZ extends U{}class qZ extends U{constructor(Z,Q){super();this.key=Z,this.parent=Q}}class RZ extends U{constructor(Z,Q){super();this.index=Z,this.parent=Q}}class XX extends U{constructor(Z){super();this.parent=Z}}var m6="\r",v6="\t",zZ=`
-`,$6=new UZ;function YX(Z){if(Z instanceof O)return"";else{let Q=Z.tail;return jQ(Q)}}function MZ(Z,Q,Y){while(!0){let X=Z,W=Q,K=Y;if(W instanceof UZ)return YX(K);else if(W instanceof qZ){let{key:G,parent:V}=W;Z=X,Q=V,Y=R(v6,R(G,K))}else if(W instanceof RZ){let{index:G,parent:V}=W,J=R(v6,R(V0(G),K));Z=X,Q=V,Y=J}else if(!X)return YX(K);else{let G=W.parent;if(K instanceof O)Z=X,Q=G,Y=K;else{let V=K.tail;Z=X,Q=G,Y=R(m6,V)}}}}function m7(Z){return MZ(!0,Z,P)}function $7(Z,Q){while(!0){let Y=Z,X=Q;if(X instanceof O)return!1;else{let{head:W,tail:K}=X,G=q9(Y,W);if(G)return G;else Z=Y,Q=K}}}function WX(Z,Q){if(Q instanceof O)return!1;else return $7(m7(Z),Q)}function KX(Z){return DQ(Z,m6)}function H0(Z,Q,Y){if(Y==="")return new RZ(Q,Z);else return new qZ(Y,Z)}function u6(Z){return new XX(Z)}function IZ(Z,Q){return MZ(!1,Z,R(zZ,R(Q,P)))}function J6(Z){return MZ(!1,Z,P)}class d0 extends U{constructor(Z,Q,Y,X,W){super();this.events=Z,this.vdoms=Q,this.old_vdoms=Y,this.dispatched_paths=X,this.next_dispatched_paths=W}}class Q8 extends U{constructor(Z,Q){super();this.handlers=Z,this.children=Q}}class p6 extends U{constructor(Z,Q){super();this.mapper=Z,this.events=Q}}class FX extends U{constructor(Z,Q,Y){super();this.handlers=Z,this.children=Q,this.vdoms=Y}}class jZ extends U{constructor(Z,Q){super();this.path=Z,this.handler=Q}}class NZ extends U{constructor(Z){super();this.path=Z}}function u7(Z,Q){return(Y)=>{return Z(Q(Y))}}function HX(){return new Q8(r(),r())}function OZ(){return new d0(HX(),r(),r(),P,P)}function UX(Z,Q,Y,X){return D0(Z,IZ(Q,Y),X)}function VX(Z,Q,Y){return q0(Y,Z,(X,W)=>{if(W instanceof K0){let{name:K,handler:G}=W;return UX(X,Q,K,G)}else return X})}function c6(Z,Q,Y,X,W,K){while(!0){let G=Z,V=Q,J=Y,F=X,H=W,q=K,I=H+1;if(q instanceof O)return new FX(G,V,J);else{let N=q.head;if(N instanceof w0){let M=q.tail,T=N.key,z=N.children,A=H0(F,H,T),S=c6(G,V,J,A,0,z),j=S.handlers,B=S.children,L=S.vdoms;Z=j,Q=B,Y=L,X=F,W=I,K=M}else if(N instanceof x0){let M=q.tail,T=N.key,z=N.attributes,A=N.children,S=H0(F,H,T),j=VX(G,S,z),B=c6(j,V,J,S,0,A),L=B.handlers,C=B.children,b=B.vdoms;Z=L,Q=C,Y=b,X=F,W=I,K=M}else if(N instanceof v0){let M=q.tail;Z=G,Q=V,Y=J,X=F,W=I,K=M}else if(N instanceof m0){let M=q.tail,T=N.key,z=N.attributes,A=H0(F,H,T);Z=VX(G,A,z),Q=V,Y=J,X=F,W=I,K=M}else if(N instanceof R0){let M=q.tail,T=N.key,z=N.mapper,A=N.child,S=H0(F,H,T),j=c6(r(),r(),J,u6(S),0,W0(A)),B=j.vdoms,L=new Q8(j.handlers,j.children),C=new p6(z,L),b=D0(V,J6(S),C);Z=G,Q=b,Y=B,X=F,W=I,K=M}else{let M=q.tail,T=N.view,z=T(),A=D0(J,T,z),S=H,j=R(z,M);Z=G,Q=V,Y=A,X=F,W=S,K=j}}}}function BZ(Z,Q,Y,X,W){let K=Z.vdoms,G=Q.handlers,V=Q.children,J=c6(G,V,K,Y,X,W),F=J.handlers,H=J.children,q=J.vdoms;return[new d0(Z.events,q,Z.old_vdoms,Z.dispatched_paths,Z.next_dispatched_paths),new Q8(F,H)]}function d6(Z,Q,Y,X,W){let K=W0(W);return BZ(Z,Q,Y,X,K)}function qX(Z){let Q=OZ(),Y=d6(Q,Q.events,$6,0,Z),X=Y[0],W=Y[1];return new d0(W,X.vdoms,X.old_vdoms,X.dispatched_paths,X.next_dispatched_paths)}function RX(Z){return new d0(Z.events,r(),Z.vdoms,Z.next_dispatched_paths,P)}function zX(Z){return Z.events}function MX(Z,Q){return new d0(Q,Z.vdoms,Z.old_vdoms,Z.dispatched_paths,Z.next_dispatched_paths)}function b8(Z){return Z.vdoms}function IX(Z,Q,Y){return k8(Z.old_vdoms,Q,Y)}function NX(Z,Q,Y){let X=k8(Z.old_vdoms,Q,Y),W=D0(Z.vdoms,Y,X);return new d0(Z.events,W,Z.old_vdoms,Z.dispatched_paths,Z.next_dispatched_paths)}function DX(Z,Q,Y){let X=D0(Z.vdoms,Q,Y);return new d0(Z.events,X,Z.old_vdoms,Z.dispatched_paths,Z.next_dispatched_paths)}function jX(Z,Q,Y){return k8(Z.children,Q,()=>{return new p6(Y,HX())}).events}function OX(Z,Q,Y,X){let W=new p6(Y,X),K=D0(Z.children,Q,W);return new Q8(Z.handlers,K)}function f8(Z,Q,Y,X){let W=UX(Z.handlers,Q,Y,X);return new Q8(W,Z.children)}function BX(Z,Q,Y){return b6(Z,IZ(Q,Y))}function s6(Z,Q,Y){let X=BX(Z.handlers,Q,Y);return new Q8(X,Z.children)}function JX(Z,Q,Y){return q0(Y,Z,(X,W)=>{if(W instanceof K0){let K=W.name;return BX(X,Q,K)}else return X})}function DZ(Z,Q,Y,X,W,K){while(!0){let G=Z,V=Q,J=Y,F=X,H=W,q=K,I=H+1;if(q instanceof O)return new Q8(G,V);else{let N=q.head;if(N instanceof w0){let M=q.tail,T=N.key,z=N.children,A=H0(F,H,T),S=DZ(G,V,J,A,0,z),j=S.handlers,B=S.children;Z=j,Q=B,Y=J,X=F,W=I,K=M}else if(N instanceof x0){let M=q.tail,T=N.key,z=N.attributes,A=N.children,S=H0(F,H,T),j=JX(G,S,z),B=DZ(j,V,J,S,0,A),L=B.handlers,C=B.children;Z=L,Q=C,Y=J,X=F,W=I,K=M}else if(N instanceof v0){let M=q.tail;Z=G,Q=V,Y=J,X=F,W=I,K=M}else if(N instanceof m0){let M=q.tail,T=N.key,z=N.attributes,A=H0(F,H,T);Z=JX(G,A,z),Q=V,Y=J,X=F,W=I,K=M}else if(N instanceof R0){let M=q.tail,T=N.key,z=H0(F,H,T),A=b6(V,J6(z));Z=G,Q=A,Y=J,X=F,W=I,K=M}else{let M=q.tail,T=N.view;if(h0(J,T)){let A=q8(J,T),S=R(A,M);Z=G,Q=V,Y=J,X=F,W=H,K=S}else Z=G,Q=V,Y=J,X=F,W=I,K=M}}}}function r6(Z,Q,Y,X,W){return DZ(Q.handlers,Q.children,Z.old_vdoms,Y,X,W0(W))}function s0(Z,Q,Y,X,W,K){let G=r6(Z,Q,Y,X,W);return d6(Z,G,Y,X,K)}function c7(Z,Q,Y){while(!0){let X=Z,W=Q,K=Y;if(W instanceof O)return w8;else{let G=W.tail;if(G instanceof O){let V=W.head;if(h0(X.handlers,V)){let F=q8(X.handlers,V);return new x(n8(F,(H)=>{return new Z6(H.prevent_default,H.stop_propagation,F0(K)(H.message))}))}else return w8}else{let V=W.head,J=G;if(h0(X.children,V)){let H=q8(X.children,V),q=u7(K,H.mapper);Z=H.events,Q=J,Y=q}else return w8}}}}function LZ(Z,Q,Y,X){let W=KX(Q+zZ+Y),K=c7(Z.events,W,F0);if(K instanceof x){let G=K[0],V=n0(X,G);if(V instanceof x){let J=V[0];return new jZ(Q,J)}else return new NZ(Q)}else return new NZ(Q)}function TZ(Z,Q){let Y=R(Q.path,Z.next_dispatched_paths),X=new d0(Z.events,Z.vdoms,Z.old_vdoms,Z.dispatched_paths,Y);if(Q instanceof jZ){let W=Q.handler;return[X,new x(W)]}else return[X,w8]}function LX(Z,Q,Y,X){let W=LZ(Z,Q,Y,X);return((K)=>{return TZ(Z,K)})(W)}function l6(Z,Q){return WX(Q,Z.dispatched_paths)}class TX extends U{constructor(Z){super();this.message=Z}}var AX=(Z)=>Z instanceof TX;class SX extends U{constructor(Z){super();this.callback=Z}}var PX=(Z)=>Z instanceof SX;class CX extends U{constructor(Z){super();this.callback=Z}}var EX=(Z)=>Z instanceof CX;class a6 extends U{constructor(Z){super();this.message=Z}}var wX=(Z)=>new a6(Z),F6=(Z)=>Z instanceof a6;class AZ extends U{constructor(Z,Q){super();this.name=Z,this.data=Q}}var xX=(Z,Q)=>new AZ(Z,Q),H6=(Z)=>Z instanceof AZ;class SZ extends U{constructor(Z,Q){super();this.key=Z,this.value=Q}}var kX=(Z,Q)=>new SZ(Z,Q),yX=(Z)=>Z instanceof SZ;class PZ extends U{constructor(Z,Q){super();this.key=Z,this.decoder=Q}}var bX=(Z,Q)=>new PZ(Z,Q),fX=(Z)=>Z instanceof PZ;class CZ extends U{constructor(Z){super();this.key=Z}}var gX=(Z)=>new CZ(Z),_X=(Z)=>Z instanceof CZ;class EZ extends U{}var U6=(Z)=>Z instanceof EZ;class wZ extends U{constructor(Z,Q,Y,X,W){super();this.name=Z,this.init=Q,this.update=Y,this.view=X,this.config=W}}class xZ extends U{constructor(Z,Q,Y,X,W,K,G,V,J,F,H,q,I,N){super();this.open_shadow_root=Z,this.adopt_styles=Q,this.delegates_focus=Y,this.attributes=X,this.properties=W,this.contexts=K,this.is_form_associated=G,this.on_form_autofill=V,this.on_form_reset=J,this.on_form_restore=F,this.on_form_disabled=H,this.on_connect=q,this.on_adopt=I,this.on_disconnect=N}}var vX=new xZ(!0,!0,!1,P,P,P,!1,new l,new l,new l,new l,new l,new l,new l);var k0=(Z,Q)=>{if(Z===Q)return!0;if(Z==null||Q==null)return!1;let Y=typeof Z;if(Y!==typeof Q)return!1;if(Y!=="object")return!1;if(Z.constructor!==Q.constructor)return!1;if(Array.isArray(Z))return p7(Z,Q);return d7(Z,Q)},p7=(Z,Q)=>{let Y=Z.length;if(Y!==Q.length)return!1;while(Y--)if(!k0(Z[Y],Q[Y]))return!1;return!0},d7=(Z,Q)=>{let Y=Object.keys(Z),X=Y.length;if(Object.keys(Q).length!==X)return!1;while(X--){let W=Y[X];if(!Object.hasOwn(Q,W))return!1;if(!k0(Z[W],Q[W]))return!1}return!0};class $X extends U{constructor(Z,Q){super();this.patch=Z,this.cache=Q}}class yZ extends U{constructor(Z,Q,Y){super();this.patch=Z,this.cache=Q,this.events=Y}}class uX extends U{constructor(Z,Q,Y){super();this.added=Z,this.removed=Q,this.events=Y}}function mX(Z,Q,Y,X,W,K,G){while(!0){let V=Z,J=Q,F=Y,H=X,q=W,I=K,N=G;if(H instanceof O)if(q instanceof O)return new uX(I,N,F);else{let M=q.head;if(M instanceof K0){let T=M,z=q.tail,A=M.name,S=M.handler,j=f8(F,J,A,S),B=R(T,I);Z=V,Q=J,Y=j,X=H,W=z,K=B,G=N}else{let T=M,z=q.tail,A=R(T,I);Z=V,Q=J,Y=F,X=H,W=z,K=A,G=N}}else if(q instanceof O){let M=H.head;if(M instanceof K0){let T=M,z=H.tail,A=M.name,S=s6(F,J,A),j=R(T,N);Z=V,Q=J,Y=S,X=z,W=q,K=I,G=j}else{let T=M,z=H.tail,A=R(T,N);Z=V,Q=J,Y=F,X=z,W=q,K=I,G=A}}else{let{head:M,tail:T}=H,z=q.head,A=q.tail,S=w6(M,z);if(S instanceof n)if(M instanceof K0){let j=M.name;Z=V,Q=J,Y=s6(F,J,j),X=T,W=q,K=I,G=R(M,N)}else Z=V,Q=J,Y=F,X=T,W=q,K=I,G=R(M,N);else if(S instanceof t)if(M instanceof E0)if(z instanceof E0){let j,B=z.name;if(B==="value")j=V||M.value!==z.value;else if(B==="checked")j=V||M.value!==z.value;else if(B==="selected")j=V||M.value!==z.value;else j=M.value!==z.value;let L=j,C;if(L)C=R(z,I);else C=I;let b=C;Z=V,Q=J,Y=F,X=T,W=A,K=b,G=N}else if(z instanceof K0){let{name:j,handler:B}=z;Z=V,Q=J,Y=f8(F,J,j,B),X=T,W=A,K=R(z,I),G=R(M,N)}else Z=V,Q=J,Y=F,X=T,W=A,K=R(z,I),G=R(M,N);else if(M instanceof e8)if(z instanceof e8){let j,B=z.name;if(B==="scrollLeft")j=!0;else if(B==="scrollRight")j=!0;else if(B==="value")j=V||!k0(M.value,z.value);else if(B==="checked")j=V||!k0(M.value,z.value);else if(B==="selected")j=V||!k0(M.value,z.value);else j=!k0(M.value,z.value);let L=j,C;if(L)C=R(z,I);else C=I;let b=C;Z=V,Q=J,Y=F,X=T,W=A,K=b,G=N}else if(z instanceof K0){let{name:j,handler:B}=z;Z=V,Q=J,Y=f8(F,J,j,B),X=T,W=A,K=R(z,I),G=R(M,N)}else Z=V,Q=J,Y=F,X=T,W=A,K=R(z,I),G=R(M,N);else if(z instanceof K0){let{name:j,handler:B}=z,L=M.prevent_default.kind!==z.prevent_default.kind||M.stop_propagation.kind!==z.stop_propagation.kind||M.debounce!==z.debounce||M.throttle!==z.throttle,C;if(L)C=R(z,I);else C=I;let b=C;Z=V,Q=J,Y=f8(F,J,j,B),X=T,W=A,K=b,G=N}else{let j=M.name;Z=V,Q=J,Y=s6(F,J,j),X=T,W=A,K=R(z,I),G=R(M,N)}else if(z instanceof K0){let{name:j,handler:B}=z;Z=V,Q=J,Y=f8(F,J,j,B),X=H,W=A,K=R(z,I),G=N}else Z=V,Q=J,Y=F,X=H,W=A,K=R(z,I),G=N}}}function s7(Z,Q,Y,X){if(Y==="input"&&Q==="")return l6(Z,X);else if(Y==="select"&&Q==="")return l6(Z,X);else if(Y==="textarea"&&Q==="")return l6(Z,X);else return!1}function n6(Z,Q,Y,X,W,K,G,V,J,F,H,q,I,N){while(!0){let M=Z,T=Q,z=Y,A=X,S=W,j=K,B=G,L=V,C=J,b=F,k=H,f=q,c=I,d=N;if(M instanceof O)if(z instanceof O){let i,Z0=I8();if(b instanceof O)if(k instanceof O)i=Z8(C,B,b,k);else if(!Z0)if(k.tail instanceof O&&B===0){let y=k.head;i=yY(y,C)}else i=Z8(C,B,b,k);else i=Z8(C,B,b,k);else i=Z8(C,B,b,k);return new yZ(i,c,d)}else{let i=BZ(c,d,f,L,z),Z0=i[0],p=i[1],m=FZ(z,L-j),y=R(m,b),h=Z8(C,B,y,k);return new yZ(h,Z0,p)}else if(z instanceof O){let{head:i,tail:Z0}=M;if(i.key===""||!h0(S,i.key)){let m=r6(c,d,f,L,i);Z=Z0,Q=T,Y=z,X=A,W=S,K=j,G=B+1,V=L,J=C,F=b,H=k,q=f,I=c,N=m}else Z=Z0,Q=T,Y=z,X=A,W=S,K=j,G=B,V=L,J=C,F=b,H=k,q=f,I=c,N=d}else{let i=M.head,Z0=z.head;if(i.key!==Z0.key){let p=M.tail,m=z.tail,y=h0(T,Z0.key);if(h0(A,i.key))if(y)if(h0(S,i.key))Z=p,Q=T,Y=z,X=A,W=S,K=j-1,G=B,V=L,J=C,F=b,H=k,q=f,I=c,N=d;else{let g=q8(T,Z0.key),_=L-j,w=R(xY(Z0.key,_),b),$=D0(S,Z0.key,void 0);Z=R(g,M),Q=T,Y=z,X=A,W=$,K=j+1,G=B,V=L,J=C,F=w,H=k,q=f,I=c,N=d}else{let E=L-j,g=d6(c,d,f,L,Z0),_=g[0],w=g[1],$=FZ(W0(Z0),E),u=R($,b);Z=M,Q=T,Y=m,X=A,W=S,K=j+1,G=B,V=L+1,J=C,F=u,H=k,q=f,I=_,N=w}else if(y){let E=L-j,g=R(kY(E),b),_=r6(c,d,f,L,i);Z=p,Q=T,Y=z,X=A,W=S,K=j-1,G=B,V=L,J=C,F=g,H=k,q=f,I=c,N=_}else{let E=p0(L-j,Z0),g=s0(c,d,f,L,i,Z0),_=g[0],w=g[1];Z=p,Q=T,Y=m,X=A,W=S,K=j,G=B,V=L+1,J=C,F=R(E,b),H=k,q=f,I=_,N=w}}else{let p=M.head;if(p instanceof w0){let m=z.head;if(m instanceof w0){let y=p,h=M.tail,E=m,g=z.tail,_=n6(y.children,y.keyed_children,E.children,E.keyed_children,r(),0,0,0,L,P,P,H0(f,L,E.key),c,d),w=_.patch,$=_.cache,u=_.events,G0;if(w.changes instanceof O)if(w.children instanceof O)if(w.removed===0)G0=k;else G0=R(w,k);else G0=R(w,k);else G0=R(w,k);let b0=G0;Z=h,Q=T,Y=g,X=A,W=S,K=j,G=B,V=L+1,J=C,F=b,H=b0,q=f,I=$,N=u}else{let y=p,h=M.tail,E=m,g=z.tail,_=p0(L-j,E),w=s0(c,d,f,L,y,E),$=w[0],u=w[1];Z=h,Q=T,Y=g,X=A,W=S,K=j,G=B,V=L+1,J=C,F=R(_,b),H=k,q=f,I=$,N=u}}else if(p instanceof x0){let m=z.head;if(m instanceof x0){let y=p,h=m;if(y.namespace===h.namespace&&y.tag===h.tag){let E=M.tail,g=z.tail,_=H0(f,L,h.key),w=s7(c,h.namespace,h.tag,_),$=mX(w,_,d,y.attributes,h.attributes,P,P),u=$.added,G0=$.removed,y0=$.events,b0;if(u instanceof O&&G0 instanceof O)b0=P;else b0=W0(JZ(u,G0));let z0=b0,N8=n6(y.children,y.keyed_children,h.children,h.keyed_children,r(),0,0,0,L,z0,P,_,c,y0),L0=N8.patch,D8=N8.cache,z6=N8.events,h8;if(L0.changes instanceof O)if(L0.children instanceof O)if(L0.removed===0)h8=k;else h8=R(L0,k);else h8=R(L0,k);else h8=R(L0,k);let jW=h8;Z=E,Q=T,Y=g,X=A,W=S,K=j,G=B,V=L+1,J=C,F=b,H=jW,q=f,I=D8,N=z6}else{let E=p,g=M.tail,_=m,w=z.tail,$=p0(L-j,_),u=s0(c,d,f,L,E,_),G0=u[0],y0=u[1];Z=g,Q=T,Y=w,X=A,W=S,K=j,G=B,V=L+1,J=C,F=R($,b),H=k,q=f,I=G0,N=y0}}else{let y=p,h=M.tail,E=m,g=z.tail,_=p0(L-j,E),w=s0(c,d,f,L,y,E),$=w[0],u=w[1];Z=h,Q=T,Y=g,X=A,W=S,K=j,G=B,V=L+1,J=C,F=R(_,b),H=k,q=f,I=$,N=u}}else if(p instanceof v0){let m=z.head;if(m instanceof v0){let y=p,h=m;if(y.content===h.content){let E=M.tail,g=z.tail;Z=E,Q=T,Y=g,X=A,W=S,K=j,G=B,V=L+1,J=C,F=b,H=k,q=f,I=c,N=d}else{let E=M.tail,g=m,_=z.tail,w=Z8(L,0,W0(EY(g.content)),P);Z=E,Q=T,Y=_,X=A,W=S,K=j,G=B,V=L+1,J=C,F=b,H=R(w,k),q=f,I=c,N=d}}else{let y=p,h=M.tail,E=m,g=z.tail,_=p0(L-j,E),w=s0(c,d,f,L,y,E),$=w[0],u=w[1];Z=h,Q=T,Y=g,X=A,W=S,K=j,G=B,V=L+1,J=C,F=R(_,b),H=k,q=f,I=$,N=u}}else if(p instanceof m0){let m=z.head;if(m instanceof m0){let y=p,h=M.tail,E=m,g=z.tail,_=H0(f,L,E.key),w=mX(!1,_,d,y.attributes,E.attributes,P,P),$=w.added,u=w.removed,G0=w.events,y0;if($ instanceof O&&u instanceof O)y0=P;else y0=W0(JZ($,u));let b0=y0,z0;if(y.inner_html===E.inner_html)z0=b0;else z0=R(wY(E.inner_html),b0);let L0=z0,D8;if(L0 instanceof O)D8=k;else D8=R(Z8(L,0,L0,P),k);let z6=D8;Z=h,Q=T,Y=g,X=A,W=S,K=j,G=B,V=L+1,J=C,F=b,H=z6,q=f,I=c,N=G0}else{let y=p,h=M.tail,E=m,g=z.tail,_=p0(L-j,E),w=s0(c,d,f,L,y,E),$=w[0],u=w[1];Z=h,Q=T,Y=g,X=A,W=S,K=j,G=B,V=L+1,J=C,F=R(_,b),H=k,q=f,I=$,N=u}}else if(p instanceof R0){let m=z.head;if(m instanceof R0){let y=p,h=M.tail,E=m,g=z.tail,_=H0(f,L,E.key),w=J6(_),$=n6(W0(y.child),r(),W0(E.child),r(),r(),0,0,0,L,P,P,u6(_),c,jX(d,w,y.mapper)),u=$.patch,G0=$.cache,y0=$.events,b0=OX(d,w,E.mapper,y0),z0;if(u.changes instanceof O)if(u.children instanceof O)if(u.removed===0)z0=k;else z0=R(u,k);else z0=R(u,k);else z0=R(u,k);let L0=z0;Z=h,Q=T,Y=g,X=A,W=S,K=j,G=B,V=L+1,J=C,F=b,H=L0,q=f,I=G0,N=b0}else{let y=p,h=M.tail,E=m,g=z.tail,_=p0(L-j,E),w=s0(c,d,f,L,y,E),$=w[0],u=w[1];Z=h,Q=T,Y=g,X=A,W=S,K=j,G=B,V=L+1,J=C,F=R(_,b),H=k,q=f,I=$,N=u}}else{let m=z.head;if(m instanceof R8){let y=p,h=M.tail,E=m,g=z.tail;if(WY(y.dependencies,E.dependencies)){let w=NX(c,y.view,E.view);Z=h,Q=T,Y=g,X=A,W=S,K=j,G=B,V=L+1,J=C,F=b,H=k,q=f,I=w,N=d}else{let w=IX(c,y.view,y.view),$=E.view(),u=DX(c,E.view,$);Z=R(w,h),Q=T,Y=R($,g),X=A,W=S,K=j,G=B,V=L,J=C,F=b,H=k,q=f,I=u,N=d}}else{let y=p,h=M.tail,E=m,g=z.tail,_=p0(L-j,E),w=s0(c,d,f,L,y,E),$=w[0],u=w[1];Z=h,Q=T,Y=g,X=A,W=S,K=j,G=B,V=L+1,J=C,F=R(_,b),H=k,q=f,I=$,N=u}}}}}}function q6(Z,Q,Y){let X=RX(Z),W=n6(W0(Q),r(),W0(Y),r(),r(),0,0,0,0,P,P,$6,X,zX(X)),K=W.patch,G=W.cache,V=W.events;return new $X(K,MX(G,V))}var cX=(Z)=>Z.reduceRight((Q,Y)=>j8(Y,Q),P),j0=(Z,Q)=>{if(Array.isArray(Z))for(let Y=0;Y<Z.length;Y++)Q(Z[Y]);else if(Z)for(Z;$0(Z);Z=$0(Z))Q($8(Z))},bZ=(Z,Q)=>{if(!$0(Z))return Q;else if(!$0(Q))return Z;else return F9(Z,Q)};var t6="http://www.w3.org/1999/xhtml",pX=1,dX=3,fZ=8;var sX=!!globalThis.HTMLElement?.prototype?.moveBefore;var{setTimeout:l7,clearTimeout:gZ}=globalThis,i7=(Z,Q)=>globalThis.document.createElementNS(Z,Q),rX=(Z)=>globalThis.document.createTextNode(Z),lX=(Z)=>globalThis.document.createComment(Z),a7=()=>globalThis.document.createDocumentFragment(),Y8=(Z,Q,Y)=>Z.insertBefore(Q,Y),iX=sX?(Z,Q,Y)=>Z.moveBefore(Q,Y):Y8,aX=(Z,Q)=>Z.removeChild(Q),n7=(Z,Q)=>Z.getAttribute(Q),nX=(Z,Q,Y)=>Z.setAttribute(Q,Y),t7=(Z,Q)=>Z.removeAttribute(Q),o7=(Z,Q,Y,X)=>Z.addEventListener(Q,Y,X),tX=(Z,Q,Y)=>Z.removeEventListener(Q,Y),e7=(Z,Q)=>Z.innerHTML=Q,ZK=(Z,Q)=>Z.data=Q,O0=Symbol("lustre");class ZW{constructor(Z,Q,Y,X){this.kind=Z,this.key=X,this.parent=Q,this.children=[],this.node=Y,this.endNode=null,this.handlers=new Map,this.throttles=new Map,this.debouncers=new Map}get isVirtual(){return this.kind===z8||this.kind===t0}get parentNode(){return this.isVirtual?this.node.parentNode:this.node}}var B0=(Z,Q,Y,X,W)=>{let K=new ZW(Z,Q,Y,W);return Y[O0]=K,Q?.children.splice(X,0,K),K},QK=(Z)=>{let Q="";for(let Y=Z[O0];Y.parent;Y=Y.parent){let X=Y.parent&&Y.parent.kind===t0?m6:v6;if(Y.key)Q=`${X}${Y.key}${Q}`;else{let W=Y.parent.children.indexOf(Y);Q=`${X}${W}${Q}`}}return Q.slice(1)};class hZ{#Z=null;#V;#W;#Q=!1;constructor(Z,Q,Y,{debug:X=!1}={}){this.#Z=Z,this.#V=Q,this.#W=Y,this.#Q=X}mount(Z){B0(o0,null,this.#Z,0,null),this.#I(this.#Z,null,this.#Z[O0],0,Z)}push(Z,Q=null){this.#Y=Q,this.#X.push({node:this.#Z[O0],patch:Z}),this.#G()}#Y;#X=[];#G(){let Z=this.#X;while(Z.length){let{node:Q,patch:Y}=Z.pop(),{path:X,changes:W,removed:K,children:G}=Y;j0(X,(J)=>{Q=Q.children[J]});let{children:V}=Q;if(j0(W,(J)=>this.#K(Q,J)),K)this.#R(Q,V.length-K,K);j0(G,(J)=>{let F=V[J.index|0];this.#X.push({node:F,patch:J})})}}#K(Z,Q){switch(Q.kind){case QZ:this.#S(Z,Q);break;case YZ:this.#B(Z,Q);break;case XZ:this.#M(Z,Q);break;case WZ:this.#U(Z,Q);break;case KZ:this.#D(Z,Q);break;case GZ:this.#J(Z,Q);break;case VZ:this.#q(Z,Q);break}}#q(Z,{children:Q,before:Y}){let X=a7(),W=this.#H(Z,Y);this.#O(X,null,Z,Y|0,Q),Y8(Z.parentNode,X,W)}#J(Z,{index:Q,with:Y}){this.#R(Z,Q|0,1);let X=this.#H(Z,Q);this.#I(Z.parentNode,X,Z,Q|0,Y)}#H(Z,Q){Q=Q|0;let{children:Y}=Z,X=Y.length;if(Q<X)return Y[Q].node;if(Z.endNode)return Z.endNode;if(!Z.isVirtual)return null;while(Z.isVirtual&&Z.children.length){if(Z.endNode)return Z.endNode.nextSibling;Z=Z.children[Z.children.length-1]}return Z.node.nextSibling}#U(Z,{key:Q,before:Y}){Y=Y|0;let{children:X,parentNode:W}=Z,K=X[Y].node,G=X[Y];for(let V=Y+1;V<X.length;++V){let J=X[V];if(X[V]=G,G=J,J.key===Q){X[Y]=J;break}}this.#N(W,G,K)}#F(Z,Q,Y){for(let X=0;X<Q.length;++X)this.#N(Z,Q[X],Y)}#N(Z,Q,Y){if(iX(Z,Q.node,Y),Q.isVirtual)this.#F(Z,Q.children,Y);if(Q.endNode)iX(Z,Q.endNode,Y)}#D(Z,{index:Q}){this.#R(Z,Q,1)}#R(Z,Q,Y){let{children:X,parentNode:W}=Z,K=X.splice(Q,Y);for(let G=0;G<K.length;++G){let V=K[G],{node:J,endNode:F,isVirtual:H,children:q}=V;if(aX(W,J),F)aX(W,F);if(this.#z(V),H)K.push(...q)}}#z(Z){let{debouncers:Q,children:Y}=Z;for(let{timeout:X}of Q.values())if(X)gZ(X);Q.clear(),j0(Y,(X)=>this.#z(X))}#M({node:Z,handlers:Q,throttles:Y,debouncers:X},{added:W,removed:K}){j0(K,({name:G})=>{if(Q.delete(G))tX(Z,G,_Z),this.#j(Y,G,0),this.#j(X,G,0);else t7(Z,G),eX[G]?.removed?.(Z,G)}),j0(W,(G)=>this.#A(Z,G))}#S({node:Z},{content:Q}){ZK(Z,Q??"")}#B({node:Z},{inner_html:Q}){e7(Z,Q??"")}#O(Z,Q,Y,X,W){j0(W,(K)=>this.#I(Z,Q,Y,X++,K))}#I(Z,Q,Y,X,W){switch(W.kind){case o0:{let K=this.#L(Y,X,W);this.#O(K,null,K[O0],0,W.children),Y8(Z,K,Q);break}case y8:{let K=this.#P(Y,X,W);Y8(Z,K,Q);break}case z8:{let G=this.#T("lustre:fragment",Y,X,W);if(Y8(Z,G,Q),this.#O(Z,Q,G[O0],0,W.children),this.#Q)G[O0].endNode=lX(" /lustre:fragment "),Y8(Z,G[O0].endNode,Q);break}case KY:{let K=this.#L(Y,X,W);this.#B({node:K},W),Y8(Z,K,Q);break}case t0:{let K=this.#T("lustre:map",Y,X,W);Y8(Z,K,Q),this.#I(Z,Q,K[O0],0,W.child);break}case t9:{let K=this.#Y?.get(W.view)??W.view();this.#I(Z,Q,Y,X,K);break}}}#L(Z,Q,{kind:Y,key:X,tag:W,namespace:K,attributes:G}){let V=i7(K||t6,W);if(B0(Y,Z,V,Q,X),this.#Q&&X)nX(V,"data-lustre-key",X);return j0(G,(J)=>this.#A(V,J)),V}#P(Z,Q,{kind:Y,key:X,content:W}){let K=rX(W??"");return B0(Y,Z,K,Q,X),K}#T(Z,Q,Y,{kind:X,key:W}){let K=this.#Q?lX(YK(Z,W)):rX("");return B0(X,Q,K,Y,W),K}#A(Z,Q){let{debouncers:Y,handlers:X,throttles:W}=Z[O0],{kind:K,name:G,value:V,prevent_default:J,debounce:F,throttle:H}=Q;switch(K){case d9:{let q=V??"";if(G==="virtual:defaultValue"){Z.defaultValue=q;return}else if(G==="virtual:defaultChecked"){Z.defaultChecked=!0;return}else if(G==="virtual:defaultSelected"){Z.defaultSelected=!0;return}if(q!==n7(Z,G))nX(Z,G,q);eX[G]?.added?.(Z,q);break}case aQ:Z[G]=V;break;case s9:{if(X.has(G))tX(Z,G,_Z);let q=J.kind===r9;o7(Z,G,_Z,{passive:q}),this.#j(W,G,H),this.#j(Y,G,F),X.set(G,(I)=>this.#C(Q,I));break}}}#j(Z,Q,Y){let X=Z.get(Q);if(Y>0)if(X)X.delay=Y;else Z.set(Q,{delay:Y});else if(X){let{timeout:W}=X;if(W)gZ(W);Z.delete(Q)}}#C(Z,Q){let{currentTarget:Y,type:X}=Q,{debouncers:W,throttles:K}=Y[O0],G=QK(Y),{prevent_default:V,stop_propagation:J,include:F}=Z;if(V.kind===i9)Q.preventDefault();if(J.kind===i9)Q.stopPropagation();if(X==="submit")Q.detail??={},Q.detail.formData=[...new FormData(Q.target,Q.submitter).entries()];let H=this.#V(Q,G,X,F),q=K.get(X);if(q){let N=Date.now(),M=q.last||0;if(N>M+q.delay)q.last=N,q.lastEvent=Q,this.#W(Q,H)}let I=W.get(X);if(I)gZ(I.timeout),I.timeout=l7(()=>{if(Q===K.get(X)?.lastEvent)return;this.#W(Q,H)},I.delay);if(!q&&!I)this.#W(Q,H)}}var YK=(Z,Q)=>{if(Q)return` ${Z} key="${o8(Q)}" `;else return` ${Z} `},_Z=(Z)=>{let{currentTarget:Q,type:Y}=Z;Q[O0].handlers.get(Y)(Z)},oX=(Z)=>{return{added(Q){Q[Z]=!0},removed(Q){Q[Z]=!1}}},XK=(Z)=>{return{added(Q,Y){Q[Z]=Y}}},eX={checked:oX("checked"),selected:oX("selected"),value:XK("value"),autofocus:{added(Z){queueMicrotask(()=>{Z.focus?.()})}},autoplay:{added(Z){try{Z.play?.()}catch(Q){console.error(Q)}}}};function WK(Z,Q,Y){while(!0){let X=Z,W=Q,K=Y;if(X instanceof O)return[W,a(K)];else{let G=X.tail,V=X.head[0],J=X.head[1],F=f6(V,J),H;if(V==="")H=W;else H=D0(W,V,F);let q=H,I=R(F,K);Z=G,Q=q,Y=I}}}function vZ(Z){return WK(Z,r(),P)}function QW(Z,Q,Y){let X=vZ(Y),W=X[0],K=X[1];return X6("","",Z,Q,K,W,!1,W6(Z,""))}function YW(Z,Q,Y,X){let W=vZ(X),K=W[0],G=W[1];return X6("",Z,Q,Y,G,K,!1,W6(Q,Z))}function mZ(Z){let Q=vZ(Z),Y=Q[0],X=Q[1];return o9("",X,Y)}var XW=(Z)=>{let Q=B0(o0,null,Z,0,null),{children:Y}=$Z(Q,Z,Z.firstChild);if(Y.length>1){let W=B0(o0,null,Z,0,null);return Q.kind=z8,Q.node=globalThis.document.createTextNode(""),Q.parent=W,W.children.push(Q),Z.insertBefore(Q.node,Z.firstChild),mZ(g8(Y))}if(Y.length===1)return Y[0][1];let X=globalThis.document.createTextNode("");return B0(y8,Q,X,0,null),Z.insertBefore(X,Z.firstChild),JY()},WW=(Z,Q,Y,X)=>{if(Y.nodeType===fZ){let W=Y.data.trim();if(W.startsWith("lustre:fragment"))return VK(Z,Q,Y,X);if(W.startsWith("lustre:map"))return JK(Z,Q,Y,X);if(W.startsWith("lustre:memo"))return FK(Z,Q,Y,X);return null}if(Y.nodeType===pX)return KK(Z,Y,X);if(Y.nodeType===dX)return GK(Z,Y,X);return null},KK=(Z,Q,Y)=>{let X=Q.getAttribute("data-lustre-key")??"";if(X)Q.removeAttribute("data-lustre-key");let W=B0(o0,Z,Q,Y,X),K=Q.localName,G=Q.namespaceURI,V=!G||G===t6;if(V&&UK.includes(K))qK(K,Q);let J=HK(Q),{children:F}=$Z(W,Q,Q.firstChild),H=V?QW(K,J,g8(F)):YW(G,K,J,g8(F));return R6(X,H,Q.nextSibling)},$Z=(Z,Q,Y)=>{let X=[];while(Y&&(Y.nodeType!==fZ||Y.data.trim()!=="/lustre:fragment")){let W=WW(Z,Q,Y,X.length);if(W)X.push([W.key,W.vnode]),Y=W.next;else Y=Y.nextSibling}return{children:X,end:Y}},GK=(Z,Q,Y)=>{return B0(y8,Z,Q,Y,null),R6("",g6(Q.data),Q.nextSibling)},VK=(Z,Q,Y,X)=>{let W=uZ(Y.data),K=B0(z8,Z,Y,X,W),{children:G,end:V}=$Z(K,Q,Y.nextSibling);K.endNode=V;let J=mZ(g8(G));return R6(W,J,V?.nextSibling)},JK=(Z,Q,Y,X)=>{let W=uZ(Y.data),K=B0(t0,Z,Y,X,W),G=KW(K,Q,Y,0);if(!G)return null;let V=UY(G.vnode,(J)=>J);return R6(W,V,G.next)},FK=(Z,Q,Y,X)=>{let W=uZ(Y.data),K=KW(Z,Q,Y,X);if(!K)return null;Q.removeChild(Y);let G=FY(g8([HY({})]),()=>K.vnode);return R6(W,G,K.next)},KW=(Z,Q,Y,X)=>{while(!0){if(Y=Y.nextSibling,!Y)return null;let W=WW(Z,Q,Y,X);if(W)return W}},R6=(Z,Q,Y)=>{return{key:Z,vnode:Q,next:Y}},HK=(Z)=>{let Q=[];for(let Y=0;Y<Z.attributes.length;Y++){let X=Z.attributes[Y];if(X.name!=="xmlns")Q.push(H8(X.localName,X.value))}return g8(Q)},UK=["input","select","textarea"],qK=(Z,Q)=>{let{value:Y,checked:X}=Q;if(Z==="input"&&Q.type==="checkbox"&&!X)return;if(Z==="input"&&Q.type==="radio"&&!X)return;if(Q.type!=="checkbox"&&Q.type!=="radio"&&!Y)return;queueMicrotask(()=>{if(Q.value=Y,Q.checked=X,Q.dispatchEvent(new Event("input",{bubbles:!0})),Q.dispatchEvent(new Event("change",{bubbles:!0})),globalThis.document.activeElement!==Q)Q.dispatchEvent(new Event("blur",{bubbles:!0}))})},uZ=(Z)=>{let Q=Z.match(/key="([^"]*)"/);if(!Q)return"";return RK(Q[1])},RK=(Z)=>{return Z.replace(/&lt;/g,"<").replace(/&gt;/g,">").replace(/&quot;/g,'"').replace(/&amp;/g,"&").replace(/&#39;/g,"'")},g8=(Z)=>Z.reduceRight((Q,Y)=>j8(Y,Q),P);var I8=()=>!!globalThis.document;class o6{constructor(Z,[Q,Y],X,W,K){this.root=Z,this.#Z=Q,this.#V=X,this.#W=W,this.root.addEventListener("context-request",(J)=>{if(!(J.context&&J.callback))return;if(!this.#G.has(J.context))return;J.stopImmediatePropagation();let F=this.#G.get(J.context);if(J.subscribe){let H=()=>{F.subscribers=F.subscribers.filter((q)=>q!==J.callback)};F.subscribers.push([J.callback,H]),J.callback(F.value,H)}else J.callback(F.value)});let G=(J,F,H)=>LZ(this.#Y,F,H,J),V=(J,F)=>{let[H,q]=TZ(this.#Y,F);if(this.#Y=H,Y0(q)){let I=X0(q);if(I.stop_propagation)J.stopPropagation();if(I.prevent_default)J.preventDefault();this.dispatch(I.message,!1)}};this.#X=new hZ(this.root,G,V,K),this.#Q=XW(this.root),this.#Y=OZ(),this.#R(Y),this.#M()}root=null;dispatch(Z,Q=!1){if(this.#q)this.#J.push(Z);else{let[Y,X]=this.#W(this.#Z,Z);this.#Z=Y,this.#D(Q),this.#R(X)}}emit(Z,Q){(this.root.host??this.root).dispatchEvent(new VW(Z,Q))}provide(Z,Q){if(!this.#G.has(Z))this.#G.set(Z,{value:Q,subscribers:[]});else{let Y=this.#G.get(Z);if(k0(Y.value,Q))return;Y.value=Q;for(let X=Y.subscribers.length-1;X>=0;X--){let[W,K]=Y.subscribers[X];if(!W){Y.subscribers.splice(X,1);continue}W(Q,K)}}}subscribe(Z,Q){if(!Z)return;this.#K.get(Z)?.(),(this.root.host??this.root).dispatchEvent(new cZ(Z,(X,W)=>{let K=this.#K.get(Z);if(K!==W)K?.();let G=n0(X,Q);if(this.#K.set(Z,W),Y0(G))this.dispatch(X0(G),!0)},!0))}unsubscribe(Z){let Q=this.#K.get(Z);if(Q)Q(),this.#K.delete(Z)}unsubscribeAll(){for(let[Z,Q]of this.#K)Q?.();this.#K.clear()}#Z;#V;#W;#Q;#Y;#X;#G=new Map;#K=new Map;#q=!1;#J=[];#H=P;#U=P;#F=null;#N={dispatch:(Z)=>this.dispatch(Z),emit:(Z,Q)=>this.emit(Z,Q),select:()=>{},root:()=>this.root,provide:(Z,Q)=>this.provide(Z,Q),subscribe:(Z,Q)=>this.subscribe(Z,Q),unsubscribe:(Z)=>this.unsubscribe(Z)};#D(Z=!1){if(this.#F)return;if(Z)this.#F="sync",queueMicrotask(()=>this.#M());else this.#F=window.requestAnimationFrame(()=>this.#M())}#R(Z){this.#q=!0;let Q=!1;while(!0){if(j0(Z.synchronous,(X)=>X(this.#N)),this.#H=bZ(this.#H,Z.before_paint),this.#U=bZ(this.#U,Z.after_paint),!this.#J.length)break;let Y=this.#J.shift();[this.#Z,Z]=this.#W(this.#Z,Y),Q=!0}return this.#q=!1,Q}#z(Z){if(this.#R(Z))this.#D(!0)}#M(){this.#F=null;let Z=this.#V(this.#Z),{patch:Q,cache:Y}=q6(this.#Y,this.#Q,Z);if(this.#Y=Y,this.#Q=Z,this.#X.push(Q,b8(Y)),W8(this.#H)){let X=GW(this.#H);this.#H=P,queueMicrotask(()=>this.#z(X))}if(W8(this.#U)){let X=GW(this.#U);this.#U=P,window.requestAnimationFrame(()=>this.#z(X))}}}function GW(Z){return{synchronous:Z,after_paint:P,before_paint:P}}class cZ extends Event{constructor(Z,Q,Y){super("context-request",{bubbles:!0,composed:!0});this.context=Z,this.callback=Q,this.subscribe=Y}}class VW extends CustomEvent{isLustreEvent=!0;constructor(Z,Q){super(Z,{detail:Q,bubbles:!0,composed:!0})}}class JW{#Z;constructor(Z,[Q,Y],X,W){this.#Z=new o6(Z,[Q,Y],W,X)}send(Z){if(F6(Z))this.dispatch(Z.message,!1);else if(H6(Z))this.emit(Z.name,Z.data);else if(U6(Z));}dispatch(Z){this.#Z.dispatch(Z)}emit(Z,Q){this.#Z.emit(Z,Q)}}var FW=({init:Z,update:Q,view:Y},X,W)=>{if(!I8())return l0(pZ());let K=X instanceof HTMLElement?X:globalThis.document.querySelector(X);if(!K)return l0(HW(X));return r0(new JW(K,Z(W),Q,Y))};class IK{#Z;#V;#W;#Q;#Y;#X;#G=T8();#K=new Set;constructor(Z,Q,Y,X,W,K){let[G,V]=Q(K);this.#Z=G,this.#V=Y,this.#W=X,this.#Q=W,this.#Y=this.#W(this.#Z),this.#X=qX(this.#Y),this.#F(V)}send(Z){if(AX(Z)){let{message:Q}=Q,Y=this.#q(Q),X=q6(this.#X,this.#Y,Y);this.#Y=Y,this.#X=X.cache,this.broadcast(HZ(X.patch,b8(X.cache)))}else if(PX(Z)){let{callback:Q}=Z;if(this.#K.add(Q),Q(nY(this.#Q.open_shadow_root,this.#Q.adopt_styles,d8(this.#Q.attributes),d8(this.#Q.properties),d8(this.#Q.contexts),this.#G,this.#Y,b8(this.#X))),j6(this.#Q.on_connect))this.#J(O6(this.#Q.on_connect))}else if(EX(Z)){let{callback:Q}=Z;if(this.#K.delete(Q),j6(this.#Q.on_disconnect))this.#J(O6(this.#Q.on_disconnect))}else if(F6(Z)){let{message:Q}=Q,[Y,X]=this.#V(this.#Z,Q),W=this.#W(Y),K=q6(this.#X,this.#Y,W);this.#F(X),this.#Z=Y,this.#Y=W,this.#X=K.cache,this.broadcast(HZ(K.patch,b8(K.cache)))}else if(H6(Z)){let{name:Q,data:Y}=Z;this.broadcast(tY(Q,Y))}else if(yX(Z)){let{key:Q,value:Y}=Z,X=a0(this.#G,Q);if(Y0(X)&&k0(X0(X),Y))return;this.#G=G8(this.#G,Q,Y),this.broadcast(oY(Q,Y))}else if(fX(Z)){let{key:Q,decoder:Y}=Z;this.broadcast(eY(Q)),this.#Q.contexts=G8(this.#Q.contexts,Q,Y)}else if(_X(Z)){let{key:Q}=Z;this.broadcast(ZX(Q)),this.#Q.contexts=(void 0)(this.#Q.contexts,Q)}else if(U6(Z))this.#Z=null,this.#V=null,this.#W=null,this.#Q=null,this.#Y=null,this.#X=null,this.#G=null,this.#K.clear()}broadcast(Z){for(let Q of this.#K)Q(Z)}#q(Z){if(uY(Z)){let{messages:Q}=Z,Y=this.#Z,X=c0();for(let W=Q;$0(W);W=$0(W)){let K=this.#q($8(W));if(Y0(K)){Y=X0(K)[0],X=QY(cX([X,X0(K)[1]]));break}}return this.#F(X),this.#Z=Y,this.#W(Y)}else if(pY(Z)){let{name:Q,value:Y}=Z,X=this.#H(Q,Y);if(!Y0(X))return this.#Y;return this.#J(X0(X))}else if(sY(Z)){let{name:Q,value:Y}=Z,X=this.#U(Q,Y);if(!Y0(X))return this.#Y;return this.#J(X0(X))}else if(lY(Z)){let{path:Q,name:Y,event:X}=G,[W,K]=LX(this.#X,Q,Y,X);if(this.#X=W,!Y0(K))return this.#Y;let{message:G}=X0(K);return this.#J(G)}else if(aY(Z)){let{key:Q,value:Y}=Z,X=a0(this.#Q.contexts,Q);if(!Y0(X))return this.#Y;if(X=n0(Y,X0(X)),!Y0(X))return this.#Y;return this.#J(X0(X))}}#J(Z){let[Q,Y]=this.#V(this.#Z,Z);return this.#F(Y),this.#Z=Q,this.#W(this.#Z)}#H(Z,Q){let Y=a0(this.#Q.attributes,Z);if(!Y0(Y))return Y;return X0(Y)(Q)}#U(Z,Q){let Y=a0(this.#Q.properties,Z);if(!Y0(Y))return Y;return X0(Y)(Q)}#F(Z){let Q=(J)=>this.send(wX(J)),Y=(J,F)=>this.send(xX(J,F)),X=()=>{return},W=()=>{return},K=(J,F)=>this.send(kX(J,F)),G=(J,F)=>this.send(bX(J,F)),V=(J)=>this.send(gX(J));globalThis.queueMicrotask(()=>{YY(Z,Q,Y,X,W,K,G,V)})}}class UW extends U{constructor(Z){super();this.selector=Z}}var HW=(Z)=>new UW(Z);class dZ extends U{}var pZ=()=>new dZ;function qW(Z,Q,Y){return new wZ(new l,Z,Q,Y,vX)}function RW(Z,Q,Y){return O9(!I8(),new s(new dZ),()=>{return FW(Z,Q,Y)})}function jK(Z,Q){return tQ(Z,n8(Q,(Y)=>{return new Z6(!1,!1,Y)}),P,l9,l9,0,0)}function e6(Z){return jK("click",I9(Z))}function sZ(Z,Q){return globalThis.setTimeout(Q,Z)}var LK="src/roir.gleam";class X8 extends U{constructor(Z,Q){super();this.page=Z,this.time=Q}}class Z9 extends U{}class _8 extends U{}class IW extends U{}class rZ extends U{}class lZ extends U{}class iZ extends U{}class NW extends U{}function zW(Z){return V0(globalThis.Math.trunc(Z/6)%6)+V0(Z%6)}function TK(Z){let Y=hQ(gQ(Z,PQ(4)),xQ)[1];return[globalThis.Math.trunc(Y.hours/6),globalThis.Math.trunc(Y.hours/2)%3,globalThis.Math.trunc((Y.hours*60+Y.minutes)/20)%6,globalThis.Math.trunc(P8(v((Y.hours*60+Y.minutes)*60+Y.seconds)*27/25+v(Y.nanoseconds)/925925926)/36)%36,P8(v((Y.hours*60+Y.minutes)*60+Y.seconds)*27/25+v(Y.nanoseconds)/925925926)%36]}function AK(Z){let Q=TK(Z);return t8((()=>{let Y=Q[0];if(Y===0)return new x("a_");else if(Y===1)return new x("o_");else if(Y===2)return new x("u_");else if(Y===3)return new x("i_");else return new s("Unexpected value: #("+V0(Y)+", _, _, _, _")})(),(Y)=>{return t8((()=>{let X=Q[1];if(X===0)return new x("v_");else if(X===1)return new x("q_");else if(X===2)return new x("l_");else return new s("Unexpected value: #(_, "+V0(X)+", _, _, _")})(),(X)=>{let W=V0((()=>{return Q[2]})())+"_",K=zW((()=>{return Q[3]})())+"_",G=zW((()=>{return Q[4]})());return new x(Y+X+W+K+G)})})}function SK(Z){return qY(D([]),D([RY(D([]),D([zY(D([]),"Roir Resources")])),MY(D([]),D([IY(D([N0("margin-bottom","20px")]),D([G6(D([N0("margin-left","5px")]),D([NY(D([x6(D([["display","inline-grid"],["margin-right","75px"]]))]),D([o("Roir Resources")])),_6(D([e6(new rZ),N0("margin-right","50px")]),D([M8(D([]),D([o("Home")]))])),_6(D([e6(new lZ),N0("margin-right","50px")]),D([M8(D([]),D([o("Clock")]))])),_6(D([e6(new iZ),N0("margin-right","50px")]),D([M8(D([]),D([o("Unit Conversion")]))])),V6(D([Q6("https://conworkshop.com/view_language.php?l=ROIR"),x6(D([["margin-right","50px"],["display","inline-grid"]]))]),D([M8(D([]),D([o("CWS")]))])),V6(D([Q6("https://docs.google.com/document/d/1mwD9ZAoW1PrKS8-Yidn1gpv_qTTFLY26aHr-Rd4gVtc/edit?usp=sharing"),N0("display","inline-grid")]),D([M8(D([]),D([o("Reference Doc")]))]))]))])),(()=>{let Q=Z.page;if(Q instanceof Z9)return G6(D([N0("margin-left","5px")]),D([M8(D([]),D([o("About Roir")])),DY(D([N0("display","inline-block")]),D([o("Roir ("),jY(D([N0("display","inline-block")]),D([ZZ(D([]),D([o("rlr")]))])),o(`) is a Constructed Language (Conlang) created by Selkie Lunarose Yukimori. It is currently incomplete and in active development.
-              For the most comprehensive breakdown of this Conlang, check the `),V6(D([Q6("https://docs.google.com/document/d/1mwD9ZAoW1PrKS8-Yidn1gpv_qTTFLY26aHr-Rd4gVtc/edit?usp=sharing"),N0("text-decoration","underline")]),D([o("Roir Reference Document")])),o(", or if you feel inclined you can view the "),V6(D([Q6("https://conworkshop.com/view_language.php?l=ROIR"),N0("text-decoration","underline")]),D([o("Conworkshop Page")])),o(". Both are also accessible at the top menu at any time.")]))]));else if(Q instanceof _8)return G6(D([]),D([ZZ(D([x6(D([["font-size","5rem"],["text-align","center"],["margin-top","50px"]]))]),D([o((()=>{let Y=AK(fQ(Z.time,kQ()));if(Y instanceof x)return Y[0];else return"._._.._.."})())]))]));else return G6(D([]),D([o("This section is unfinished.")]))})()]))]))}function PK(Z){return Z-v(P8(Z))}function MW(Z){let Q=vQ(u0()),Y=P8(926*(1-PK(v((()=>{return Q[0]})())*27/25+v((()=>{return Q[1]})())/925925926)));sZ(Y,()=>{return Z(new NW)});return}function CK(Z,Q){if(Q instanceof rZ)return[new X8(new Z9,u0()),c0()];else if(Q instanceof lZ)if(Z.page instanceof _8)return[new X8(new _8,u0()),c0()];else return[new X8(new _8,u0()),a9(MW)];else if(Q instanceof iZ)return[new X8(new IW,u0()),c0()];else if(Z.page instanceof _8)return[new X8(Z.page,u0()),a9(MW)];else return[new X8(Z.page,u0()),c0()]}function EK(Z){return[new X8(new Z9,u0()),c0()]}function DW(){let Z=qW(EK,CK,SK),Q=RW(Z,"#app",void 0);if(!(Q instanceof x))throw D6("let_assert",LK,"roir",17,"main","Pattern match failed, no pattern matched the value.",{value:Q,start:405,end:454,pattern_start:416,pattern_end:421});return}DW();
+// build/dev/javascript/prelude.mjs
+class CustomType {
+  withFields(fields) {
+    let properties = Object.keys(this).map((label) => (label in fields) ? fields[label] : this[label]);
+    return new this.constructor(...properties);
+  }
+}
+
+class List {
+  static fromArray(array, tail) {
+    let t = tail || new Empty;
+    for (let i = array.length - 1;i >= 0; --i) {
+      t = new NonEmpty(array[i], t);
+    }
+    return t;
+  }
+  [Symbol.iterator]() {
+    return new ListIterator(this);
+  }
+  toArray() {
+    return [...this];
+  }
+  atLeastLength(desired) {
+    let current = this;
+    while (desired-- > 0 && current)
+      current = current.tail;
+    return current !== undefined;
+  }
+  hasLength(desired) {
+    let current = this;
+    while (desired-- > 0 && current)
+      current = current.tail;
+    return desired === -1 && current instanceof Empty;
+  }
+  countLength() {
+    let current = this;
+    let length = 0;
+    while (current) {
+      current = current.tail;
+      length++;
+    }
+    return length - 1;
+  }
+}
+function prepend(element, tail) {
+  return new NonEmpty(element, tail);
+}
+function toList(elements, tail) {
+  return List.fromArray(elements, tail);
+}
+
+class ListIterator {
+  #current;
+  constructor(current) {
+    this.#current = current;
+  }
+  next() {
+    if (this.#current instanceof Empty) {
+      return { done: true };
+    } else {
+      let { head, tail } = this.#current;
+      this.#current = tail;
+      return { value: head, done: false };
+    }
+  }
+}
+
+class Empty extends List {
+}
+var List$Empty = () => new Empty;
+var List$isEmpty = (value) => value instanceof Empty;
+
+class NonEmpty extends List {
+  constructor(head, tail) {
+    super();
+    this.head = head;
+    this.tail = tail;
+  }
+}
+var List$NonEmpty = (head, tail) => new NonEmpty(head, tail);
+var List$isNonEmpty = (value) => value instanceof NonEmpty;
+var List$NonEmpty$first = (value) => value.head;
+var List$NonEmpty$rest = (value) => value.tail;
+
+class BitArray {
+  bitSize;
+  byteSize;
+  bitOffset;
+  rawBuffer;
+  constructor(buffer, bitSize, bitOffset) {
+    if (!(buffer instanceof Uint8Array)) {
+      throw globalThis.Error("BitArray can only be constructed from a Uint8Array");
+    }
+    this.bitSize = bitSize ?? buffer.length * 8;
+    this.byteSize = Math.trunc((this.bitSize + 7) / 8);
+    this.bitOffset = bitOffset ?? 0;
+    if (this.bitSize < 0) {
+      throw globalThis.Error(`BitArray bit size is invalid: ${this.bitSize}`);
+    }
+    if (this.bitOffset < 0 || this.bitOffset > 7) {
+      throw globalThis.Error(`BitArray bit offset is invalid: ${this.bitOffset}`);
+    }
+    if (buffer.length !== Math.trunc((this.bitOffset + this.bitSize + 7) / 8)) {
+      throw globalThis.Error("BitArray buffer length is invalid");
+    }
+    this.rawBuffer = buffer;
+  }
+  byteAt(index) {
+    if (index < 0 || index >= this.byteSize) {
+      return;
+    }
+    return bitArrayByteAt(this.rawBuffer, this.bitOffset, index);
+  }
+  equals(other) {
+    if (this.bitSize !== other.bitSize) {
+      return false;
+    }
+    const wholeByteCount = Math.trunc(this.bitSize / 8);
+    if (this.bitOffset === 0 && other.bitOffset === 0) {
+      for (let i = 0;i < wholeByteCount; i++) {
+        if (this.rawBuffer[i] !== other.rawBuffer[i]) {
+          return false;
+        }
+      }
+      const trailingBitsCount = this.bitSize % 8;
+      if (trailingBitsCount) {
+        const unusedLowBitCount = 8 - trailingBitsCount;
+        if (this.rawBuffer[wholeByteCount] >> unusedLowBitCount !== other.rawBuffer[wholeByteCount] >> unusedLowBitCount) {
+          return false;
+        }
+      }
+    } else {
+      for (let i = 0;i < wholeByteCount; i++) {
+        const a = bitArrayByteAt(this.rawBuffer, this.bitOffset, i);
+        const b = bitArrayByteAt(other.rawBuffer, other.bitOffset, i);
+        if (a !== b) {
+          return false;
+        }
+      }
+      const trailingBitsCount = this.bitSize % 8;
+      if (trailingBitsCount) {
+        const a = bitArrayByteAt(this.rawBuffer, this.bitOffset, wholeByteCount);
+        const b = bitArrayByteAt(other.rawBuffer, other.bitOffset, wholeByteCount);
+        const unusedLowBitCount = 8 - trailingBitsCount;
+        if (a >> unusedLowBitCount !== b >> unusedLowBitCount) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+  get buffer() {
+    if (this.bitOffset !== 0 || this.bitSize % 8 !== 0) {
+      throw new globalThis.Error("BitArray.buffer does not support unaligned bit arrays");
+    }
+    return this.rawBuffer;
+  }
+  get length() {
+    if (this.bitOffset !== 0 || this.bitSize % 8 !== 0) {
+      throw new globalThis.Error("BitArray.length does not support unaligned bit arrays");
+    }
+    return this.rawBuffer.length;
+  }
+}
+function bitArrayByteAt(buffer, bitOffset, index) {
+  if (bitOffset === 0) {
+    return buffer[index] ?? 0;
+  } else {
+    const a = buffer[index] << bitOffset & 255;
+    const b = buffer[index + 1] >> 8 - bitOffset;
+    return a | b;
+  }
+}
+
+class UtfCodepoint {
+  constructor(value) {
+    this.value = value;
+  }
+}
+class Result extends CustomType {
+  static isResult(data2) {
+    return data2 instanceof Result;
+  }
+}
+
+class Ok extends Result {
+  constructor(value) {
+    super();
+    this[0] = value;
+  }
+  isOk() {
+    return true;
+  }
+}
+var Result$Ok = (value) => new Ok(value);
+var Result$isOk = (value) => value instanceof Ok;
+var Result$Ok$0 = (value) => value[0];
+
+class Error extends Result {
+  constructor(detail) {
+    super();
+    this[0] = detail;
+  }
+  isOk() {
+    return false;
+  }
+}
+var Result$Error = (detail) => new Error(detail);
+function isEqual(x, y) {
+  let values = [x, y];
+  while (values.length) {
+    let a = values.pop();
+    let b = values.pop();
+    if (a === b)
+      continue;
+    if (!isObject(a) || !isObject(b))
+      return false;
+    let unequal = !structurallyCompatibleObjects(a, b) || unequalDates(a, b) || unequalBuffers(a, b) || unequalArrays(a, b) || unequalMaps(a, b) || unequalSets(a, b) || unequalRegExps(a, b);
+    if (unequal)
+      return false;
+    const proto = Object.getPrototypeOf(a);
+    if (proto !== null && typeof proto.equals === "function") {
+      try {
+        if (a.equals(b))
+          continue;
+        else
+          return false;
+      } catch {}
+    }
+    let [keys, get] = getters(a);
+    const ka = keys(a);
+    const kb = keys(b);
+    if (ka.length !== kb.length)
+      return false;
+    for (let k of ka) {
+      values.push(get(a, k), get(b, k));
+    }
+  }
+  return true;
+}
+function getters(object) {
+  if (object instanceof Map) {
+    return [(x) => x.keys(), (x, y) => x.get(y)];
+  } else {
+    let extra = object instanceof globalThis.Error ? ["message"] : [];
+    return [(x) => [...extra, ...Object.keys(x)], (x, y) => x[y]];
+  }
+}
+function unequalDates(a, b) {
+  return a instanceof Date && (a > b || a < b);
+}
+function unequalBuffers(a, b) {
+  return !(a instanceof BitArray) && a.buffer instanceof ArrayBuffer && a.BYTES_PER_ELEMENT && !(a.byteLength === b.byteLength && a.every((n, i) => n === b[i]));
+}
+function unequalArrays(a, b) {
+  return Array.isArray(a) && a.length !== b.length;
+}
+function unequalMaps(a, b) {
+  return a instanceof Map && a.size !== b.size;
+}
+function unequalSets(a, b) {
+  return a instanceof Set && (a.size != b.size || [...a].some((e) => !b.has(e)));
+}
+function unequalRegExps(a, b) {
+  return a instanceof RegExp && (a.source !== b.source || a.flags !== b.flags);
+}
+function isObject(a) {
+  return typeof a === "object" && a !== null;
+}
+function structurallyCompatibleObjects(a, b) {
+  if (typeof a !== "object" && typeof b !== "object" && (!a || !b))
+    return false;
+  let nonstructural = [Promise, WeakSet, WeakMap, Function];
+  if (nonstructural.some((c) => a instanceof c))
+    return false;
+  return a.constructor === b.constructor;
+}
+function remainderInt(a, b) {
+  if (b === 0) {
+    return 0;
+  } else {
+    return a % b;
+  }
+}
+function divideInt(a, b) {
+  return Math.trunc(divideFloat(a, b));
+}
+function divideFloat(a, b) {
+  if (b === 0) {
+    return 0;
+  } else {
+    return a / b;
+  }
+}
+function makeError(variant, file, module, line, fn, message, extra) {
+  let error = new globalThis.Error(message);
+  error.gleam_error = variant;
+  error.file = file;
+  error.module = module;
+  error.line = line;
+  error.function = fn;
+  error.fn = fn;
+  for (let k in extra)
+    error[k] = extra[k];
+  return error;
+}
+// build/dev/javascript/gleam_stdlib/gleam/order.mjs
+class Lt extends CustomType {
+}
+var Order$Lt = () => new Lt;
+class Eq extends CustomType {
+}
+var Order$Eq = () => new Eq;
+class Gt extends CustomType {
+}
+var Order$Gt = () => new Gt;
+
+// build/dev/javascript/gleam_stdlib/gleam/option.mjs
+class Some extends CustomType {
+  constructor($0) {
+    super();
+    this[0] = $0;
+  }
+}
+var Option$isSome = (value) => value instanceof Some;
+var Option$Some$0 = (value) => value[0];
+
+class None extends CustomType {
+}
+
+// build/dev/javascript/gleam_stdlib/dict.mjs
+var referenceMap = /* @__PURE__ */ new WeakMap;
+var tempDataView = /* @__PURE__ */ new DataView(/* @__PURE__ */ new ArrayBuffer(8));
+var referenceUID = 0;
+function hashByReference(o) {
+  const known = referenceMap.get(o);
+  if (known !== undefined) {
+    return known;
+  }
+  const hash = referenceUID++;
+  if (referenceUID === 2147483647) {
+    referenceUID = 0;
+  }
+  referenceMap.set(o, hash);
+  return hash;
+}
+function hashMerge(a, b) {
+  return a ^ b + 2654435769 + (a << 6) + (a >> 2) | 0;
+}
+function hashString(s) {
+  let hash = 0;
+  const len = s.length;
+  for (let i = 0;i < len; i++) {
+    hash = Math.imul(31, hash) + s.charCodeAt(i) | 0;
+  }
+  return hash;
+}
+function hashNumber(n) {
+  tempDataView.setFloat64(0, n);
+  const i = tempDataView.getInt32(0);
+  const j = tempDataView.getInt32(4);
+  return Math.imul(73244475, i >> 16 ^ i) ^ j;
+}
+function hashBigInt(n) {
+  return hashString(n.toString());
+}
+function hashObject(o) {
+  const proto = Object.getPrototypeOf(o);
+  if (proto !== null && typeof proto.hashCode === "function") {
+    try {
+      const code = o.hashCode(o);
+      if (typeof code === "number") {
+        return code;
+      }
+    } catch {}
+  }
+  if (o instanceof Promise || o instanceof WeakSet || o instanceof WeakMap) {
+    return hashByReference(o);
+  }
+  if (o instanceof Date) {
+    return hashNumber(o.getTime());
+  }
+  let h = 0;
+  if (o instanceof ArrayBuffer) {
+    o = new Uint8Array(o);
+  }
+  if (Array.isArray(o) || o instanceof Uint8Array) {
+    for (let i = 0;i < o.length; i++) {
+      h = Math.imul(31, h) + getHash(o[i]) | 0;
+    }
+  } else if (o instanceof Set) {
+    o.forEach((v) => {
+      h = h + getHash(v) | 0;
+    });
+  } else if (o instanceof Map) {
+    o.forEach((v, k) => {
+      h = h + hashMerge(getHash(v), getHash(k)) | 0;
+    });
+  } else {
+    const keys = Object.keys(o);
+    for (let i = 0;i < keys.length; i++) {
+      const k = keys[i];
+      const v = o[k];
+      h = h + hashMerge(getHash(v), hashString(k)) | 0;
+    }
+  }
+  return h;
+}
+function getHash(u) {
+  if (u === null)
+    return 1108378658;
+  if (u === undefined)
+    return 1108378659;
+  if (u === true)
+    return 1108378657;
+  if (u === false)
+    return 1108378656;
+  switch (typeof u) {
+    case "number":
+      return hashNumber(u);
+    case "string":
+      return hashString(u);
+    case "bigint":
+      return hashBigInt(u);
+    case "object":
+      return hashObject(u);
+    case "symbol":
+      return hashByReference(u);
+    case "function":
+      return hashByReference(u);
+    default:
+      return 0;
+  }
+}
+
+class Dict {
+  constructor(size, root) {
+    this.size = size;
+    this.root = root;
+  }
+}
+var bits = 5;
+var mask = (1 << bits) - 1;
+var noElementMarker = Symbol();
+var generationKey = Symbol();
+var emptyNode = /* @__PURE__ */ newNode(0);
+var emptyDict = /* @__PURE__ */ new Dict(0, emptyNode);
+var errorNil = /* @__PURE__ */ Result$Error(undefined);
+function makeNode(generation, datamap, nodemap, data2) {
+  return {
+    datamap,
+    nodemap,
+    data: data2,
+    [generationKey]: generation
+  };
+}
+function newNode(generation) {
+  return makeNode(generation, 0, 0, []);
+}
+function copyNode(node, generation) {
+  if (node[generationKey] === generation) {
+    return node;
+  }
+  const newData = node.data.slice(0);
+  return makeNode(generation, node.datamap, node.nodemap, newData);
+}
+function copyAndSet(node, generation, idx, val) {
+  if (node.data[idx] === val) {
+    return node;
+  }
+  node = copyNode(node, generation);
+  node.data[idx] = val;
+  return node;
+}
+function copyAndInsertPair(node, generation, bit, idx, key, val) {
+  const data2 = node.data;
+  const length = data2.length;
+  const newData = new Array(length + 2);
+  let readIndex = 0;
+  let writeIndex = 0;
+  while (readIndex < idx)
+    newData[writeIndex++] = data2[readIndex++];
+  newData[writeIndex++] = key;
+  newData[writeIndex++] = val;
+  while (readIndex < length)
+    newData[writeIndex++] = data2[readIndex++];
+  return makeNode(generation, node.datamap | bit, node.nodemap, newData);
+}
+function make() {
+  return emptyDict;
+}
+function get(dict, key) {
+  const result = lookup(dict.root, key, getHash(key));
+  return result !== noElementMarker ? Result$Ok(result) : errorNil;
+}
+function lookup(node, key, hash) {
+  for (let shift = 0;shift < 32; shift += bits) {
+    const data2 = node.data;
+    const bit = hashbit(hash, shift);
+    if (node.nodemap & bit) {
+      node = data2[data2.length - 1 - index(node.nodemap, bit)];
+    } else if (node.datamap & bit) {
+      const dataidx = Math.imul(index(node.datamap, bit), 2);
+      return isEqual(key, data2[dataidx]) ? data2[dataidx + 1] : noElementMarker;
+    } else {
+      return noElementMarker;
+    }
+  }
+  const overflow = node.data;
+  for (let i = 0;i < overflow.length; i += 2) {
+    if (isEqual(key, overflow[i])) {
+      return overflow[i + 1];
+    }
+  }
+  return noElementMarker;
+}
+function toTransient(dict) {
+  return {
+    generation: nextGeneration(dict),
+    root: dict.root,
+    size: dict.size,
+    dict
+  };
+}
+function nextGeneration(dict) {
+  const root = dict.root;
+  if (root[generationKey] < Number.MAX_SAFE_INTEGER) {
+    return root[generationKey] + 1;
+  }
+  const queue = [root];
+  while (queue.length) {
+    const node = queue.pop();
+    node[generationKey] = 0;
+    const nodeStart = data.length - popcount(node.nodemap);
+    for (let i = nodeStart;i < node.data.length; ++i) {
+      queue.push(node.data[i]);
+    }
+  }
+  return 1;
+}
+var globalTransient = /* @__PURE__ */ toTransient(emptyDict);
+function insert(dict, key, value) {
+  globalTransient.generation = nextGeneration(dict);
+  globalTransient.size = dict.size;
+  const hash = getHash(key);
+  const root = insertIntoNode(globalTransient, dict.root, key, value, hash, 0);
+  if (root === dict.root) {
+    return dict;
+  }
+  return new Dict(globalTransient.size, root);
+}
+function insertIntoNode(transient, node, key, value, hash, shift) {
+  const data2 = node.data;
+  const generation = transient.generation;
+  if (shift > 32) {
+    for (let i = 0;i < data2.length; i += 2) {
+      if (isEqual(key, data2[i])) {
+        return copyAndSet(node, generation, i + 1, value);
+      }
+    }
+    transient.size += 1;
+    return copyAndInsertPair(node, generation, 0, data2.length, key, value);
+  }
+  const bit = hashbit(hash, shift);
+  if (node.nodemap & bit) {
+    const nodeidx2 = data2.length - 1 - index(node.nodemap, bit);
+    let child2 = data2[nodeidx2];
+    child2 = insertIntoNode(transient, child2, key, value, hash, shift + bits);
+    return copyAndSet(node, generation, nodeidx2, child2);
+  }
+  const dataidx = Math.imul(index(node.datamap, bit), 2);
+  if ((node.datamap & bit) === 0) {
+    transient.size += 1;
+    return copyAndInsertPair(node, generation, bit, dataidx, key, value);
+  }
+  if (isEqual(key, data2[dataidx])) {
+    return copyAndSet(node, generation, dataidx + 1, value);
+  }
+  const childShift = shift + bits;
+  let child = emptyNode;
+  child = insertIntoNode(transient, child, key, value, hash, childShift);
+  const key2 = data2[dataidx];
+  const value2 = data2[dataidx + 1];
+  const hash2 = getHash(key2);
+  child = insertIntoNode(transient, child, key2, value2, hash2, childShift);
+  transient.size -= 1;
+  const length = data2.length;
+  const nodeidx = length - 1 - index(node.nodemap, bit);
+  const newData = new Array(length - 1);
+  let readIndex = 0;
+  let writeIndex = 0;
+  while (readIndex < dataidx)
+    newData[writeIndex++] = data2[readIndex++];
+  readIndex += 2;
+  while (readIndex <= nodeidx)
+    newData[writeIndex++] = data2[readIndex++];
+  newData[writeIndex++] = child;
+  while (readIndex < length)
+    newData[writeIndex++] = data2[readIndex++];
+  return makeNode(generation, node.datamap ^ bit, node.nodemap | bit, newData);
+}
+function fold(dict, state, fun) {
+  const queue = [dict.root];
+  while (queue.length) {
+    const node = queue.pop();
+    const data2 = node.data;
+    const edgesStart = data2.length - popcount(node.nodemap);
+    for (let i = 0;i < edgesStart; i += 2) {
+      state = fun(state, data2[i], data2[i + 1]);
+    }
+    for (let i = edgesStart;i < data2.length; ++i) {
+      queue.push(data2[i]);
+    }
+  }
+  return state;
+}
+function popcount(n) {
+  n -= n >>> 1 & 1431655765;
+  n = (n & 858993459) + (n >>> 2 & 858993459);
+  return Math.imul(n + (n >>> 4) & 252645135, 16843009) >>> 24;
+}
+function index(bitmap, bit) {
+  return popcount(bitmap & bit - 1);
+}
+function hashbit(hash, shift) {
+  return 1 << (hash >>> shift & mask);
+}
+
+// build/dev/javascript/gleam_stdlib/gleam/dict.mjs
+function keys(dict) {
+  return fold(dict, toList([]), (acc, key, _) => {
+    return prepend(key, acc);
+  });
+}
+
+// build/dev/javascript/gleam_stdlib/gleam/int.mjs
+function modulo(dividend, divisor) {
+  if (divisor === 0) {
+    return new Error(undefined);
+  } else {
+    let remainder$1 = remainderInt(dividend, divisor);
+    let $ = remainder$1 * divisor < 0;
+    if ($) {
+      return new Ok(remainder$1 + divisor);
+    } else {
+      return new Ok(remainder$1);
+    }
+  }
+}
+
+// build/dev/javascript/gleam_stdlib/gleam/list.mjs
+class Ascending extends CustomType {
+}
+
+class Descending extends CustomType {
+}
+function reverse_and_prepend(loop$prefix, loop$suffix) {
+  while (true) {
+    let prefix = loop$prefix;
+    let suffix = loop$suffix;
+    if (prefix instanceof Empty) {
+      return suffix;
+    } else {
+      let first$1 = prefix.head;
+      let rest$1 = prefix.tail;
+      loop$prefix = rest$1;
+      loop$suffix = prepend(first$1, suffix);
+    }
+  }
+}
+function reverse(list) {
+  return reverse_and_prepend(list, toList([]));
+}
+function map_loop(loop$list, loop$fun, loop$acc) {
+  while (true) {
+    let list = loop$list;
+    let fun = loop$fun;
+    let acc = loop$acc;
+    if (list instanceof Empty) {
+      return reverse(acc);
+    } else {
+      let first$1 = list.head;
+      let rest$1 = list.tail;
+      loop$list = rest$1;
+      loop$fun = fun;
+      loop$acc = prepend(fun(first$1), acc);
+    }
+  }
+}
+function map2(list, fun) {
+  return map_loop(list, fun, toList([]));
+}
+function append_loop(loop$first, loop$second) {
+  while (true) {
+    let first = loop$first;
+    let second = loop$second;
+    if (first instanceof Empty) {
+      return second;
+    } else {
+      let first$1 = first.head;
+      let rest$1 = first.tail;
+      loop$first = rest$1;
+      loop$second = prepend(first$1, second);
+    }
+  }
+}
+function append(first, second) {
+  return append_loop(reverse(first), second);
+}
+function prepend2(list, item) {
+  return prepend(item, list);
+}
+function fold2(loop$list, loop$initial, loop$fun) {
+  while (true) {
+    let list = loop$list;
+    let initial = loop$initial;
+    let fun = loop$fun;
+    if (list instanceof Empty) {
+      return initial;
+    } else {
+      let first$1 = list.head;
+      let rest$1 = list.tail;
+      loop$list = rest$1;
+      loop$initial = fun(initial, first$1);
+      loop$fun = fun;
+    }
+  }
+}
+function merge_descendings(loop$list1, loop$list2, loop$compare, loop$acc) {
+  while (true) {
+    let list1 = loop$list1;
+    let list2 = loop$list2;
+    let compare2 = loop$compare;
+    let acc = loop$acc;
+    if (list1 instanceof Empty) {
+      let list = list2;
+      return reverse_and_prepend(list, acc);
+    } else if (list2 instanceof Empty) {
+      let list = list1;
+      return reverse_and_prepend(list, acc);
+    } else {
+      let first1 = list1.head;
+      let rest1 = list1.tail;
+      let first2 = list2.head;
+      let rest2 = list2.tail;
+      let $ = compare2(first1, first2);
+      if ($ instanceof Lt) {
+        loop$list1 = list1;
+        loop$list2 = rest2;
+        loop$compare = compare2;
+        loop$acc = prepend(first2, acc);
+      } else if ($ instanceof Eq) {
+        loop$list1 = rest1;
+        loop$list2 = list2;
+        loop$compare = compare2;
+        loop$acc = prepend(first1, acc);
+      } else {
+        loop$list1 = rest1;
+        loop$list2 = list2;
+        loop$compare = compare2;
+        loop$acc = prepend(first1, acc);
+      }
+    }
+  }
+}
+function merge_descending_pairs(loop$sequences, loop$compare, loop$acc) {
+  while (true) {
+    let sequences = loop$sequences;
+    let compare2 = loop$compare;
+    let acc = loop$acc;
+    if (sequences instanceof Empty) {
+      return reverse(acc);
+    } else {
+      let $ = sequences.tail;
+      if ($ instanceof Empty) {
+        let sequence = sequences.head;
+        return reverse(prepend(reverse(sequence), acc));
+      } else {
+        let descending1 = sequences.head;
+        let descending2 = $.head;
+        let rest$1 = $.tail;
+        let ascending = merge_descendings(descending1, descending2, compare2, toList([]));
+        loop$sequences = rest$1;
+        loop$compare = compare2;
+        loop$acc = prepend(ascending, acc);
+      }
+    }
+  }
+}
+function merge_ascendings(loop$list1, loop$list2, loop$compare, loop$acc) {
+  while (true) {
+    let list1 = loop$list1;
+    let list2 = loop$list2;
+    let compare2 = loop$compare;
+    let acc = loop$acc;
+    if (list1 instanceof Empty) {
+      let list = list2;
+      return reverse_and_prepend(list, acc);
+    } else if (list2 instanceof Empty) {
+      let list = list1;
+      return reverse_and_prepend(list, acc);
+    } else {
+      let first1 = list1.head;
+      let rest1 = list1.tail;
+      let first2 = list2.head;
+      let rest2 = list2.tail;
+      let $ = compare2(first1, first2);
+      if ($ instanceof Lt) {
+        loop$list1 = rest1;
+        loop$list2 = list2;
+        loop$compare = compare2;
+        loop$acc = prepend(first1, acc);
+      } else if ($ instanceof Eq) {
+        loop$list1 = list1;
+        loop$list2 = rest2;
+        loop$compare = compare2;
+        loop$acc = prepend(first2, acc);
+      } else {
+        loop$list1 = list1;
+        loop$list2 = rest2;
+        loop$compare = compare2;
+        loop$acc = prepend(first2, acc);
+      }
+    }
+  }
+}
+function merge_ascending_pairs(loop$sequences, loop$compare, loop$acc) {
+  while (true) {
+    let sequences = loop$sequences;
+    let compare2 = loop$compare;
+    let acc = loop$acc;
+    if (sequences instanceof Empty) {
+      return reverse(acc);
+    } else {
+      let $ = sequences.tail;
+      if ($ instanceof Empty) {
+        let sequence = sequences.head;
+        return reverse(prepend(reverse(sequence), acc));
+      } else {
+        let ascending1 = sequences.head;
+        let ascending2 = $.head;
+        let rest$1 = $.tail;
+        let descending = merge_ascendings(ascending1, ascending2, compare2, toList([]));
+        loop$sequences = rest$1;
+        loop$compare = compare2;
+        loop$acc = prepend(descending, acc);
+      }
+    }
+  }
+}
+function merge_all(loop$sequences, loop$direction, loop$compare) {
+  while (true) {
+    let sequences = loop$sequences;
+    let direction = loop$direction;
+    let compare2 = loop$compare;
+    if (sequences instanceof Empty) {
+      return sequences;
+    } else if (direction instanceof Ascending) {
+      let $ = sequences.tail;
+      if ($ instanceof Empty) {
+        let sequence = sequences.head;
+        return sequence;
+      } else {
+        let sequences$1 = merge_ascending_pairs(sequences, compare2, toList([]));
+        loop$sequences = sequences$1;
+        loop$direction = new Descending;
+        loop$compare = compare2;
+      }
+    } else {
+      let $ = sequences.tail;
+      if ($ instanceof Empty) {
+        let sequence = sequences.head;
+        return reverse(sequence);
+      } else {
+        let sequences$1 = merge_descending_pairs(sequences, compare2, toList([]));
+        loop$sequences = sequences$1;
+        loop$direction = new Ascending;
+        loop$compare = compare2;
+      }
+    }
+  }
+}
+function sequences(loop$list, loop$compare, loop$growing, loop$direction, loop$prev, loop$acc) {
+  while (true) {
+    let list = loop$list;
+    let compare2 = loop$compare;
+    let growing = loop$growing;
+    let direction = loop$direction;
+    let prev = loop$prev;
+    let acc = loop$acc;
+    let growing$1 = prepend(prev, growing);
+    if (list instanceof Empty) {
+      if (direction instanceof Ascending) {
+        return prepend(reverse(growing$1), acc);
+      } else {
+        return prepend(growing$1, acc);
+      }
+    } else {
+      let new$1 = list.head;
+      let rest$1 = list.tail;
+      let $ = compare2(prev, new$1);
+      if (direction instanceof Ascending) {
+        if ($ instanceof Lt) {
+          loop$list = rest$1;
+          loop$compare = compare2;
+          loop$growing = growing$1;
+          loop$direction = direction;
+          loop$prev = new$1;
+          loop$acc = acc;
+        } else if ($ instanceof Eq) {
+          loop$list = rest$1;
+          loop$compare = compare2;
+          loop$growing = growing$1;
+          loop$direction = direction;
+          loop$prev = new$1;
+          loop$acc = acc;
+        } else {
+          let _block;
+          if (direction instanceof Ascending) {
+            _block = prepend(reverse(growing$1), acc);
+          } else {
+            _block = prepend(growing$1, acc);
+          }
+          let acc$1 = _block;
+          if (rest$1 instanceof Empty) {
+            return prepend(toList([new$1]), acc$1);
+          } else {
+            let next = rest$1.head;
+            let rest$2 = rest$1.tail;
+            let _block$1;
+            let $1 = compare2(new$1, next);
+            if ($1 instanceof Lt) {
+              _block$1 = new Ascending;
+            } else if ($1 instanceof Eq) {
+              _block$1 = new Ascending;
+            } else {
+              _block$1 = new Descending;
+            }
+            let direction$1 = _block$1;
+            loop$list = rest$2;
+            loop$compare = compare2;
+            loop$growing = toList([new$1]);
+            loop$direction = direction$1;
+            loop$prev = next;
+            loop$acc = acc$1;
+          }
+        }
+      } else if ($ instanceof Lt) {
+        let _block;
+        if (direction instanceof Ascending) {
+          _block = prepend(reverse(growing$1), acc);
+        } else {
+          _block = prepend(growing$1, acc);
+        }
+        let acc$1 = _block;
+        if (rest$1 instanceof Empty) {
+          return prepend(toList([new$1]), acc$1);
+        } else {
+          let next = rest$1.head;
+          let rest$2 = rest$1.tail;
+          let _block$1;
+          let $1 = compare2(new$1, next);
+          if ($1 instanceof Lt) {
+            _block$1 = new Ascending;
+          } else if ($1 instanceof Eq) {
+            _block$1 = new Ascending;
+          } else {
+            _block$1 = new Descending;
+          }
+          let direction$1 = _block$1;
+          loop$list = rest$2;
+          loop$compare = compare2;
+          loop$growing = toList([new$1]);
+          loop$direction = direction$1;
+          loop$prev = next;
+          loop$acc = acc$1;
+        }
+      } else if ($ instanceof Eq) {
+        let _block;
+        if (direction instanceof Ascending) {
+          _block = prepend(reverse(growing$1), acc);
+        } else {
+          _block = prepend(growing$1, acc);
+        }
+        let acc$1 = _block;
+        if (rest$1 instanceof Empty) {
+          return prepend(toList([new$1]), acc$1);
+        } else {
+          let next = rest$1.head;
+          let rest$2 = rest$1.tail;
+          let _block$1;
+          let $1 = compare2(new$1, next);
+          if ($1 instanceof Lt) {
+            _block$1 = new Ascending;
+          } else if ($1 instanceof Eq) {
+            _block$1 = new Ascending;
+          } else {
+            _block$1 = new Descending;
+          }
+          let direction$1 = _block$1;
+          loop$list = rest$2;
+          loop$compare = compare2;
+          loop$growing = toList([new$1]);
+          loop$direction = direction$1;
+          loop$prev = next;
+          loop$acc = acc$1;
+        }
+      } else {
+        loop$list = rest$1;
+        loop$compare = compare2;
+        loop$growing = growing$1;
+        loop$direction = direction;
+        loop$prev = new$1;
+        loop$acc = acc;
+      }
+    }
+  }
+}
+function sort(list, compare2) {
+  if (list instanceof Empty) {
+    return list;
+  } else {
+    let $ = list.tail;
+    if ($ instanceof Empty) {
+      return list;
+    } else {
+      let x = list.head;
+      let y = $.head;
+      let rest$1 = $.tail;
+      let _block;
+      let $1 = compare2(x, y);
+      if ($1 instanceof Lt) {
+        _block = new Ascending;
+      } else if ($1 instanceof Eq) {
+        _block = new Ascending;
+      } else {
+        _block = new Descending;
+      }
+      let direction = _block;
+      let sequences$1 = sequences(rest$1, compare2, toList([x]), direction, y, toList([]));
+      return merge_all(sequences$1, new Ascending, compare2);
+    }
+  }
+}
+function each(loop$list, loop$f) {
+  while (true) {
+    let list = loop$list;
+    let f = loop$f;
+    if (list instanceof Empty) {
+      return;
+    } else {
+      let first$1 = list.head;
+      let rest$1 = list.tail;
+      f(first$1);
+      loop$list = rest$1;
+      loop$f = f;
+    }
+  }
+}
+
+// build/dev/javascript/gleam_stdlib/gleam/string.mjs
+function split2(x, substring) {
+  if (substring === "") {
+    return graphemes(x);
+  } else {
+    let _pipe = x;
+    let _pipe$1 = identity(_pipe);
+    let _pipe$2 = split(_pipe$1, substring);
+    return map2(_pipe$2, identity);
+  }
+}
+function concat_loop(loop$strings, loop$accumulator) {
+  while (true) {
+    let strings = loop$strings;
+    let accumulator = loop$accumulator;
+    if (strings instanceof Empty) {
+      return accumulator;
+    } else {
+      let string = strings.head;
+      let strings$1 = strings.tail;
+      loop$strings = strings$1;
+      loop$accumulator = accumulator + string;
+    }
+  }
+}
+function concat2(strings) {
+  return concat_loop(strings, "");
+}
+
+// build/dev/javascript/gleam_stdlib/gleam/dynamic/decode.mjs
+class Decoder extends CustomType {
+  constructor(function$) {
+    super();
+    this.function = function$;
+  }
+}
+function run(data2, decoder) {
+  let $ = decoder.function(data2);
+  let maybe_invalid_data = $[0];
+  let errors = $[1];
+  if (errors instanceof Empty) {
+    return new Ok(maybe_invalid_data);
+  } else {
+    return new Error(errors);
+  }
+}
+function map3(decoder, transformer) {
+  return new Decoder((d) => {
+    let $ = decoder.function(d);
+    let data2 = $[0];
+    let errors = $[1];
+    return [transformer(data2), errors];
+  });
+}
+function success(data2) {
+  return new Decoder((_) => {
+    return [data2, toList([])];
+  });
+}
+
+// build/dev/javascript/gleam_stdlib/gleam_stdlib.mjs
+function identity(x) {
+  return x;
+}
+function to_string(term) {
+  return term.toString();
+}
+function graphemes(string2) {
+  const iterator = graphemes_iterator(string2);
+  if (iterator) {
+    return arrayToList(Array.from(iterator).map((item) => item.segment));
+  } else {
+    return arrayToList(string2.match(/./gsu));
+  }
+}
+var segmenter = undefined;
+function graphemes_iterator(string2) {
+  if (globalThis.Intl && Intl.Segmenter) {
+    segmenter ||= new Intl.Segmenter;
+    return segmenter.segment(string2)[Symbol.iterator]();
+  }
+}
+function split(xs, pattern) {
+  return arrayToList(xs.split(pattern));
+}
+function starts_with(haystack, needle) {
+  return haystack.startsWith(needle);
+}
+var unicode_whitespaces = [
+  " ",
+  "\t",
+  `
+`,
+  "\v",
+  "\f",
+  "\r",
+  "",
+  "\u2028",
+  "\u2029"
+].join("");
+var trim_start_regex = /* @__PURE__ */ new RegExp(`^[${unicode_whitespaces}]*`);
+var trim_end_regex = /* @__PURE__ */ new RegExp(`[${unicode_whitespaces}]*$`);
+function floor(float2) {
+  return Math.floor(float2);
+}
+function round2(float2) {
+  return Math.round(float2);
+}
+function truncate(float2) {
+  return Math.trunc(float2);
+}
+var MIN_I32 = -(2 ** 31);
+var MAX_I32 = 2 ** 31 - 1;
+var U32 = 2 ** 32;
+var MAX_SAFE = Number.MAX_SAFE_INTEGER;
+var MIN_SAFE = Number.MIN_SAFE_INTEGER;
+function float_to_string(float2) {
+  const string2 = float2.toString().replace("+", "");
+  if (string2.indexOf(".") >= 0) {
+    return string2;
+  } else {
+    const index3 = string2.indexOf("e");
+    if (index3 >= 0) {
+      return string2.slice(0, index3) + ".0" + string2.slice(index3);
+    } else {
+      return string2 + ".0";
+    }
+  }
+}
+
+class Inspector {
+  #references = new Set;
+  inspect(v) {
+    const t = typeof v;
+    if (v === true)
+      return "True";
+    if (v === false)
+      return "False";
+    if (v === null)
+      return "//js(null)";
+    if (v === undefined)
+      return "Nil";
+    if (t === "string")
+      return this.#string(v);
+    if (t === "bigint" || Number.isInteger(v))
+      return v.toString();
+    if (t === "number")
+      return float_to_string(v);
+    if (v instanceof UtfCodepoint)
+      return this.#utfCodepoint(v);
+    if (v instanceof BitArray)
+      return this.#bit_array(v);
+    if (v instanceof RegExp)
+      return `//js(${v})`;
+    if (v instanceof Date)
+      return `//js(Date("${v.toISOString()}"))`;
+    if (v instanceof globalThis.Error)
+      return `//js(${v.toString()})`;
+    if (v instanceof Function) {
+      const args = [];
+      for (const i of Array(v.length).keys())
+        args.push(String.fromCharCode(i + 97));
+      return `//fn(${args.join(", ")}) { ... }`;
+    }
+    if (this.#references.size === this.#references.add(v).size) {
+      return "//js(circular reference)";
+    }
+    let printed;
+    if (Array.isArray(v)) {
+      printed = `#(${v.map((v2) => this.inspect(v2)).join(", ")})`;
+    } else if (isList(v)) {
+      printed = this.#list(v);
+    } else if (v instanceof CustomType) {
+      printed = this.#customType(v);
+    } else if (v instanceof Dict) {
+      printed = this.#dict(v);
+    } else if (v instanceof Set) {
+      return `//js(Set(${[...v].map((v2) => this.inspect(v2)).join(", ")}))`;
+    } else {
+      printed = this.#object(v);
+    }
+    this.#references.delete(v);
+    return printed;
+  }
+  #object(v) {
+    const name = Object.getPrototypeOf(v)?.constructor?.name || "Object";
+    const props = [];
+    for (const k of Object.keys(v)) {
+      props.push(`${this.inspect(k)}: ${this.inspect(v[k])}`);
+    }
+    const body = props.length ? " " + props.join(", ") + " " : "";
+    const head = name === "Object" ? "" : name + " ";
+    return `//js(${head}{${body}})`;
+  }
+  #dict(map4) {
+    let body = "dict.from_list([";
+    let first = true;
+    body = fold(map4, body, (body2, key, value) => {
+      if (!first)
+        body2 = body2 + ", ";
+      first = false;
+      return body2 + "#(" + this.inspect(key) + ", " + this.inspect(value) + ")";
+    });
+    return body + "])";
+  }
+  #customType(record) {
+    const props = Object.keys(record).map((label) => {
+      const value = this.inspect(record[label]);
+      return isNaN(parseInt(label)) ? `${label}: ${value}` : value;
+    }).join(", ");
+    return props ? `${record.constructor.name}(${props})` : record.constructor.name;
+  }
+  #list(list2) {
+    if (List$isEmpty(list2)) {
+      return "[]";
+    }
+    let char_out = 'charlist.from_string("';
+    let list_out = "[";
+    let current = list2;
+    while (List$isNonEmpty(current)) {
+      let element = current.head;
+      current = current.tail;
+      if (list_out !== "[") {
+        list_out += ", ";
+      }
+      list_out += this.inspect(element);
+      if (char_out) {
+        if (Number.isInteger(element) && element >= 32 && element <= 126) {
+          char_out += String.fromCharCode(element);
+        } else {
+          char_out = null;
+        }
+      }
+    }
+    if (char_out) {
+      return char_out + '")';
+    } else {
+      return list_out + "]";
+    }
+  }
+  #string(str) {
+    let new_str = '"';
+    for (let i = 0;i < str.length; i++) {
+      const char = str[i];
+      switch (char) {
+        case `
+`:
+          new_str += "\\n";
+          break;
+        case "\r":
+          new_str += "\\r";
+          break;
+        case "\t":
+          new_str += "\\t";
+          break;
+        case "\f":
+          new_str += "\\f";
+          break;
+        case "\\":
+          new_str += "\\\\";
+          break;
+        case '"':
+          new_str += "\\\"";
+          break;
+        default:
+          if (char < " " || char > "~" && char < " ") {
+            new_str += "\\u{" + char.charCodeAt(0).toString(16).toUpperCase().padStart(4, "0") + "}";
+          } else {
+            new_str += char;
+          }
+      }
+    }
+    new_str += '"';
+    return new_str;
+  }
+  #utfCodepoint(codepoint2) {
+    return `//utfcodepoint(${String.fromCodePoint(codepoint2.value)})`;
+  }
+  #bit_array(bits2) {
+    if (bits2.bitSize === 0) {
+      return "<<>>";
+    }
+    let acc = "<<";
+    for (let i = 0;i < bits2.byteSize - 1; i++) {
+      acc += bits2.byteAt(i).toString();
+      acc += ", ";
+    }
+    if (bits2.byteSize * 8 === bits2.bitSize) {
+      acc += bits2.byteAt(bits2.byteSize - 1).toString();
+    } else {
+      const trailingBitsCount = bits2.bitSize % 8;
+      acc += bits2.byteAt(bits2.byteSize - 1) >> 8 - trailingBitsCount;
+      acc += `:size(${trailingBitsCount})`;
+    }
+    acc += ">>";
+    return acc;
+  }
+}
+function arrayToList(array) {
+  let list2 = List$Empty();
+  let i = array.length;
+  while (i--) {
+    list2 = List$NonEmpty(array[i], list2);
+  }
+  return list2;
+}
+function isList(data2) {
+  return List$isEmpty(data2) || List$isNonEmpty(data2);
+}
+
+// build/dev/javascript/gleam_stdlib/gleam/float.mjs
+function negate(x) {
+  return -1 * x;
+}
+function round(x) {
+  let $ = x >= 0;
+  if ($) {
+    return round2(x);
+  } else {
+    return 0 - round2(negate(x));
+  }
+}
+
+// build/dev/javascript/gleam_stdlib/gleam/result.mjs
+function try$(result, fun) {
+  if (result instanceof Ok) {
+    let x = result[0];
+    return fun(x);
+  } else {
+    return result;
+  }
+}
+// build/dev/javascript/gleam_stdlib/gleam/bool.mjs
+function guard(requirement, consequence, alternative) {
+  if (requirement) {
+    return consequence;
+  } else {
+    return alternative();
+  }
+}
+
+// build/dev/javascript/gleam_time/gleam/time/duration.mjs
+class Duration extends CustomType {
+  constructor(seconds, nanoseconds) {
+    super();
+    this.seconds = seconds;
+    this.nanoseconds = nanoseconds;
+  }
+}
+var empty = /* @__PURE__ */ new Duration(0, 0);
+function seconds(amount) {
+  return new Duration(amount, 0);
+}
+function hours(amount) {
+  return seconds(amount * 60 * 60);
+}
+function to_seconds(duration) {
+  let seconds$1 = identity(duration.seconds);
+  let nanoseconds$1 = identity(duration.nanoseconds);
+  return seconds$1 + nanoseconds$1 / 1e9;
+}
+function to_seconds_and_nanoseconds(duration) {
+  return [duration.seconds, duration.nanoseconds];
+}
+
+// build/dev/javascript/gleam_time/gleam_time_ffi.mjs
+function system_time() {
+  const now = Date.now();
+  const milliseconds = now % 1000;
+  const nanoseconds = milliseconds * 1e6;
+  const seconds2 = (now - milliseconds) / 1000;
+  return [seconds2, nanoseconds];
+}
+function local_time_offset_seconds() {
+  return new Date().getTimezoneOffset() * -60;
+}
+
+// build/dev/javascript/gleam_time/gleam/time/calendar.mjs
+class Date2 extends CustomType {
+  constructor(year, month, day) {
+    super();
+    this.year = year;
+    this.month = month;
+    this.day = day;
+  }
+}
+class TimeOfDay extends CustomType {
+  constructor(hours2, minutes, seconds2, nanoseconds) {
+    super();
+    this.hours = hours2;
+    this.minutes = minutes;
+    this.seconds = seconds2;
+    this.nanoseconds = nanoseconds;
+  }
+}
+class January extends CustomType {
+}
+class February extends CustomType {
+}
+class March extends CustomType {
+}
+class April extends CustomType {
+}
+class May extends CustomType {
+}
+class June extends CustomType {
+}
+class July extends CustomType {
+}
+class August extends CustomType {
+}
+class September extends CustomType {
+}
+class October extends CustomType {
+}
+class November extends CustomType {
+}
+class December extends CustomType {
+}
+var utc_offset = empty;
+function local_offset() {
+  return seconds(local_time_offset_seconds());
+}
+
+// build/dev/javascript/gleam_time/gleam/time/timestamp.mjs
+class Timestamp extends CustomType {
+  constructor(seconds2, nanoseconds2) {
+    super();
+    this.seconds = seconds2;
+    this.nanoseconds = nanoseconds2;
+  }
+}
+function normalise(timestamp) {
+  let multiplier = 1e9;
+  let nanoseconds2 = remainderInt(timestamp.nanoseconds, multiplier);
+  let overflow = timestamp.nanoseconds - nanoseconds2;
+  let seconds2 = timestamp.seconds + divideInt(overflow, multiplier);
+  let $ = nanoseconds2 >= 0;
+  if ($) {
+    return new Timestamp(seconds2, nanoseconds2);
+  } else {
+    return new Timestamp(seconds2 - 1, multiplier + nanoseconds2);
+  }
+}
+function system_time2() {
+  let $ = system_time();
+  let seconds2 = $[0];
+  let nanoseconds2 = $[1];
+  return normalise(new Timestamp(seconds2, nanoseconds2));
+}
+function add3(timestamp, duration) {
+  let $ = to_seconds_and_nanoseconds(duration);
+  let seconds2 = $[0];
+  let nanoseconds2 = $[1];
+  let _pipe = new Timestamp(timestamp.seconds + seconds2, timestamp.nanoseconds + nanoseconds2);
+  return normalise(_pipe);
+}
+function subtract(timestamp, duration) {
+  let $ = to_seconds_and_nanoseconds(duration);
+  let seconds2 = $[0];
+  let nanoseconds2 = $[1];
+  let _pipe = new Timestamp(timestamp.seconds - seconds2, timestamp.nanoseconds - nanoseconds2);
+  return normalise(_pipe);
+}
+function floored_div(numerator, denominator) {
+  let n = divideFloat(identity(numerator), denominator);
+  return round(floor(n));
+}
+function modulo2(n, m) {
+  let $ = modulo(n, m);
+  if ($ instanceof Ok) {
+    let n$1 = $[0];
+    return n$1;
+  } else {
+    return 0;
+  }
+}
+function to_civil(minutes) {
+  let raw_day = floored_div(minutes, 60 * 24) + 719468;
+  let _block;
+  let $ = raw_day >= 0;
+  if ($) {
+    _block = globalThis.Math.trunc(raw_day / 146097);
+  } else {
+    _block = globalThis.Math.trunc((raw_day - 146096) / 146097);
+  }
+  let era = _block;
+  let day_of_era = raw_day - era * 146097;
+  let year_of_era = globalThis.Math.trunc((day_of_era - globalThis.Math.trunc(day_of_era / 1460) + globalThis.Math.trunc(day_of_era / 36524) - globalThis.Math.trunc(day_of_era / 146096)) / 365);
+  let year = year_of_era + era * 400;
+  let day_of_year = day_of_era - (365 * year_of_era + globalThis.Math.trunc(year_of_era / 4) - globalThis.Math.trunc(year_of_era / 100));
+  let mp = globalThis.Math.trunc((5 * day_of_year + 2) / 153);
+  let _block$1;
+  let $1 = mp < 10;
+  if ($1) {
+    _block$1 = mp + 3;
+  } else {
+    _block$1 = mp - 9;
+  }
+  let month = _block$1;
+  let day = day_of_year - globalThis.Math.trunc((153 * mp + 2) / 5) + 1;
+  let _block$2;
+  let $2 = month <= 2;
+  if ($2) {
+    _block$2 = year + 1;
+  } else {
+    _block$2 = year;
+  }
+  let year$1 = _block$2;
+  return [year$1, month, day];
+}
+function to_calendar_from_offset(timestamp, offset) {
+  let total = timestamp.seconds + offset * 60;
+  let seconds2 = modulo2(total, 60);
+  let total_minutes = floored_div(total, 60);
+  let minutes = globalThis.Math.trunc(modulo2(total, 60 * 60) / 60);
+  let hours2 = divideInt(modulo2(total, 24 * 60 * 60), 60 * 60);
+  let $ = to_civil(total_minutes);
+  let year = $[0];
+  let month = $[1];
+  let day = $[2];
+  return [year, month, day, hours2, minutes, seconds2];
+}
+function duration_to_minutes(duration) {
+  return round(to_seconds(duration) / 60);
+}
+function to_calendar(timestamp, offset) {
+  let offset$1 = duration_to_minutes(offset);
+  let $ = to_calendar_from_offset(timestamp, offset$1);
+  let year = $[0];
+  let month = $[1];
+  let day = $[2];
+  let hours2 = $[3];
+  let minutes = $[4];
+  let seconds2 = $[5];
+  let _block;
+  if (month === 1) {
+    _block = new January;
+  } else if (month === 2) {
+    _block = new February;
+  } else if (month === 3) {
+    _block = new March;
+  } else if (month === 4) {
+    _block = new April;
+  } else if (month === 5) {
+    _block = new May;
+  } else if (month === 6) {
+    _block = new June;
+  } else if (month === 7) {
+    _block = new July;
+  } else if (month === 8) {
+    _block = new August;
+  } else if (month === 9) {
+    _block = new September;
+  } else if (month === 10) {
+    _block = new October;
+  } else if (month === 11) {
+    _block = new November;
+  } else {
+    _block = new December;
+  }
+  let month$1 = _block;
+  let nanoseconds2 = timestamp.nanoseconds;
+  let date = new Date2(year, month$1, day);
+  let time = new TimeOfDay(hours2, minutes, seconds2, nanoseconds2);
+  return [date, time];
+}
+function to_unix_seconds_and_nanoseconds(timestamp) {
+  return [timestamp.seconds, timestamp.nanoseconds];
+}
+// build/dev/javascript/gleam_stdlib/gleam/function.mjs
+function identity2(x) {
+  return x;
+}
+// build/dev/javascript/houdini/houdini.ffi.mjs
+function escape(string2) {
+  return string2.replaceAll(/[><&"']/g, (replaced) => {
+    switch (replaced) {
+      case ">":
+        return "&gt;";
+      case "<":
+        return "&lt;";
+      case "'":
+        return "&#39;";
+      case "&":
+        return "&amp;";
+      case '"':
+        return "&quot;";
+      default:
+        return replaced;
+    }
+  });
+}
+
+// build/dev/javascript/lustre/lustre/internals/constants.mjs
+var empty_list = /* @__PURE__ */ toList([]);
+var error_nil = /* @__PURE__ */ new Error(undefined);
+function singleton_list(item) {
+  return prepend(item, empty_list);
+}
+
+// build/dev/javascript/lustre/lustre/vdom/vattr.ffi.mjs
+var GT = /* @__PURE__ */ Order$Gt();
+var LT = /* @__PURE__ */ Order$Lt();
+var EQ = /* @__PURE__ */ Order$Eq();
+function compare3(a, b) {
+  if (a.name === b.name) {
+    return EQ;
+  } else if (a.name < b.name) {
+    return LT;
+  } else {
+    return GT;
+  }
+}
+
+// build/dev/javascript/lustre/lustre/vdom/vattr.mjs
+class Attribute extends CustomType {
+  constructor(kind, name, value) {
+    super();
+    this.kind = kind;
+    this.name = name;
+    this.value = value;
+  }
+}
+class Property extends CustomType {
+  constructor(kind, name, value) {
+    super();
+    this.kind = kind;
+    this.name = name;
+    this.value = value;
+  }
+}
+class Event2 extends CustomType {
+  constructor(kind, name, handler, include, prevent_default, stop_propagation, debounce, throttle) {
+    super();
+    this.kind = kind;
+    this.name = name;
+    this.handler = handler;
+    this.include = include;
+    this.prevent_default = prevent_default;
+    this.stop_propagation = stop_propagation;
+    this.debounce = debounce;
+    this.throttle = throttle;
+  }
+}
+class Handler extends CustomType {
+  constructor(prevent_default, stop_propagation, message) {
+    super();
+    this.prevent_default = prevent_default;
+    this.stop_propagation = stop_propagation;
+    this.message = message;
+  }
+}
+class Never extends CustomType {
+  constructor(kind) {
+    super();
+    this.kind = kind;
+  }
+}
+var attribute_kind = 0;
+var property_kind = 1;
+var event_kind = 2;
+var never_kind = 0;
+var never = /* @__PURE__ */ new Never(never_kind);
+var always_kind = 2;
+function attribute(name, value) {
+  return new Attribute(attribute_kind, name, value);
+}
+function event(name, handler, include, prevent_default, stop_propagation, debounce, throttle) {
+  return new Event2(event_kind, name, handler, include, prevent_default, stop_propagation, debounce, throttle);
+}
+function merge(loop$attributes, loop$merged) {
+  while (true) {
+    let attributes = loop$attributes;
+    let merged = loop$merged;
+    if (attributes instanceof Empty) {
+      return merged;
+    } else {
+      let $ = attributes.head;
+      if ($ instanceof Attribute) {
+        let $1 = $.name;
+        if ($1 === "") {
+          let rest = attributes.tail;
+          loop$attributes = rest;
+          loop$merged = merged;
+        } else if ($1 === "class") {
+          let $2 = $.value;
+          if ($2 === "") {
+            let rest = attributes.tail;
+            loop$attributes = rest;
+            loop$merged = merged;
+          } else {
+            let $3 = attributes.tail;
+            if ($3 instanceof Empty) {
+              let attribute$1 = $;
+              let rest = $3;
+              loop$attributes = rest;
+              loop$merged = prepend(attribute$1, merged);
+            } else {
+              let $4 = $3.head;
+              if ($4 instanceof Attribute) {
+                let $5 = $4.name;
+                if ($5 === "class") {
+                  let kind = $.kind;
+                  let class1 = $2;
+                  let rest = $3.tail;
+                  let class2 = $4.value;
+                  let value = class1 + " " + class2;
+                  let attribute$1 = new Attribute(kind, "class", value);
+                  loop$attributes = prepend(attribute$1, rest);
+                  loop$merged = merged;
+                } else {
+                  let attribute$1 = $;
+                  let rest = $3;
+                  loop$attributes = rest;
+                  loop$merged = prepend(attribute$1, merged);
+                }
+              } else {
+                let attribute$1 = $;
+                let rest = $3;
+                loop$attributes = rest;
+                loop$merged = prepend(attribute$1, merged);
+              }
+            }
+          }
+        } else if ($1 === "style") {
+          let $2 = $.value;
+          if ($2 === "") {
+            let rest = attributes.tail;
+            loop$attributes = rest;
+            loop$merged = merged;
+          } else {
+            let $3 = attributes.tail;
+            if ($3 instanceof Empty) {
+              let attribute$1 = $;
+              let rest = $3;
+              loop$attributes = rest;
+              loop$merged = prepend(attribute$1, merged);
+            } else {
+              let $4 = $3.head;
+              if ($4 instanceof Attribute) {
+                let $5 = $4.name;
+                if ($5 === "style") {
+                  let kind = $.kind;
+                  let style1 = $2;
+                  let rest = $3.tail;
+                  let style2 = $4.value;
+                  let value = style1 + ";" + style2;
+                  let attribute$1 = new Attribute(kind, "style", value);
+                  loop$attributes = prepend(attribute$1, rest);
+                  loop$merged = merged;
+                } else {
+                  let attribute$1 = $;
+                  let rest = $3;
+                  loop$attributes = rest;
+                  loop$merged = prepend(attribute$1, merged);
+                }
+              } else {
+                let attribute$1 = $;
+                let rest = $3;
+                loop$attributes = rest;
+                loop$merged = prepend(attribute$1, merged);
+              }
+            }
+          }
+        } else {
+          let attribute$1 = $;
+          let rest = attributes.tail;
+          loop$attributes = rest;
+          loop$merged = prepend(attribute$1, merged);
+        }
+      } else {
+        let attribute$1 = $;
+        let rest = attributes.tail;
+        loop$attributes = rest;
+        loop$merged = prepend(attribute$1, merged);
+      }
+    }
+  }
+}
+function prepare(attributes) {
+  if (attributes instanceof Empty) {
+    return attributes;
+  } else {
+    let $ = attributes.tail;
+    if ($ instanceof Empty) {
+      return attributes;
+    } else {
+      let _pipe = attributes;
+      let _pipe$1 = sort(_pipe, (a, b) => {
+        return compare3(b, a);
+      });
+      return merge(_pipe$1, empty_list);
+    }
+  }
+}
+
+// build/dev/javascript/lustre/lustre/attribute.mjs
+function attribute2(name, value) {
+  return attribute(name, value);
+}
+function class$(name) {
+  return attribute2("class", name);
+}
+function style(property2, value) {
+  if (property2 === "") {
+    return class$("");
+  } else if (value === "") {
+    return class$("");
+  } else {
+    return attribute2("style", property2 + ":" + value + ";");
+  }
+}
+function do_styles(loop$properties, loop$styles) {
+  while (true) {
+    let properties = loop$properties;
+    let styles = loop$styles;
+    if (properties instanceof Empty) {
+      return styles;
+    } else {
+      let $ = properties.head[0];
+      if ($ === "") {
+        let rest = properties.tail;
+        loop$properties = rest;
+        loop$styles = styles;
+      } else {
+        let $1 = properties.head[1];
+        if ($1 === "") {
+          let rest = properties.tail;
+          loop$properties = rest;
+          loop$styles = styles;
+        } else {
+          let rest = properties.tail;
+          let name$1 = $;
+          let value$1 = $1;
+          loop$properties = rest;
+          loop$styles = styles + name$1 + ":" + value$1 + ";";
+        }
+      }
+    }
+  }
+}
+function styles(properties) {
+  return attribute2("style", do_styles(properties, ""));
+}
+function href(url) {
+  return attribute2("href", url);
+}
+
+// build/dev/javascript/lustre/lustre/effect.mjs
+class Effect extends CustomType {
+  constructor(synchronous, before_paint, after_paint) {
+    super();
+    this.synchronous = synchronous;
+    this.before_paint = before_paint;
+    this.after_paint = after_paint;
+  }
+}
+
+class Actions extends CustomType {
+  constructor(dispatch, emit, select, root, provide, subscribe, unsubscribe) {
+    super();
+    this.dispatch = dispatch;
+    this.emit = emit;
+    this.select = select;
+    this.root = root;
+    this.provide = provide;
+    this.subscribe = subscribe;
+    this.unsubscribe = unsubscribe;
+  }
+}
+var empty2 = /* @__PURE__ */ new Effect(empty_list, empty_list, empty_list);
+function none() {
+  return empty2;
+}
+function from2(effect) {
+  let task = (actions) => {
+    let dispatch = actions.dispatch;
+    return effect(dispatch);
+  };
+  return new Effect(singleton_list(task), empty2.before_paint, empty2.after_paint);
+}
+function batch(effects) {
+  return fold2(effects, empty2, (acc, eff) => {
+    return new Effect(fold2(eff.synchronous, acc.synchronous, prepend2), fold2(eff.before_paint, acc.before_paint, prepend2), fold2(eff.after_paint, acc.after_paint, prepend2));
+  });
+}
+function perform(effect, dispatch, emit, select, root, provide, subscribe, unsubscribe) {
+  let actions = new Actions(dispatch, emit, select, root, provide, subscribe, unsubscribe);
+  return each(effect.synchronous, (run2) => {
+    return run2(actions);
+  });
+}
+
+// build/dev/javascript/lustre/lustre/internals/mutable_map.ffi.mjs
+function empty3() {
+  return null;
+}
+function get2(map4, key) {
+  return map4?.get(key);
+}
+function get_or_compute(map4, key, compute) {
+  return map4?.get(key) ?? compute();
+}
+function has_key(map4, key) {
+  return map4 && map4.has(key);
+}
+function insert2(map4, key, value) {
+  map4 ??= new Map;
+  map4.set(key, value);
+  return map4;
+}
+function remove(map4, key) {
+  map4?.delete(key);
+  return map4;
+}
+
+// build/dev/javascript/lustre/lustre/internals/ref.ffi.mjs
+function sameValueZero(x, y) {
+  if (typeof x === "number" && typeof y === "number") {
+    return x === y || x !== x && y !== y;
+  }
+  return x === y;
+}
+
+// build/dev/javascript/lustre/lustre/internals/ref.mjs
+function equal_lists(loop$xs, loop$ys) {
+  while (true) {
+    let xs = loop$xs;
+    let ys = loop$ys;
+    if (xs instanceof Empty) {
+      if (ys instanceof Empty) {
+        return true;
+      } else {
+        return false;
+      }
+    } else if (ys instanceof Empty) {
+      return false;
+    } else {
+      let x = xs.head;
+      let xs$1 = xs.tail;
+      let y = ys.head;
+      let ys$1 = ys.tail;
+      let $ = sameValueZero(x, y);
+      if ($) {
+        loop$xs = xs$1;
+        loop$ys = ys$1;
+      } else {
+        return $;
+      }
+    }
+  }
+}
+
+// build/dev/javascript/lustre/lustre/vdom/vnode.mjs
+class Fragment extends CustomType {
+  constructor(kind, key, children, keyed_children) {
+    super();
+    this.kind = kind;
+    this.key = key;
+    this.children = children;
+    this.keyed_children = keyed_children;
+  }
+}
+class Element extends CustomType {
+  constructor(kind, key, namespace, tag, attributes, children, keyed_children, self_closing, void$) {
+    super();
+    this.kind = kind;
+    this.key = key;
+    this.namespace = namespace;
+    this.tag = tag;
+    this.attributes = attributes;
+    this.children = children;
+    this.keyed_children = keyed_children;
+    this.self_closing = self_closing;
+    this.void = void$;
+  }
+}
+class Text extends CustomType {
+  constructor(kind, key, content) {
+    super();
+    this.kind = kind;
+    this.key = key;
+    this.content = content;
+  }
+}
+class UnsafeInnerHtml extends CustomType {
+  constructor(kind, key, namespace, tag, attributes, inner_html) {
+    super();
+    this.kind = kind;
+    this.key = key;
+    this.namespace = namespace;
+    this.tag = tag;
+    this.attributes = attributes;
+    this.inner_html = inner_html;
+  }
+}
+class Map2 extends CustomType {
+  constructor(kind, key, mapper, child) {
+    super();
+    this.kind = kind;
+    this.key = key;
+    this.mapper = mapper;
+    this.child = child;
+  }
+}
+class Memo extends CustomType {
+  constructor(kind, key, dependencies, view) {
+    super();
+    this.kind = kind;
+    this.key = key;
+    this.dependencies = dependencies;
+    this.view = view;
+  }
+}
+var fragment_kind = 0;
+var element_kind = 1;
+var text_kind = 2;
+var unsafe_inner_html_kind = 3;
+var map_kind = 4;
+var memo_kind = 5;
+function fragment(key, children, keyed_children) {
+  return new Fragment(fragment_kind, key, children, keyed_children);
+}
+function element(key, namespace, tag, attributes, children, keyed_children, self_closing, void$) {
+  return new Element(element_kind, key, namespace, tag, prepare(attributes), children, keyed_children, self_closing, void$);
+}
+function is_void_html_element(tag, namespace) {
+  if (namespace === "") {
+    if (tag === "area") {
+      return true;
+    } else if (tag === "base") {
+      return true;
+    } else if (tag === "br") {
+      return true;
+    } else if (tag === "col") {
+      return true;
+    } else if (tag === "embed") {
+      return true;
+    } else if (tag === "hr") {
+      return true;
+    } else if (tag === "img") {
+      return true;
+    } else if (tag === "input") {
+      return true;
+    } else if (tag === "link") {
+      return true;
+    } else if (tag === "meta") {
+      return true;
+    } else if (tag === "param") {
+      return true;
+    } else if (tag === "source") {
+      return true;
+    } else if (tag === "track") {
+      return true;
+    } else if (tag === "wbr") {
+      return true;
+    } else {
+      return false;
+    }
+  } else {
+    return false;
+  }
+}
+function text(key, content) {
+  return new Text(text_kind, key, content);
+}
+function map4(element2, mapper) {
+  if (element2 instanceof Map2) {
+    let child_mapper = element2.mapper;
+    return new Map2(map_kind, element2.key, (handler) => {
+      return identity2(mapper)(child_mapper(handler));
+    }, identity2(element2.child));
+  } else {
+    return new Map2(map_kind, element2.key, identity2(mapper), identity2(element2));
+  }
+}
+function memo(key, dependencies, view) {
+  return new Memo(memo_kind, key, dependencies, view);
+}
+function to_keyed(key, node) {
+  if (node instanceof Fragment) {
+    return new Fragment(node.kind, key, node.children, node.keyed_children);
+  } else if (node instanceof Element) {
+    return new Element(node.kind, key, node.namespace, node.tag, node.attributes, node.children, node.keyed_children, node.self_closing, node.void);
+  } else if (node instanceof Text) {
+    return new Text(node.kind, key, node.content);
+  } else if (node instanceof UnsafeInnerHtml) {
+    return new UnsafeInnerHtml(node.kind, key, node.namespace, node.tag, node.attributes, node.inner_html);
+  } else if (node instanceof Map2) {
+    let child = node.child;
+    return new Map2(node.kind, key, node.mapper, to_keyed(key, child));
+  } else {
+    let view = node.view;
+    return new Memo(node.kind, key, node.dependencies, () => {
+      return to_keyed(key, view());
+    });
+  }
+}
+
+// build/dev/javascript/lustre/lustre/element.mjs
+function element2(tag, attributes, children) {
+  return element("", "", tag, attributes, children, empty3(), false, is_void_html_element(tag, ""));
+}
+function text2(content) {
+  return text("", content);
+}
+function none2() {
+  return text("", "");
+}
+function memo2(dependencies, view) {
+  return memo("", dependencies, view);
+}
+function ref(value) {
+  return identity2(value);
+}
+function map5(element3, f) {
+  return map4(element3, f);
+}
+
+// build/dev/javascript/lustre/lustre/element/html.mjs
+function html(attrs, children) {
+  return element2("html", attrs, children);
+}
+function text3(content) {
+  return text2(content);
+}
+function head(attrs, children) {
+  return element2("head", attrs, children);
+}
+function title(attrs, content) {
+  return element2("title", attrs, toList([text3(content)]));
+}
+function body(attrs, children) {
+  return element2("body", attrs, children);
+}
+function header(attrs, children) {
+  return element2("header", attrs, children);
+}
+function h1(attrs, children) {
+  return element2("h1", attrs, children);
+}
+function h2(attrs, children) {
+  return element2("h2", attrs, children);
+}
+function h4(attrs, children) {
+  return element2("h4", attrs, children);
+}
+function div(attrs, children) {
+  return element2("div", attrs, children);
+}
+function p(attrs, children) {
+  return element2("p", attrs, children);
+}
+function a(attrs, children) {
+  return element2("a", attrs, children);
+}
+function span(attrs, children) {
+  return element2("span", attrs, children);
+}
+function button(attrs, children) {
+  return element2("button", attrs, children);
+}
+
+// build/dev/javascript/lustre/lustre/vdom/patch.mjs
+class Patch extends CustomType {
+  constructor(index3, path, removed, changes, children) {
+    super();
+    this.index = index3;
+    this.path = path;
+    this.removed = removed;
+    this.changes = changes;
+    this.children = children;
+  }
+}
+class ReplaceText extends CustomType {
+  constructor(kind, content) {
+    super();
+    this.kind = kind;
+    this.content = content;
+  }
+}
+class ReplaceInnerHtml extends CustomType {
+  constructor(kind, inner_html) {
+    super();
+    this.kind = kind;
+    this.inner_html = inner_html;
+  }
+}
+class Update extends CustomType {
+  constructor(kind, added, removed) {
+    super();
+    this.kind = kind;
+    this.added = added;
+    this.removed = removed;
+  }
+}
+class Move extends CustomType {
+  constructor(kind, key, before) {
+    super();
+    this.kind = kind;
+    this.key = key;
+    this.before = before;
+  }
+}
+class Replace extends CustomType {
+  constructor(kind, index3, with$) {
+    super();
+    this.kind = kind;
+    this.index = index3;
+    this.with = with$;
+  }
+}
+class Remove extends CustomType {
+  constructor(kind, index3) {
+    super();
+    this.kind = kind;
+    this.index = index3;
+  }
+}
+class Insert extends CustomType {
+  constructor(kind, children, before) {
+    super();
+    this.kind = kind;
+    this.children = children;
+    this.before = before;
+  }
+}
+var replace_text_kind = 0;
+var replace_inner_html_kind = 1;
+var update_kind = 2;
+var move_kind = 3;
+var remove_kind = 4;
+var replace_kind = 5;
+var insert_kind = 6;
+function new$3(index3, removed, changes, children) {
+  return new Patch(index3, empty_list, removed, changes, children);
+}
+function replace_text(content) {
+  return new ReplaceText(replace_text_kind, content);
+}
+function replace_inner_html(inner_html) {
+  return new ReplaceInnerHtml(replace_inner_html_kind, inner_html);
+}
+function update(added, removed) {
+  return new Update(update_kind, added, removed);
+}
+function move(key, before) {
+  return new Move(move_kind, key, before);
+}
+function remove2(index3) {
+  return new Remove(remove_kind, index3);
+}
+function replace2(index3, with$) {
+  return new Replace(replace_kind, index3, with$);
+}
+function insert3(children, before) {
+  return new Insert(insert_kind, children, before);
+}
+function add_parent(child, index3) {
+  return new Patch(index3, prepend(child.index, child.path), child.removed, child.changes, child.children);
+}
+
+// build/dev/javascript/lustre/lustre/runtime/transport.mjs
+class Mount extends CustomType {
+  constructor(kind, open_shadow_root, will_adopt_styles, observed_attributes, observed_properties, requested_contexts, provided_contexts, vdom, memos) {
+    super();
+    this.kind = kind;
+    this.open_shadow_root = open_shadow_root;
+    this.will_adopt_styles = will_adopt_styles;
+    this.observed_attributes = observed_attributes;
+    this.observed_properties = observed_properties;
+    this.requested_contexts = requested_contexts;
+    this.provided_contexts = provided_contexts;
+    this.vdom = vdom;
+    this.memos = memos;
+  }
+}
+class Reconcile extends CustomType {
+  constructor(kind, patch, memos) {
+    super();
+    this.kind = kind;
+    this.patch = patch;
+    this.memos = memos;
+  }
+}
+class Emit extends CustomType {
+  constructor(kind, name, data2) {
+    super();
+    this.kind = kind;
+    this.name = name;
+    this.data = data2;
+  }
+}
+class Provide extends CustomType {
+  constructor(kind, key, value) {
+    super();
+    this.kind = kind;
+    this.key = key;
+    this.value = value;
+  }
+}
+class Subscribe extends CustomType {
+  constructor(kind, key) {
+    super();
+    this.kind = kind;
+    this.key = key;
+  }
+}
+class Unsubscribe extends CustomType {
+  constructor(kind, key) {
+    super();
+    this.kind = kind;
+    this.key = key;
+  }
+}
+class Batch extends CustomType {
+  constructor(kind, messages) {
+    super();
+    this.kind = kind;
+    this.messages = messages;
+  }
+}
+var ServerMessage$isBatch = (value) => value instanceof Batch;
+class AttributeChanged extends CustomType {
+  constructor(kind, name, value) {
+    super();
+    this.kind = kind;
+    this.name = name;
+    this.value = value;
+  }
+}
+var ServerMessage$isAttributeChanged = (value) => value instanceof AttributeChanged;
+class PropertyChanged extends CustomType {
+  constructor(kind, name, value) {
+    super();
+    this.kind = kind;
+    this.name = name;
+    this.value = value;
+  }
+}
+var ServerMessage$isPropertyChanged = (value) => value instanceof PropertyChanged;
+class EventFired extends CustomType {
+  constructor(kind, path, name, event2) {
+    super();
+    this.kind = kind;
+    this.path = path;
+    this.name = name;
+    this.event = event2;
+  }
+}
+var ServerMessage$isEventFired = (value) => value instanceof EventFired;
+class ContextProvided extends CustomType {
+  constructor(kind, key, value) {
+    super();
+    this.kind = kind;
+    this.key = key;
+    this.value = value;
+  }
+}
+var ServerMessage$isContextProvided = (value) => value instanceof ContextProvided;
+var mount_kind = 0;
+var reconcile_kind = 1;
+var emit_kind = 2;
+var provide_kind = 3;
+var subscribe_kind = 4;
+var unsubscribe_kind = 5;
+function mount(open_shadow_root, will_adopt_styles, observed_attributes, observed_properties, requested_contexts, provided_contexts, vdom, memos) {
+  return new Mount(mount_kind, open_shadow_root, will_adopt_styles, observed_attributes, observed_properties, requested_contexts, provided_contexts, vdom, memos);
+}
+function reconcile(patch, memos) {
+  return new Reconcile(reconcile_kind, patch, memos);
+}
+function emit(name, data2) {
+  return new Emit(emit_kind, name, data2);
+}
+function provide(key, value) {
+  return new Provide(provide_kind, key, value);
+}
+function subscribe(key) {
+  return new Subscribe(subscribe_kind, key);
+}
+function unsubscribe(key) {
+  return new Unsubscribe(unsubscribe_kind, key);
+}
+
+// build/dev/javascript/lustre/lustre/vdom/path.mjs
+class Root extends CustomType {
+}
+
+class Key extends CustomType {
+  constructor(key, parent) {
+    super();
+    this.key = key;
+    this.parent = parent;
+  }
+}
+
+class Index extends CustomType {
+  constructor(index3, parent) {
+    super();
+    this.index = index3;
+    this.parent = parent;
+  }
+}
+
+class Subtree extends CustomType {
+  constructor(parent) {
+    super();
+    this.parent = parent;
+  }
+}
+var separator_subtree = "\r";
+var separator_element = "\t";
+var separator_event = `
+`;
+var root = /* @__PURE__ */ new Root;
+function finish_to_string(acc) {
+  if (acc instanceof Empty) {
+    return "";
+  } else {
+    let segments = acc.tail;
+    return concat2(segments);
+  }
+}
+function do_to_string(loop$full, loop$path, loop$acc) {
+  while (true) {
+    let full = loop$full;
+    let path = loop$path;
+    let acc = loop$acc;
+    if (path instanceof Root) {
+      return finish_to_string(acc);
+    } else if (path instanceof Key) {
+      let key = path.key;
+      let parent = path.parent;
+      loop$full = full;
+      loop$path = parent;
+      loop$acc = prepend(separator_element, prepend(key, acc));
+    } else if (path instanceof Index) {
+      let index3 = path.index;
+      let parent = path.parent;
+      let acc$1 = prepend(separator_element, prepend(to_string(index3), acc));
+      loop$full = full;
+      loop$path = parent;
+      loop$acc = acc$1;
+    } else if (!full) {
+      return finish_to_string(acc);
+    } else {
+      let parent = path.parent;
+      if (acc instanceof Empty) {
+        loop$full = full;
+        loop$path = parent;
+        loop$acc = acc;
+      } else {
+        let acc$1 = acc.tail;
+        loop$full = full;
+        loop$path = parent;
+        loop$acc = prepend(separator_subtree, acc$1);
+      }
+    }
+  }
+}
+function to_string3(path) {
+  return do_to_string(true, path, empty_list);
+}
+function do_matches(loop$path, loop$candidates) {
+  while (true) {
+    let path = loop$path;
+    let candidates = loop$candidates;
+    if (candidates instanceof Empty) {
+      return false;
+    } else {
+      let candidate = candidates.head;
+      let rest = candidates.tail;
+      let $ = starts_with(path, candidate);
+      if ($) {
+        return $;
+      } else {
+        loop$path = path;
+        loop$candidates = rest;
+      }
+    }
+  }
+}
+function matches(path, candidates) {
+  if (candidates instanceof Empty) {
+    return false;
+  } else {
+    return do_matches(to_string3(path), candidates);
+  }
+}
+function split_subtree_path(path) {
+  return split2(path, separator_subtree);
+}
+function add4(parent, index3, key) {
+  if (key === "") {
+    return new Index(index3, parent);
+  } else {
+    return new Key(key, parent);
+  }
+}
+function subtree(path) {
+  return new Subtree(path);
+}
+function event2(path, event3) {
+  return do_to_string(false, path, prepend(separator_event, prepend(event3, empty_list)));
+}
+function child(path) {
+  return do_to_string(false, path, empty_list);
+}
+
+// build/dev/javascript/lustre/lustre/vdom/cache.mjs
+class Cache extends CustomType {
+  constructor(events, vdoms, old_vdoms, dispatched_paths, next_dispatched_paths) {
+    super();
+    this.events = events;
+    this.vdoms = vdoms;
+    this.old_vdoms = old_vdoms;
+    this.dispatched_paths = dispatched_paths;
+    this.next_dispatched_paths = next_dispatched_paths;
+  }
+}
+
+class Events extends CustomType {
+  constructor(handlers, children) {
+    super();
+    this.handlers = handlers;
+    this.children = children;
+  }
+}
+
+class Child extends CustomType {
+  constructor(mapper, events) {
+    super();
+    this.mapper = mapper;
+    this.events = events;
+  }
+}
+
+class AddedChildren extends CustomType {
+  constructor(handlers, children, vdoms) {
+    super();
+    this.handlers = handlers;
+    this.children = children;
+    this.vdoms = vdoms;
+  }
+}
+
+class DecodedEvent extends CustomType {
+  constructor(path, handler) {
+    super();
+    this.path = path;
+    this.handler = handler;
+  }
+}
+
+class DispatchedEvent extends CustomType {
+  constructor(path) {
+    super();
+    this.path = path;
+  }
+}
+function compose_mapper(mapper, child_mapper) {
+  return (message) => {
+    return mapper(child_mapper(message));
+  };
+}
+function new_events() {
+  return new Events(empty3(), empty3());
+}
+function new$4() {
+  return new Cache(new_events(), empty3(), empty3(), empty_list, empty_list);
+}
+function do_add_event(handlers, path, name, handler) {
+  return insert2(handlers, event2(path, name), handler);
+}
+function add_attributes(handlers, path, attributes) {
+  return fold2(attributes, handlers, (events, attribute3) => {
+    if (attribute3 instanceof Event2) {
+      let name = attribute3.name;
+      let handler = attribute3.handler;
+      return do_add_event(events, path, name, handler);
+    } else {
+      return events;
+    }
+  });
+}
+function do_add_children(loop$handlers, loop$children, loop$vdoms, loop$parent, loop$child_index, loop$nodes) {
+  while (true) {
+    let handlers = loop$handlers;
+    let children = loop$children;
+    let vdoms = loop$vdoms;
+    let parent = loop$parent;
+    let child_index = loop$child_index;
+    let nodes = loop$nodes;
+    let next = child_index + 1;
+    if (nodes instanceof Empty) {
+      return new AddedChildren(handlers, children, vdoms);
+    } else {
+      let $ = nodes.head;
+      if ($ instanceof Fragment) {
+        let rest = nodes.tail;
+        let key = $.key;
+        let nodes$1 = $.children;
+        let path = add4(parent, child_index, key);
+        let $1 = do_add_children(handlers, children, vdoms, path, 0, nodes$1);
+        let handlers$1 = $1.handlers;
+        let children$1 = $1.children;
+        let vdoms$1 = $1.vdoms;
+        loop$handlers = handlers$1;
+        loop$children = children$1;
+        loop$vdoms = vdoms$1;
+        loop$parent = parent;
+        loop$child_index = next;
+        loop$nodes = rest;
+      } else if ($ instanceof Element) {
+        let rest = nodes.tail;
+        let key = $.key;
+        let attributes = $.attributes;
+        let nodes$1 = $.children;
+        let path = add4(parent, child_index, key);
+        let handlers$1 = add_attributes(handlers, path, attributes);
+        let $1 = do_add_children(handlers$1, children, vdoms, path, 0, nodes$1);
+        let handlers$2 = $1.handlers;
+        let children$1 = $1.children;
+        let vdoms$1 = $1.vdoms;
+        loop$handlers = handlers$2;
+        loop$children = children$1;
+        loop$vdoms = vdoms$1;
+        loop$parent = parent;
+        loop$child_index = next;
+        loop$nodes = rest;
+      } else if ($ instanceof Text) {
+        let rest = nodes.tail;
+        loop$handlers = handlers;
+        loop$children = children;
+        loop$vdoms = vdoms;
+        loop$parent = parent;
+        loop$child_index = next;
+        loop$nodes = rest;
+      } else if ($ instanceof UnsafeInnerHtml) {
+        let rest = nodes.tail;
+        let key = $.key;
+        let attributes = $.attributes;
+        let path = add4(parent, child_index, key);
+        let handlers$1 = add_attributes(handlers, path, attributes);
+        loop$handlers = handlers$1;
+        loop$children = children;
+        loop$vdoms = vdoms;
+        loop$parent = parent;
+        loop$child_index = next;
+        loop$nodes = rest;
+      } else if ($ instanceof Map2) {
+        let rest = nodes.tail;
+        let key = $.key;
+        let mapper = $.mapper;
+        let child2 = $.child;
+        let path = add4(parent, child_index, key);
+        let added = do_add_children(empty3(), empty3(), vdoms, subtree(path), 0, singleton_list(child2));
+        let vdoms$1 = added.vdoms;
+        let child_events = new Events(added.handlers, added.children);
+        let child$1 = new Child(mapper, child_events);
+        let children$1 = insert2(children, child(path), child$1);
+        loop$handlers = handlers;
+        loop$children = children$1;
+        loop$vdoms = vdoms$1;
+        loop$parent = parent;
+        loop$child_index = next;
+        loop$nodes = rest;
+      } else {
+        let rest = nodes.tail;
+        let view = $.view;
+        let child_node = view();
+        let vdoms$1 = insert2(vdoms, view, child_node);
+        let next$1 = child_index;
+        let rest$1 = prepend(child_node, rest);
+        loop$handlers = handlers;
+        loop$children = children;
+        loop$vdoms = vdoms$1;
+        loop$parent = parent;
+        loop$child_index = next$1;
+        loop$nodes = rest$1;
+      }
+    }
+  }
+}
+function add_children(cache, events, path, child_index, nodes) {
+  let vdoms = cache.vdoms;
+  let handlers = events.handlers;
+  let children = events.children;
+  let $ = do_add_children(handlers, children, vdoms, path, child_index, nodes);
+  let handlers$1 = $.handlers;
+  let children$1 = $.children;
+  let vdoms$1 = $.vdoms;
+  return [
+    new Cache(cache.events, vdoms$1, cache.old_vdoms, cache.dispatched_paths, cache.next_dispatched_paths),
+    new Events(handlers$1, children$1)
+  ];
+}
+function add_child(cache, events, parent, index3, child2) {
+  let children = singleton_list(child2);
+  return add_children(cache, events, parent, index3, children);
+}
+function from_node(root2) {
+  let cache = new$4();
+  let $ = add_child(cache, cache.events, root, 0, root2);
+  let cache$1 = $[0];
+  let events$1 = $[1];
+  return new Cache(events$1, cache$1.vdoms, cache$1.old_vdoms, cache$1.dispatched_paths, cache$1.next_dispatched_paths);
+}
+function tick(cache) {
+  return new Cache(cache.events, empty3(), cache.vdoms, cache.next_dispatched_paths, empty_list);
+}
+function events(cache) {
+  return cache.events;
+}
+function update_events(cache, events2) {
+  return new Cache(events2, cache.vdoms, cache.old_vdoms, cache.dispatched_paths, cache.next_dispatched_paths);
+}
+function memos(cache) {
+  return cache.vdoms;
+}
+function get_old_memo(cache, old, new$5) {
+  return get_or_compute(cache.old_vdoms, old, new$5);
+}
+function keep_memo(cache, old, new$5) {
+  let node = get_or_compute(cache.old_vdoms, old, new$5);
+  let vdoms = insert2(cache.vdoms, new$5, node);
+  return new Cache(cache.events, vdoms, cache.old_vdoms, cache.dispatched_paths, cache.next_dispatched_paths);
+}
+function add_memo(cache, new$5, node) {
+  let vdoms = insert2(cache.vdoms, new$5, node);
+  return new Cache(cache.events, vdoms, cache.old_vdoms, cache.dispatched_paths, cache.next_dispatched_paths);
+}
+function get_subtree(events2, path, old_mapper) {
+  let child2 = get_or_compute(events2.children, path, () => {
+    return new Child(old_mapper, new_events());
+  });
+  return child2.events;
+}
+function update_subtree(parent, path, mapper, events2) {
+  let new_child = new Child(mapper, events2);
+  let children = insert2(parent.children, path, new_child);
+  return new Events(parent.handlers, children);
+}
+function add_event(events2, path, name, handler) {
+  let handlers = do_add_event(events2.handlers, path, name, handler);
+  return new Events(handlers, events2.children);
+}
+function do_remove_event(handlers, path, name) {
+  return remove(handlers, event2(path, name));
+}
+function remove_event(events2, path, name) {
+  let handlers = do_remove_event(events2.handlers, path, name);
+  return new Events(handlers, events2.children);
+}
+function remove_attributes(handlers, path, attributes) {
+  return fold2(attributes, handlers, (events2, attribute3) => {
+    if (attribute3 instanceof Event2) {
+      let name = attribute3.name;
+      return do_remove_event(events2, path, name);
+    } else {
+      return events2;
+    }
+  });
+}
+function do_remove_children(loop$handlers, loop$children, loop$vdoms, loop$parent, loop$index, loop$nodes) {
+  while (true) {
+    let handlers = loop$handlers;
+    let children = loop$children;
+    let vdoms = loop$vdoms;
+    let parent = loop$parent;
+    let index3 = loop$index;
+    let nodes = loop$nodes;
+    let next = index3 + 1;
+    if (nodes instanceof Empty) {
+      return new Events(handlers, children);
+    } else {
+      let $ = nodes.head;
+      if ($ instanceof Fragment) {
+        let rest = nodes.tail;
+        let key = $.key;
+        let nodes$1 = $.children;
+        let path = add4(parent, index3, key);
+        let $1 = do_remove_children(handlers, children, vdoms, path, 0, nodes$1);
+        let handlers$1 = $1.handlers;
+        let children$1 = $1.children;
+        loop$handlers = handlers$1;
+        loop$children = children$1;
+        loop$vdoms = vdoms;
+        loop$parent = parent;
+        loop$index = next;
+        loop$nodes = rest;
+      } else if ($ instanceof Element) {
+        let rest = nodes.tail;
+        let key = $.key;
+        let attributes = $.attributes;
+        let nodes$1 = $.children;
+        let path = add4(parent, index3, key);
+        let handlers$1 = remove_attributes(handlers, path, attributes);
+        let $1 = do_remove_children(handlers$1, children, vdoms, path, 0, nodes$1);
+        let handlers$2 = $1.handlers;
+        let children$1 = $1.children;
+        loop$handlers = handlers$2;
+        loop$children = children$1;
+        loop$vdoms = vdoms;
+        loop$parent = parent;
+        loop$index = next;
+        loop$nodes = rest;
+      } else if ($ instanceof Text) {
+        let rest = nodes.tail;
+        loop$handlers = handlers;
+        loop$children = children;
+        loop$vdoms = vdoms;
+        loop$parent = parent;
+        loop$index = next;
+        loop$nodes = rest;
+      } else if ($ instanceof UnsafeInnerHtml) {
+        let rest = nodes.tail;
+        let key = $.key;
+        let attributes = $.attributes;
+        let path = add4(parent, index3, key);
+        let handlers$1 = remove_attributes(handlers, path, attributes);
+        loop$handlers = handlers$1;
+        loop$children = children;
+        loop$vdoms = vdoms;
+        loop$parent = parent;
+        loop$index = next;
+        loop$nodes = rest;
+      } else if ($ instanceof Map2) {
+        let rest = nodes.tail;
+        let key = $.key;
+        let path = add4(parent, index3, key);
+        let children$1 = remove(children, child(path));
+        loop$handlers = handlers;
+        loop$children = children$1;
+        loop$vdoms = vdoms;
+        loop$parent = parent;
+        loop$index = next;
+        loop$nodes = rest;
+      } else {
+        let rest = nodes.tail;
+        let view = $.view;
+        let $1 = has_key(vdoms, view);
+        if ($1) {
+          let child2 = get2(vdoms, view);
+          let nodes$1 = prepend(child2, rest);
+          loop$handlers = handlers;
+          loop$children = children;
+          loop$vdoms = vdoms;
+          loop$parent = parent;
+          loop$index = index3;
+          loop$nodes = nodes$1;
+        } else {
+          loop$handlers = handlers;
+          loop$children = children;
+          loop$vdoms = vdoms;
+          loop$parent = parent;
+          loop$index = next;
+          loop$nodes = rest;
+        }
+      }
+    }
+  }
+}
+function remove_child(cache, events2, parent, child_index, child2) {
+  return do_remove_children(events2.handlers, events2.children, cache.old_vdoms, parent, child_index, singleton_list(child2));
+}
+function replace_child(cache, events2, parent, child_index, prev, next) {
+  let events$1 = remove_child(cache, events2, parent, child_index, prev);
+  return add_child(cache, events$1, parent, child_index, next);
+}
+function get_handler(loop$events, loop$path, loop$mapper) {
+  while (true) {
+    let events2 = loop$events;
+    let path = loop$path;
+    let mapper = loop$mapper;
+    if (path instanceof Empty) {
+      return error_nil;
+    } else {
+      let $ = path.tail;
+      if ($ instanceof Empty) {
+        let key = path.head;
+        let $1 = has_key(events2.handlers, key);
+        if ($1) {
+          let handler = get2(events2.handlers, key);
+          return new Ok(map3(handler, (handler2) => {
+            return new Handler(handler2.prevent_default, handler2.stop_propagation, identity2(mapper)(handler2.message));
+          }));
+        } else {
+          return error_nil;
+        }
+      } else {
+        let key = path.head;
+        let path$1 = $;
+        let $1 = has_key(events2.children, key);
+        if ($1) {
+          let child2 = get2(events2.children, key);
+          let mapper$1 = compose_mapper(mapper, child2.mapper);
+          loop$events = child2.events;
+          loop$path = path$1;
+          loop$mapper = mapper$1;
+        } else {
+          return error_nil;
+        }
+      }
+    }
+  }
+}
+function decode2(cache, path, name, event3) {
+  let parts = split_subtree_path(path + separator_event + name);
+  let $ = get_handler(cache.events, parts, identity2);
+  if ($ instanceof Ok) {
+    let handler = $[0];
+    let $1 = run(event3, handler);
+    if ($1 instanceof Ok) {
+      let handler$1 = $1[0];
+      return new DecodedEvent(path, handler$1);
+    } else {
+      return new DispatchedEvent(path);
+    }
+  } else {
+    return new DispatchedEvent(path);
+  }
+}
+function dispatch(cache, event3) {
+  let next_dispatched_paths = prepend(event3.path, cache.next_dispatched_paths);
+  let cache$1 = new Cache(cache.events, cache.vdoms, cache.old_vdoms, cache.dispatched_paths, next_dispatched_paths);
+  if (event3 instanceof DecodedEvent) {
+    let handler = event3.handler;
+    return [cache$1, new Ok(handler)];
+  } else {
+    return [cache$1, error_nil];
+  }
+}
+function handle(cache, path, name, event3) {
+  let _pipe = decode2(cache, path, name, event3);
+  return ((_capture) => {
+    return dispatch(cache, _capture);
+  })(_pipe);
+}
+function has_dispatched_events(cache, path) {
+  return matches(path, cache.dispatched_paths);
+}
+
+// build/dev/javascript/lustre/lustre/runtime/server/runtime.mjs
+class ClientDispatchedMessage extends CustomType {
+  constructor(message) {
+    super();
+    this.message = message;
+  }
+}
+var Message$isClientDispatchedMessage = (value) => value instanceof ClientDispatchedMessage;
+class ClientRegisteredCallback extends CustomType {
+  constructor(callback) {
+    super();
+    this.callback = callback;
+  }
+}
+var Message$isClientRegisteredCallback = (value) => value instanceof ClientRegisteredCallback;
+class ClientDeregisteredCallback extends CustomType {
+  constructor(callback) {
+    super();
+    this.callback = callback;
+  }
+}
+var Message$isClientDeregisteredCallback = (value) => value instanceof ClientDeregisteredCallback;
+class EffectDispatchedMessage extends CustomType {
+  constructor(message) {
+    super();
+    this.message = message;
+  }
+}
+var Message$EffectDispatchedMessage = (message) => new EffectDispatchedMessage(message);
+var Message$isEffectDispatchedMessage = (value) => value instanceof EffectDispatchedMessage;
+class EffectEmitEvent extends CustomType {
+  constructor(name, data2) {
+    super();
+    this.name = name;
+    this.data = data2;
+  }
+}
+var Message$EffectEmitEvent = (name, data2) => new EffectEmitEvent(name, data2);
+var Message$isEffectEmitEvent = (value) => value instanceof EffectEmitEvent;
+class EffectProvidedValue extends CustomType {
+  constructor(key, value) {
+    super();
+    this.key = key;
+    this.value = value;
+  }
+}
+var Message$EffectProvidedValue = (key, value) => new EffectProvidedValue(key, value);
+var Message$isEffectProvidedValue = (value) => value instanceof EffectProvidedValue;
+class EffectRequestedContextSubscription extends CustomType {
+  constructor(key, decoder) {
+    super();
+    this.key = key;
+    this.decoder = decoder;
+  }
+}
+var Message$EffectRequestedContextSubscription = (key, decoder) => new EffectRequestedContextSubscription(key, decoder);
+var Message$isEffectRequestedContextSubscription = (value) => value instanceof EffectRequestedContextSubscription;
+class EffectRemovedContextSubscription extends CustomType {
+  constructor(key) {
+    super();
+    this.key = key;
+  }
+}
+var Message$EffectRemovedContextSubscription = (key) => new EffectRemovedContextSubscription(key);
+var Message$isEffectRemovedContextSubscription = (value) => value instanceof EffectRemovedContextSubscription;
+class SystemRequestedShutdown extends CustomType {
+}
+var Message$isSystemRequestedShutdown = (value) => value instanceof SystemRequestedShutdown;
+
+// build/dev/javascript/lustre/lustre/runtime/app.mjs
+class App extends CustomType {
+  constructor(name, init, update2, view, config) {
+    super();
+    this.name = name;
+    this.init = init;
+    this.update = update2;
+    this.view = view;
+    this.config = config;
+  }
+}
+class Config2 extends CustomType {
+  constructor(open_shadow_root, adopt_styles, delegates_focus, attributes, properties, contexts, is_form_associated, on_form_autofill, on_form_reset, on_form_restore, on_form_disabled, on_connect, on_adopt, on_disconnect) {
+    super();
+    this.open_shadow_root = open_shadow_root;
+    this.adopt_styles = adopt_styles;
+    this.delegates_focus = delegates_focus;
+    this.attributes = attributes;
+    this.properties = properties;
+    this.contexts = contexts;
+    this.is_form_associated = is_form_associated;
+    this.on_form_autofill = on_form_autofill;
+    this.on_form_reset = on_form_reset;
+    this.on_form_restore = on_form_restore;
+    this.on_form_disabled = on_form_disabled;
+    this.on_connect = on_connect;
+    this.on_adopt = on_adopt;
+    this.on_disconnect = on_disconnect;
+  }
+}
+var default_config = /* @__PURE__ */ new Config2(true, true, false, empty_list, empty_list, empty_list, false, /* @__PURE__ */ new None, /* @__PURE__ */ new None, /* @__PURE__ */ new None, /* @__PURE__ */ new None, /* @__PURE__ */ new None, /* @__PURE__ */ new None, /* @__PURE__ */ new None);
+
+// build/dev/javascript/lustre/lustre/internals/equals.ffi.mjs
+var isEqual2 = (a2, b) => {
+  if (a2 === b) {
+    return true;
+  }
+  if (a2 == null || b == null) {
+    return false;
+  }
+  const type = typeof a2;
+  if (type !== typeof b) {
+    return false;
+  }
+  if (type !== "object") {
+    return false;
+  }
+  const ctor = a2.constructor;
+  if (ctor !== b.constructor) {
+    return false;
+  }
+  if (Array.isArray(a2)) {
+    return areArraysEqual(a2, b);
+  }
+  return areObjectsEqual(a2, b);
+};
+var areArraysEqual = (a2, b) => {
+  let index3 = a2.length;
+  if (index3 !== b.length) {
+    return false;
+  }
+  while (index3--) {
+    if (!isEqual2(a2[index3], b[index3])) {
+      return false;
+    }
+  }
+  return true;
+};
+var areObjectsEqual = (a2, b) => {
+  const properties = Object.keys(a2);
+  let index3 = properties.length;
+  if (Object.keys(b).length !== index3) {
+    return false;
+  }
+  while (index3--) {
+    const property3 = properties[index3];
+    if (!Object.hasOwn(b, property3)) {
+      return false;
+    }
+    if (!isEqual2(a2[property3], b[property3])) {
+      return false;
+    }
+  }
+  return true;
+};
+
+// build/dev/javascript/lustre/lustre/vdom/diff.mjs
+class Diff extends CustomType {
+  constructor(patch, cache) {
+    super();
+    this.patch = patch;
+    this.cache = cache;
+  }
+}
+class PartialDiff extends CustomType {
+  constructor(patch, cache, events2) {
+    super();
+    this.patch = patch;
+    this.cache = cache;
+    this.events = events2;
+  }
+}
+
+class AttributeChange extends CustomType {
+  constructor(added, removed, events2) {
+    super();
+    this.added = added;
+    this.removed = removed;
+    this.events = events2;
+  }
+}
+function diff_attributes(loop$controlled, loop$path, loop$events, loop$old, loop$new, loop$added, loop$removed) {
+  while (true) {
+    let controlled = loop$controlled;
+    let path = loop$path;
+    let events2 = loop$events;
+    let old = loop$old;
+    let new$5 = loop$new;
+    let added = loop$added;
+    let removed = loop$removed;
+    if (old instanceof Empty) {
+      if (new$5 instanceof Empty) {
+        return new AttributeChange(added, removed, events2);
+      } else {
+        let $ = new$5.head;
+        if ($ instanceof Event2) {
+          let next = $;
+          let new$1 = new$5.tail;
+          let name = $.name;
+          let handler = $.handler;
+          let events$1 = add_event(events2, path, name, handler);
+          let added$1 = prepend(next, added);
+          loop$controlled = controlled;
+          loop$path = path;
+          loop$events = events$1;
+          loop$old = old;
+          loop$new = new$1;
+          loop$added = added$1;
+          loop$removed = removed;
+        } else {
+          let next = $;
+          let new$1 = new$5.tail;
+          let added$1 = prepend(next, added);
+          loop$controlled = controlled;
+          loop$path = path;
+          loop$events = events2;
+          loop$old = old;
+          loop$new = new$1;
+          loop$added = added$1;
+          loop$removed = removed;
+        }
+      }
+    } else if (new$5 instanceof Empty) {
+      let $ = old.head;
+      if ($ instanceof Event2) {
+        let prev = $;
+        let old$1 = old.tail;
+        let name = $.name;
+        let events$1 = remove_event(events2, path, name);
+        let removed$1 = prepend(prev, removed);
+        loop$controlled = controlled;
+        loop$path = path;
+        loop$events = events$1;
+        loop$old = old$1;
+        loop$new = new$5;
+        loop$added = added;
+        loop$removed = removed$1;
+      } else {
+        let prev = $;
+        let old$1 = old.tail;
+        let removed$1 = prepend(prev, removed);
+        loop$controlled = controlled;
+        loop$path = path;
+        loop$events = events2;
+        loop$old = old$1;
+        loop$new = new$5;
+        loop$added = added;
+        loop$removed = removed$1;
+      }
+    } else {
+      let prev = old.head;
+      let remaining_old = old.tail;
+      let next = new$5.head;
+      let remaining_new = new$5.tail;
+      let $ = compare3(prev, next);
+      if ($ instanceof Lt) {
+        if (prev instanceof Event2) {
+          let name = prev.name;
+          loop$controlled = controlled;
+          loop$path = path;
+          loop$events = remove_event(events2, path, name);
+          loop$old = remaining_old;
+          loop$new = new$5;
+          loop$added = added;
+          loop$removed = prepend(prev, removed);
+        } else {
+          loop$controlled = controlled;
+          loop$path = path;
+          loop$events = events2;
+          loop$old = remaining_old;
+          loop$new = new$5;
+          loop$added = added;
+          loop$removed = prepend(prev, removed);
+        }
+      } else if ($ instanceof Eq) {
+        if (prev instanceof Attribute) {
+          if (next instanceof Attribute) {
+            let _block;
+            let $1 = next.name;
+            if ($1 === "value") {
+              _block = controlled || prev.value !== next.value;
+            } else if ($1 === "checked") {
+              _block = controlled || prev.value !== next.value;
+            } else if ($1 === "selected") {
+              _block = controlled || prev.value !== next.value;
+            } else {
+              _block = prev.value !== next.value;
+            }
+            let has_changes = _block;
+            let _block$1;
+            if (has_changes) {
+              _block$1 = prepend(next, added);
+            } else {
+              _block$1 = added;
+            }
+            let added$1 = _block$1;
+            loop$controlled = controlled;
+            loop$path = path;
+            loop$events = events2;
+            loop$old = remaining_old;
+            loop$new = remaining_new;
+            loop$added = added$1;
+            loop$removed = removed;
+          } else if (next instanceof Event2) {
+            let name = next.name;
+            let handler = next.handler;
+            loop$controlled = controlled;
+            loop$path = path;
+            loop$events = add_event(events2, path, name, handler);
+            loop$old = remaining_old;
+            loop$new = remaining_new;
+            loop$added = prepend(next, added);
+            loop$removed = prepend(prev, removed);
+          } else {
+            loop$controlled = controlled;
+            loop$path = path;
+            loop$events = events2;
+            loop$old = remaining_old;
+            loop$new = remaining_new;
+            loop$added = prepend(next, added);
+            loop$removed = prepend(prev, removed);
+          }
+        } else if (prev instanceof Property) {
+          if (next instanceof Property) {
+            let _block;
+            let $1 = next.name;
+            if ($1 === "scrollLeft") {
+              _block = true;
+            } else if ($1 === "scrollRight") {
+              _block = true;
+            } else if ($1 === "value") {
+              _block = controlled || !isEqual2(prev.value, next.value);
+            } else if ($1 === "checked") {
+              _block = controlled || !isEqual2(prev.value, next.value);
+            } else if ($1 === "selected") {
+              _block = controlled || !isEqual2(prev.value, next.value);
+            } else {
+              _block = !isEqual2(prev.value, next.value);
+            }
+            let has_changes = _block;
+            let _block$1;
+            if (has_changes) {
+              _block$1 = prepend(next, added);
+            } else {
+              _block$1 = added;
+            }
+            let added$1 = _block$1;
+            loop$controlled = controlled;
+            loop$path = path;
+            loop$events = events2;
+            loop$old = remaining_old;
+            loop$new = remaining_new;
+            loop$added = added$1;
+            loop$removed = removed;
+          } else if (next instanceof Event2) {
+            let name = next.name;
+            let handler = next.handler;
+            loop$controlled = controlled;
+            loop$path = path;
+            loop$events = add_event(events2, path, name, handler);
+            loop$old = remaining_old;
+            loop$new = remaining_new;
+            loop$added = prepend(next, added);
+            loop$removed = prepend(prev, removed);
+          } else {
+            loop$controlled = controlled;
+            loop$path = path;
+            loop$events = events2;
+            loop$old = remaining_old;
+            loop$new = remaining_new;
+            loop$added = prepend(next, added);
+            loop$removed = prepend(prev, removed);
+          }
+        } else if (next instanceof Event2) {
+          let name = next.name;
+          let handler = next.handler;
+          let has_changes = prev.prevent_default.kind !== next.prevent_default.kind || prev.stop_propagation.kind !== next.stop_propagation.kind || prev.debounce !== next.debounce || prev.throttle !== next.throttle;
+          let _block;
+          if (has_changes) {
+            _block = prepend(next, added);
+          } else {
+            _block = added;
+          }
+          let added$1 = _block;
+          loop$controlled = controlled;
+          loop$path = path;
+          loop$events = add_event(events2, path, name, handler);
+          loop$old = remaining_old;
+          loop$new = remaining_new;
+          loop$added = added$1;
+          loop$removed = removed;
+        } else {
+          let name = prev.name;
+          loop$controlled = controlled;
+          loop$path = path;
+          loop$events = remove_event(events2, path, name);
+          loop$old = remaining_old;
+          loop$new = remaining_new;
+          loop$added = prepend(next, added);
+          loop$removed = prepend(prev, removed);
+        }
+      } else if (next instanceof Event2) {
+        let name = next.name;
+        let handler = next.handler;
+        loop$controlled = controlled;
+        loop$path = path;
+        loop$events = add_event(events2, path, name, handler);
+        loop$old = old;
+        loop$new = remaining_new;
+        loop$added = prepend(next, added);
+        loop$removed = removed;
+      } else {
+        loop$controlled = controlled;
+        loop$path = path;
+        loop$events = events2;
+        loop$old = old;
+        loop$new = remaining_new;
+        loop$added = prepend(next, added);
+        loop$removed = removed;
+      }
+    }
+  }
+}
+function is_controlled(cache, namespace, tag, path) {
+  if (tag === "input" && namespace === "") {
+    return has_dispatched_events(cache, path);
+  } else if (tag === "select" && namespace === "") {
+    return has_dispatched_events(cache, path);
+  } else if (tag === "textarea" && namespace === "") {
+    return has_dispatched_events(cache, path);
+  } else {
+    return false;
+  }
+}
+function do_diff(loop$old, loop$old_keyed, loop$new, loop$new_keyed, loop$moved, loop$moved_offset, loop$removed, loop$node_index, loop$patch_index, loop$changes, loop$children, loop$path, loop$cache, loop$events) {
+  while (true) {
+    let old = loop$old;
+    let old_keyed = loop$old_keyed;
+    let new$5 = loop$new;
+    let new_keyed = loop$new_keyed;
+    let moved = loop$moved;
+    let moved_offset = loop$moved_offset;
+    let removed = loop$removed;
+    let node_index = loop$node_index;
+    let patch_index = loop$patch_index;
+    let changes = loop$changes;
+    let children = loop$children;
+    let path = loop$path;
+    let cache = loop$cache;
+    let events2 = loop$events;
+    if (old instanceof Empty) {
+      if (new$5 instanceof Empty) {
+        let _block;
+        let $ = is_browser();
+        if (changes instanceof Empty) {
+          if (children instanceof Empty) {
+            _block = new$3(patch_index, removed, changes, children);
+          } else if (!$) {
+            let $1 = children.tail;
+            if ($1 instanceof Empty && removed === 0) {
+              let child2 = children.head;
+              _block = add_parent(child2, patch_index);
+            } else {
+              _block = new$3(patch_index, removed, changes, children);
+            }
+          } else {
+            _block = new$3(patch_index, removed, changes, children);
+          }
+        } else {
+          _block = new$3(patch_index, removed, changes, children);
+        }
+        let patch = _block;
+        return new PartialDiff(patch, cache, events2);
+      } else {
+        let $ = add_children(cache, events2, path, node_index, new$5);
+        let cache$1 = $[0];
+        let events$1 = $[1];
+        let insert4 = insert3(new$5, node_index - moved_offset);
+        let changes$1 = prepend(insert4, changes);
+        let patch = new$3(patch_index, removed, changes$1, children);
+        return new PartialDiff(patch, cache$1, events$1);
+      }
+    } else if (new$5 instanceof Empty) {
+      let prev = old.head;
+      let old$1 = old.tail;
+      let $ = prev.key === "" || !has_key(moved, prev.key);
+      if ($) {
+        let events$1 = remove_child(cache, events2, path, node_index, prev);
+        loop$old = old$1;
+        loop$old_keyed = old_keyed;
+        loop$new = new$5;
+        loop$new_keyed = new_keyed;
+        loop$moved = moved;
+        loop$moved_offset = moved_offset;
+        loop$removed = removed + 1;
+        loop$node_index = node_index;
+        loop$patch_index = patch_index;
+        loop$changes = changes;
+        loop$children = children;
+        loop$path = path;
+        loop$cache = cache;
+        loop$events = events$1;
+      } else {
+        loop$old = old$1;
+        loop$old_keyed = old_keyed;
+        loop$new = new$5;
+        loop$new_keyed = new_keyed;
+        loop$moved = moved;
+        loop$moved_offset = moved_offset;
+        loop$removed = removed;
+        loop$node_index = node_index;
+        loop$patch_index = patch_index;
+        loop$changes = changes;
+        loop$children = children;
+        loop$path = path;
+        loop$cache = cache;
+        loop$events = events2;
+      }
+    } else {
+      let prev = old.head;
+      let next = new$5.head;
+      if (prev.key !== next.key) {
+        let old_remaining = old.tail;
+        let new_remaining = new$5.tail;
+        let next_did_exist = has_key(old_keyed, next.key);
+        let prev_does_exist = has_key(new_keyed, prev.key);
+        if (prev_does_exist) {
+          if (next_did_exist) {
+            let $ = has_key(moved, prev.key);
+            if ($) {
+              loop$old = old_remaining;
+              loop$old_keyed = old_keyed;
+              loop$new = new$5;
+              loop$new_keyed = new_keyed;
+              loop$moved = moved;
+              loop$moved_offset = moved_offset - 1;
+              loop$removed = removed;
+              loop$node_index = node_index;
+              loop$patch_index = patch_index;
+              loop$changes = changes;
+              loop$children = children;
+              loop$path = path;
+              loop$cache = cache;
+              loop$events = events2;
+            } else {
+              let match = get2(old_keyed, next.key);
+              let before = node_index - moved_offset;
+              let changes$1 = prepend(move(next.key, before), changes);
+              let moved$1 = insert2(moved, next.key, undefined);
+              loop$old = prepend(match, old);
+              loop$old_keyed = old_keyed;
+              loop$new = new$5;
+              loop$new_keyed = new_keyed;
+              loop$moved = moved$1;
+              loop$moved_offset = moved_offset + 1;
+              loop$removed = removed;
+              loop$node_index = node_index;
+              loop$patch_index = patch_index;
+              loop$changes = changes$1;
+              loop$children = children;
+              loop$path = path;
+              loop$cache = cache;
+              loop$events = events2;
+            }
+          } else {
+            let before = node_index - moved_offset;
+            let $ = add_child(cache, events2, path, node_index, next);
+            let cache$1 = $[0];
+            let events$1 = $[1];
+            let insert4 = insert3(singleton_list(next), before);
+            let changes$1 = prepend(insert4, changes);
+            loop$old = old;
+            loop$old_keyed = old_keyed;
+            loop$new = new_remaining;
+            loop$new_keyed = new_keyed;
+            loop$moved = moved;
+            loop$moved_offset = moved_offset + 1;
+            loop$removed = removed;
+            loop$node_index = node_index + 1;
+            loop$patch_index = patch_index;
+            loop$changes = changes$1;
+            loop$children = children;
+            loop$path = path;
+            loop$cache = cache$1;
+            loop$events = events$1;
+          }
+        } else if (next_did_exist) {
+          let index3 = node_index - moved_offset;
+          let changes$1 = prepend(remove2(index3), changes);
+          let events$1 = remove_child(cache, events2, path, node_index, prev);
+          loop$old = old_remaining;
+          loop$old_keyed = old_keyed;
+          loop$new = new$5;
+          loop$new_keyed = new_keyed;
+          loop$moved = moved;
+          loop$moved_offset = moved_offset - 1;
+          loop$removed = removed;
+          loop$node_index = node_index;
+          loop$patch_index = patch_index;
+          loop$changes = changes$1;
+          loop$children = children;
+          loop$path = path;
+          loop$cache = cache;
+          loop$events = events$1;
+        } else {
+          let change = replace2(node_index - moved_offset, next);
+          let $ = replace_child(cache, events2, path, node_index, prev, next);
+          let cache$1 = $[0];
+          let events$1 = $[1];
+          loop$old = old_remaining;
+          loop$old_keyed = old_keyed;
+          loop$new = new_remaining;
+          loop$new_keyed = new_keyed;
+          loop$moved = moved;
+          loop$moved_offset = moved_offset;
+          loop$removed = removed;
+          loop$node_index = node_index + 1;
+          loop$patch_index = patch_index;
+          loop$changes = prepend(change, changes);
+          loop$children = children;
+          loop$path = path;
+          loop$cache = cache$1;
+          loop$events = events$1;
+        }
+      } else {
+        let $ = old.head;
+        if ($ instanceof Fragment) {
+          let $1 = new$5.head;
+          if ($1 instanceof Fragment) {
+            let prev2 = $;
+            let old$1 = old.tail;
+            let next2 = $1;
+            let new$1 = new$5.tail;
+            let $2 = do_diff(prev2.children, prev2.keyed_children, next2.children, next2.keyed_children, empty3(), 0, 0, 0, node_index, empty_list, empty_list, add4(path, node_index, next2.key), cache, events2);
+            let patch = $2.patch;
+            let cache$1 = $2.cache;
+            let events$1 = $2.events;
+            let _block;
+            let $3 = patch.changes;
+            if ($3 instanceof Empty) {
+              let $4 = patch.children;
+              if ($4 instanceof Empty) {
+                let $5 = patch.removed;
+                if ($5 === 0) {
+                  _block = children;
+                } else {
+                  _block = prepend(patch, children);
+                }
+              } else {
+                _block = prepend(patch, children);
+              }
+            } else {
+              _block = prepend(patch, children);
+            }
+            let children$1 = _block;
+            loop$old = old$1;
+            loop$old_keyed = old_keyed;
+            loop$new = new$1;
+            loop$new_keyed = new_keyed;
+            loop$moved = moved;
+            loop$moved_offset = moved_offset;
+            loop$removed = removed;
+            loop$node_index = node_index + 1;
+            loop$patch_index = patch_index;
+            loop$changes = changes;
+            loop$children = children$1;
+            loop$path = path;
+            loop$cache = cache$1;
+            loop$events = events$1;
+          } else {
+            let prev2 = $;
+            let old_remaining = old.tail;
+            let next2 = $1;
+            let new_remaining = new$5.tail;
+            let change = replace2(node_index - moved_offset, next2);
+            let $2 = replace_child(cache, events2, path, node_index, prev2, next2);
+            let cache$1 = $2[0];
+            let events$1 = $2[1];
+            loop$old = old_remaining;
+            loop$old_keyed = old_keyed;
+            loop$new = new_remaining;
+            loop$new_keyed = new_keyed;
+            loop$moved = moved;
+            loop$moved_offset = moved_offset;
+            loop$removed = removed;
+            loop$node_index = node_index + 1;
+            loop$patch_index = patch_index;
+            loop$changes = prepend(change, changes);
+            loop$children = children;
+            loop$path = path;
+            loop$cache = cache$1;
+            loop$events = events$1;
+          }
+        } else if ($ instanceof Element) {
+          let $1 = new$5.head;
+          if ($1 instanceof Element) {
+            let prev2 = $;
+            let next2 = $1;
+            if (prev2.namespace === next2.namespace && prev2.tag === next2.tag) {
+              let old$1 = old.tail;
+              let new$1 = new$5.tail;
+              let child_path = add4(path, node_index, next2.key);
+              let controlled = is_controlled(cache, next2.namespace, next2.tag, child_path);
+              let $2 = diff_attributes(controlled, child_path, events2, prev2.attributes, next2.attributes, empty_list, empty_list);
+              let added_attrs = $2.added;
+              let removed_attrs = $2.removed;
+              let events$1 = $2.events;
+              let _block;
+              if (added_attrs instanceof Empty && removed_attrs instanceof Empty) {
+                _block = empty_list;
+              } else {
+                _block = singleton_list(update(added_attrs, removed_attrs));
+              }
+              let initial_child_changes = _block;
+              let $3 = do_diff(prev2.children, prev2.keyed_children, next2.children, next2.keyed_children, empty3(), 0, 0, 0, node_index, initial_child_changes, empty_list, child_path, cache, events$1);
+              let patch = $3.patch;
+              let cache$1 = $3.cache;
+              let events$2 = $3.events;
+              let _block$1;
+              let $4 = patch.changes;
+              if ($4 instanceof Empty) {
+                let $5 = patch.children;
+                if ($5 instanceof Empty) {
+                  let $6 = patch.removed;
+                  if ($6 === 0) {
+                    _block$1 = children;
+                  } else {
+                    _block$1 = prepend(patch, children);
+                  }
+                } else {
+                  _block$1 = prepend(patch, children);
+                }
+              } else {
+                _block$1 = prepend(patch, children);
+              }
+              let children$1 = _block$1;
+              loop$old = old$1;
+              loop$old_keyed = old_keyed;
+              loop$new = new$1;
+              loop$new_keyed = new_keyed;
+              loop$moved = moved;
+              loop$moved_offset = moved_offset;
+              loop$removed = removed;
+              loop$node_index = node_index + 1;
+              loop$patch_index = patch_index;
+              loop$changes = changes;
+              loop$children = children$1;
+              loop$path = path;
+              loop$cache = cache$1;
+              loop$events = events$2;
+            } else {
+              let prev3 = $;
+              let old_remaining = old.tail;
+              let next3 = $1;
+              let new_remaining = new$5.tail;
+              let change = replace2(node_index - moved_offset, next3);
+              let $2 = replace_child(cache, events2, path, node_index, prev3, next3);
+              let cache$1 = $2[0];
+              let events$1 = $2[1];
+              loop$old = old_remaining;
+              loop$old_keyed = old_keyed;
+              loop$new = new_remaining;
+              loop$new_keyed = new_keyed;
+              loop$moved = moved;
+              loop$moved_offset = moved_offset;
+              loop$removed = removed;
+              loop$node_index = node_index + 1;
+              loop$patch_index = patch_index;
+              loop$changes = prepend(change, changes);
+              loop$children = children;
+              loop$path = path;
+              loop$cache = cache$1;
+              loop$events = events$1;
+            }
+          } else {
+            let prev2 = $;
+            let old_remaining = old.tail;
+            let next2 = $1;
+            let new_remaining = new$5.tail;
+            let change = replace2(node_index - moved_offset, next2);
+            let $2 = replace_child(cache, events2, path, node_index, prev2, next2);
+            let cache$1 = $2[0];
+            let events$1 = $2[1];
+            loop$old = old_remaining;
+            loop$old_keyed = old_keyed;
+            loop$new = new_remaining;
+            loop$new_keyed = new_keyed;
+            loop$moved = moved;
+            loop$moved_offset = moved_offset;
+            loop$removed = removed;
+            loop$node_index = node_index + 1;
+            loop$patch_index = patch_index;
+            loop$changes = prepend(change, changes);
+            loop$children = children;
+            loop$path = path;
+            loop$cache = cache$1;
+            loop$events = events$1;
+          }
+        } else if ($ instanceof Text) {
+          let $1 = new$5.head;
+          if ($1 instanceof Text) {
+            let prev2 = $;
+            let next2 = $1;
+            if (prev2.content === next2.content) {
+              let old$1 = old.tail;
+              let new$1 = new$5.tail;
+              loop$old = old$1;
+              loop$old_keyed = old_keyed;
+              loop$new = new$1;
+              loop$new_keyed = new_keyed;
+              loop$moved = moved;
+              loop$moved_offset = moved_offset;
+              loop$removed = removed;
+              loop$node_index = node_index + 1;
+              loop$patch_index = patch_index;
+              loop$changes = changes;
+              loop$children = children;
+              loop$path = path;
+              loop$cache = cache;
+              loop$events = events2;
+            } else {
+              let old$1 = old.tail;
+              let next3 = $1;
+              let new$1 = new$5.tail;
+              let child2 = new$3(node_index, 0, singleton_list(replace_text(next3.content)), empty_list);
+              loop$old = old$1;
+              loop$old_keyed = old_keyed;
+              loop$new = new$1;
+              loop$new_keyed = new_keyed;
+              loop$moved = moved;
+              loop$moved_offset = moved_offset;
+              loop$removed = removed;
+              loop$node_index = node_index + 1;
+              loop$patch_index = patch_index;
+              loop$changes = changes;
+              loop$children = prepend(child2, children);
+              loop$path = path;
+              loop$cache = cache;
+              loop$events = events2;
+            }
+          } else {
+            let prev2 = $;
+            let old_remaining = old.tail;
+            let next2 = $1;
+            let new_remaining = new$5.tail;
+            let change = replace2(node_index - moved_offset, next2);
+            let $2 = replace_child(cache, events2, path, node_index, prev2, next2);
+            let cache$1 = $2[0];
+            let events$1 = $2[1];
+            loop$old = old_remaining;
+            loop$old_keyed = old_keyed;
+            loop$new = new_remaining;
+            loop$new_keyed = new_keyed;
+            loop$moved = moved;
+            loop$moved_offset = moved_offset;
+            loop$removed = removed;
+            loop$node_index = node_index + 1;
+            loop$patch_index = patch_index;
+            loop$changes = prepend(change, changes);
+            loop$children = children;
+            loop$path = path;
+            loop$cache = cache$1;
+            loop$events = events$1;
+          }
+        } else if ($ instanceof UnsafeInnerHtml) {
+          let $1 = new$5.head;
+          if ($1 instanceof UnsafeInnerHtml) {
+            let prev2 = $;
+            let old$1 = old.tail;
+            let next2 = $1;
+            let new$1 = new$5.tail;
+            let child_path = add4(path, node_index, next2.key);
+            let $2 = diff_attributes(false, child_path, events2, prev2.attributes, next2.attributes, empty_list, empty_list);
+            let added_attrs = $2.added;
+            let removed_attrs = $2.removed;
+            let events$1 = $2.events;
+            let _block;
+            if (added_attrs instanceof Empty && removed_attrs instanceof Empty) {
+              _block = empty_list;
+            } else {
+              _block = singleton_list(update(added_attrs, removed_attrs));
+            }
+            let child_changes = _block;
+            let _block$1;
+            let $3 = prev2.inner_html === next2.inner_html;
+            if ($3) {
+              _block$1 = child_changes;
+            } else {
+              _block$1 = prepend(replace_inner_html(next2.inner_html), child_changes);
+            }
+            let child_changes$1 = _block$1;
+            let _block$2;
+            if (child_changes$1 instanceof Empty) {
+              _block$2 = children;
+            } else {
+              _block$2 = prepend(new$3(node_index, 0, child_changes$1, empty_list), children);
+            }
+            let children$1 = _block$2;
+            loop$old = old$1;
+            loop$old_keyed = old_keyed;
+            loop$new = new$1;
+            loop$new_keyed = new_keyed;
+            loop$moved = moved;
+            loop$moved_offset = moved_offset;
+            loop$removed = removed;
+            loop$node_index = node_index + 1;
+            loop$patch_index = patch_index;
+            loop$changes = changes;
+            loop$children = children$1;
+            loop$path = path;
+            loop$cache = cache;
+            loop$events = events$1;
+          } else {
+            let prev2 = $;
+            let old_remaining = old.tail;
+            let next2 = $1;
+            let new_remaining = new$5.tail;
+            let change = replace2(node_index - moved_offset, next2);
+            let $2 = replace_child(cache, events2, path, node_index, prev2, next2);
+            let cache$1 = $2[0];
+            let events$1 = $2[1];
+            loop$old = old_remaining;
+            loop$old_keyed = old_keyed;
+            loop$new = new_remaining;
+            loop$new_keyed = new_keyed;
+            loop$moved = moved;
+            loop$moved_offset = moved_offset;
+            loop$removed = removed;
+            loop$node_index = node_index + 1;
+            loop$patch_index = patch_index;
+            loop$changes = prepend(change, changes);
+            loop$children = children;
+            loop$path = path;
+            loop$cache = cache$1;
+            loop$events = events$1;
+          }
+        } else if ($ instanceof Map2) {
+          let $1 = new$5.head;
+          if ($1 instanceof Map2) {
+            let prev2 = $;
+            let old$1 = old.tail;
+            let next2 = $1;
+            let new$1 = new$5.tail;
+            let child_path = add4(path, node_index, next2.key);
+            let child_key = child(child_path);
+            let $2 = do_diff(singleton_list(prev2.child), empty3(), singleton_list(next2.child), empty3(), empty3(), 0, 0, 0, node_index, empty_list, empty_list, subtree(child_path), cache, get_subtree(events2, child_key, prev2.mapper));
+            let patch = $2.patch;
+            let cache$1 = $2.cache;
+            let child_events = $2.events;
+            let events$1 = update_subtree(events2, child_key, next2.mapper, child_events);
+            let _block;
+            let $3 = patch.changes;
+            if ($3 instanceof Empty) {
+              let $4 = patch.children;
+              if ($4 instanceof Empty) {
+                let $5 = patch.removed;
+                if ($5 === 0) {
+                  _block = children;
+                } else {
+                  _block = prepend(patch, children);
+                }
+              } else {
+                _block = prepend(patch, children);
+              }
+            } else {
+              _block = prepend(patch, children);
+            }
+            let children$1 = _block;
+            loop$old = old$1;
+            loop$old_keyed = old_keyed;
+            loop$new = new$1;
+            loop$new_keyed = new_keyed;
+            loop$moved = moved;
+            loop$moved_offset = moved_offset;
+            loop$removed = removed;
+            loop$node_index = node_index + 1;
+            loop$patch_index = patch_index;
+            loop$changes = changes;
+            loop$children = children$1;
+            loop$path = path;
+            loop$cache = cache$1;
+            loop$events = events$1;
+          } else {
+            let prev2 = $;
+            let old_remaining = old.tail;
+            let next2 = $1;
+            let new_remaining = new$5.tail;
+            let change = replace2(node_index - moved_offset, next2);
+            let $2 = replace_child(cache, events2, path, node_index, prev2, next2);
+            let cache$1 = $2[0];
+            let events$1 = $2[1];
+            loop$old = old_remaining;
+            loop$old_keyed = old_keyed;
+            loop$new = new_remaining;
+            loop$new_keyed = new_keyed;
+            loop$moved = moved;
+            loop$moved_offset = moved_offset;
+            loop$removed = removed;
+            loop$node_index = node_index + 1;
+            loop$patch_index = patch_index;
+            loop$changes = prepend(change, changes);
+            loop$children = children;
+            loop$path = path;
+            loop$cache = cache$1;
+            loop$events = events$1;
+          }
+        } else {
+          let $1 = new$5.head;
+          if ($1 instanceof Memo) {
+            let prev2 = $;
+            let old$1 = old.tail;
+            let next2 = $1;
+            let new$1 = new$5.tail;
+            let $2 = equal_lists(prev2.dependencies, next2.dependencies);
+            if ($2) {
+              let cache$1 = keep_memo(cache, prev2.view, next2.view);
+              loop$old = old$1;
+              loop$old_keyed = old_keyed;
+              loop$new = new$1;
+              loop$new_keyed = new_keyed;
+              loop$moved = moved;
+              loop$moved_offset = moved_offset;
+              loop$removed = removed;
+              loop$node_index = node_index + 1;
+              loop$patch_index = patch_index;
+              loop$changes = changes;
+              loop$children = children;
+              loop$path = path;
+              loop$cache = cache$1;
+              loop$events = events2;
+            } else {
+              let prev_node = get_old_memo(cache, prev2.view, prev2.view);
+              let next_node = next2.view();
+              let cache$1 = add_memo(cache, next2.view, next_node);
+              loop$old = prepend(prev_node, old$1);
+              loop$old_keyed = old_keyed;
+              loop$new = prepend(next_node, new$1);
+              loop$new_keyed = new_keyed;
+              loop$moved = moved;
+              loop$moved_offset = moved_offset;
+              loop$removed = removed;
+              loop$node_index = node_index;
+              loop$patch_index = patch_index;
+              loop$changes = changes;
+              loop$children = children;
+              loop$path = path;
+              loop$cache = cache$1;
+              loop$events = events2;
+            }
+          } else {
+            let prev2 = $;
+            let old_remaining = old.tail;
+            let next2 = $1;
+            let new_remaining = new$5.tail;
+            let change = replace2(node_index - moved_offset, next2);
+            let $2 = replace_child(cache, events2, path, node_index, prev2, next2);
+            let cache$1 = $2[0];
+            let events$1 = $2[1];
+            loop$old = old_remaining;
+            loop$old_keyed = old_keyed;
+            loop$new = new_remaining;
+            loop$new_keyed = new_keyed;
+            loop$moved = moved;
+            loop$moved_offset = moved_offset;
+            loop$removed = removed;
+            loop$node_index = node_index + 1;
+            loop$patch_index = patch_index;
+            loop$changes = prepend(change, changes);
+            loop$children = children;
+            loop$path = path;
+            loop$cache = cache$1;
+            loop$events = events$1;
+          }
+        }
+      }
+    }
+  }
+}
+function diff(cache, old, new$5) {
+  let cache$1 = tick(cache);
+  let $ = do_diff(singleton_list(old), empty3(), singleton_list(new$5), empty3(), empty3(), 0, 0, 0, 0, empty_list, empty_list, root, cache$1, events(cache$1));
+  let patch = $.patch;
+  let cache$2 = $.cache;
+  let events2 = $.events;
+  return new Diff(patch, update_events(cache$2, events2));
+}
+
+// build/dev/javascript/lustre/lustre/internals/list.ffi.mjs
+var toList2 = (arr) => arr.reduceRight((xs, x) => List$NonEmpty(x, xs), empty_list);
+var iterate = (list4, callback) => {
+  if (Array.isArray(list4)) {
+    for (let i = 0;i < list4.length; i++) {
+      callback(list4[i]);
+    }
+  } else if (list4) {
+    for (list4;List$NonEmpty$rest(list4); list4 = List$NonEmpty$rest(list4)) {
+      callback(List$NonEmpty$first(list4));
+    }
+  }
+};
+var append4 = (a2, b) => {
+  if (!List$NonEmpty$rest(a2)) {
+    return b;
+  } else if (!List$NonEmpty$rest(b)) {
+    return a2;
+  } else {
+    return append(a2, b);
+  }
+};
+
+// build/dev/javascript/lustre/lustre/internals/constants.ffi.mjs
+var NAMESPACE_HTML = "http://www.w3.org/1999/xhtml";
+var ELEMENT_NODE = 1;
+var TEXT_NODE = 3;
+var COMMENT_NODE = 8;
+var SUPPORTS_MOVE_BEFORE = !!globalThis.HTMLElement?.prototype?.moveBefore;
+
+// build/dev/javascript/lustre/lustre/vdom/reconciler.ffi.mjs
+var setTimeout = globalThis.setTimeout;
+var clearTimeout = globalThis.clearTimeout;
+var createElementNS = (ns, name) => globalThis.document.createElementNS(ns, name);
+var createTextNode = (data2) => globalThis.document.createTextNode(data2);
+var createComment = (data2) => globalThis.document.createComment(data2);
+var createDocumentFragment = () => globalThis.document.createDocumentFragment();
+var insertBefore = (parent, node, reference) => parent.insertBefore(node, reference);
+var moveBefore = SUPPORTS_MOVE_BEFORE ? (parent, node, reference) => parent.moveBefore(node, reference) : insertBefore;
+var removeChild = (parent, child2) => parent.removeChild(child2);
+var getAttribute = (node, name) => node.getAttribute(name);
+var setAttribute = (node, name, value) => node.setAttribute(name, value);
+var removeAttribute = (node, name) => node.removeAttribute(name);
+var addEventListener = (node, name, handler, options) => node.addEventListener(name, handler, options);
+var removeEventListener = (node, name, handler) => node.removeEventListener(name, handler);
+var setInnerHtml = (node, innerHtml) => node.innerHTML = innerHtml;
+var setData = (node, data2) => node.data = data2;
+var meta = Symbol("lustre");
+
+class MetadataNode {
+  constructor(kind, parent, node, key) {
+    this.kind = kind;
+    this.key = key;
+    this.parent = parent;
+    this.children = [];
+    this.node = node;
+    this.endNode = null;
+    this.handlers = new Map;
+    this.throttles = new Map;
+    this.debouncers = new Map;
+  }
+  get isVirtual() {
+    return this.kind === fragment_kind || this.kind === map_kind;
+  }
+  get parentNode() {
+    return this.isVirtual ? this.node.parentNode : this.node;
+  }
+}
+var insertMetadataChild = (kind, parent, node, index3, key) => {
+  const child2 = new MetadataNode(kind, parent, node, key);
+  node[meta] = child2;
+  parent?.children.splice(index3, 0, child2);
+  return child2;
+};
+var getPath = (node) => {
+  let path = "";
+  for (let current = node[meta];current.parent; current = current.parent) {
+    const separator = current.parent && current.parent.kind === map_kind ? separator_subtree : separator_element;
+    if (current.key) {
+      path = `${separator}${current.key}${path}`;
+    } else {
+      const index3 = current.parent.children.indexOf(current);
+      path = `${separator}${index3}${path}`;
+    }
+  }
+  return path.slice(1);
+};
+
+class Reconciler {
+  #root = null;
+  #decodeEvent;
+  #dispatch;
+  #debug = false;
+  constructor(root2, decodeEvent, dispatch2, { debug = false } = {}) {
+    this.#root = root2;
+    this.#decodeEvent = decodeEvent;
+    this.#dispatch = dispatch2;
+    this.#debug = debug;
+  }
+  mount(vdom) {
+    insertMetadataChild(element_kind, null, this.#root, 0, null);
+    this.#insertChild(this.#root, null, this.#root[meta], 0, vdom);
+  }
+  push(patch, memos2 = null) {
+    this.#memos = memos2;
+    this.#stack.push({ node: this.#root[meta], patch });
+    this.#reconcile();
+  }
+  #memos;
+  #stack = [];
+  #reconcile() {
+    const stack = this.#stack;
+    while (stack.length) {
+      let { node, patch } = stack.pop();
+      const { path, changes, removed, children: childPatches } = patch;
+      iterate(path, (index3) => {
+        node = node.children[index3];
+      });
+      const { children: childNodes } = node;
+      iterate(changes, (change) => this.#patch(node, change));
+      if (removed) {
+        this.#removeChildren(node, childNodes.length - removed, removed);
+      }
+      iterate(childPatches, (childPatch) => {
+        const child2 = childNodes[childPatch.index | 0];
+        this.#stack.push({ node: child2, patch: childPatch });
+      });
+    }
+  }
+  #patch(node, change) {
+    switch (change.kind) {
+      case replace_text_kind:
+        this.#replaceText(node, change);
+        break;
+      case replace_inner_html_kind:
+        this.#replaceInnerHtml(node, change);
+        break;
+      case update_kind:
+        this.#update(node, change);
+        break;
+      case move_kind:
+        this.#move(node, change);
+        break;
+      case remove_kind:
+        this.#remove(node, change);
+        break;
+      case replace_kind:
+        this.#replace(node, change);
+        break;
+      case insert_kind:
+        this.#insert(node, change);
+        break;
+    }
+  }
+  #insert(parent, { children, before }) {
+    const fragment2 = createDocumentFragment();
+    const beforeEl = this.#getReference(parent, before);
+    this.#insertChildren(fragment2, null, parent, before | 0, children);
+    insertBefore(parent.parentNode, fragment2, beforeEl);
+  }
+  #replace(parent, { index: index3, with: child2 }) {
+    this.#removeChildren(parent, index3 | 0, 1);
+    const beforeEl = this.#getReference(parent, index3);
+    this.#insertChild(parent.parentNode, beforeEl, parent, index3 | 0, child2);
+  }
+  #getReference(node, index3) {
+    index3 = index3 | 0;
+    const { children } = node;
+    const childCount = children.length;
+    if (index3 < childCount)
+      return children[index3].node;
+    if (node.endNode)
+      return node.endNode;
+    if (!node.isVirtual)
+      return null;
+    while (node.isVirtual && node.children.length) {
+      if (node.endNode)
+        return node.endNode.nextSibling;
+      node = node.children[node.children.length - 1];
+    }
+    return node.node.nextSibling;
+  }
+  #move(parent, { key, before }) {
+    before = before | 0;
+    const { children, parentNode } = parent;
+    const beforeEl = children[before].node;
+    let prev = children[before];
+    for (let i = before + 1;i < children.length; ++i) {
+      const next = children[i];
+      children[i] = prev;
+      prev = next;
+      if (next.key === key) {
+        children[before] = next;
+        break;
+      }
+    }
+    this.#moveChild(parentNode, prev, beforeEl);
+  }
+  #moveChildren(domParent, children, beforeEl) {
+    for (let i = 0;i < children.length; ++i) {
+      this.#moveChild(domParent, children[i], beforeEl);
+    }
+  }
+  #moveChild(domParent, child2, beforeEl) {
+    moveBefore(domParent, child2.node, beforeEl);
+    if (child2.isVirtual) {
+      this.#moveChildren(domParent, child2.children, beforeEl);
+    }
+    if (child2.endNode) {
+      moveBefore(domParent, child2.endNode, beforeEl);
+    }
+  }
+  #remove(parent, { index: index3 }) {
+    this.#removeChildren(parent, index3, 1);
+  }
+  #removeChildren(parent, index3, count) {
+    const { children, parentNode } = parent;
+    const deleted = children.splice(index3, count);
+    for (let i = 0;i < deleted.length; ++i) {
+      const child2 = deleted[i];
+      const { node, endNode, isVirtual, children: nestedChildren } = child2;
+      removeChild(parentNode, node);
+      if (endNode) {
+        removeChild(parentNode, endNode);
+      }
+      this.#removeDebouncers(child2);
+      if (isVirtual) {
+        deleted.push(...nestedChildren);
+      }
+    }
+  }
+  #removeDebouncers(node) {
+    const { debouncers, children } = node;
+    for (const { timeout } of debouncers.values()) {
+      if (timeout) {
+        clearTimeout(timeout);
+      }
+    }
+    debouncers.clear();
+    iterate(children, (child2) => this.#removeDebouncers(child2));
+  }
+  #update({ node, handlers, throttles, debouncers }, { added, removed }) {
+    iterate(removed, ({ name }) => {
+      if (handlers.delete(name)) {
+        removeEventListener(node, name, handleEvent);
+        this.#updateDebounceThrottle(throttles, name, 0);
+        this.#updateDebounceThrottle(debouncers, name, 0);
+      } else {
+        removeAttribute(node, name);
+        SYNCED_ATTRIBUTES[name]?.removed?.(node, name);
+      }
+    });
+    iterate(added, (attribute3) => this.#createAttribute(node, attribute3));
+  }
+  #replaceText({ node }, { content }) {
+    setData(node, content ?? "");
+  }
+  #replaceInnerHtml({ node }, { inner_html }) {
+    setInnerHtml(node, inner_html ?? "");
+  }
+  #insertChildren(domParent, beforeEl, metaParent, index3, children) {
+    iterate(children, (child2) => this.#insertChild(domParent, beforeEl, metaParent, index3++, child2));
+  }
+  #insertChild(domParent, beforeEl, metaParent, index3, vnode) {
+    switch (vnode.kind) {
+      case element_kind: {
+        const node = this.#createElement(metaParent, index3, vnode);
+        this.#insertChildren(node, null, node[meta], 0, vnode.children);
+        insertBefore(domParent, node, beforeEl);
+        break;
+      }
+      case text_kind: {
+        const node = this.#createTextNode(metaParent, index3, vnode);
+        insertBefore(domParent, node, beforeEl);
+        break;
+      }
+      case fragment_kind: {
+        const marker = "lustre:fragment";
+        const head2 = this.#createHead(marker, metaParent, index3, vnode);
+        insertBefore(domParent, head2, beforeEl);
+        this.#insertChildren(domParent, beforeEl, head2[meta], 0, vnode.children);
+        if (this.#debug) {
+          head2[meta].endNode = createComment(` /${marker} `);
+          insertBefore(domParent, head2[meta].endNode, beforeEl);
+        }
+        break;
+      }
+      case unsafe_inner_html_kind: {
+        const node = this.#createElement(metaParent, index3, vnode);
+        this.#replaceInnerHtml({ node }, vnode);
+        insertBefore(domParent, node, beforeEl);
+        break;
+      }
+      case map_kind: {
+        const head2 = this.#createHead("lustre:map", metaParent, index3, vnode);
+        insertBefore(domParent, head2, beforeEl);
+        this.#insertChild(domParent, beforeEl, head2[meta], 0, vnode.child);
+        break;
+      }
+      case memo_kind: {
+        const child2 = this.#memos?.get(vnode.view) ?? vnode.view();
+        this.#insertChild(domParent, beforeEl, metaParent, index3, child2);
+        break;
+      }
+    }
+  }
+  #createElement(parent, index3, { kind, key, tag, namespace, attributes }) {
+    const node = createElementNS(namespace || NAMESPACE_HTML, tag);
+    insertMetadataChild(kind, parent, node, index3, key);
+    if (this.#debug && key) {
+      setAttribute(node, "data-lustre-key", key);
+    }
+    iterate(attributes, (attribute3) => this.#createAttribute(node, attribute3));
+    return node;
+  }
+  #createTextNode(parent, index3, { kind, key, content }) {
+    const node = createTextNode(content ?? "");
+    insertMetadataChild(kind, parent, node, index3, key);
+    return node;
+  }
+  #createHead(marker, parent, index3, { kind, key }) {
+    const node = this.#debug ? createComment(markerComment(marker, key)) : createTextNode("");
+    insertMetadataChild(kind, parent, node, index3, key);
+    return node;
+  }
+  #createAttribute(node, attribute3) {
+    const { debouncers, handlers, throttles } = node[meta];
+    const {
+      kind,
+      name,
+      value,
+      prevent_default: prevent,
+      debounce: debounceDelay,
+      throttle: throttleDelay
+    } = attribute3;
+    switch (kind) {
+      case attribute_kind: {
+        const valueOrDefault = value ?? "";
+        if (name === "virtual:defaultValue") {
+          node.defaultValue = valueOrDefault;
+          return;
+        } else if (name === "virtual:defaultChecked") {
+          node.defaultChecked = true;
+          return;
+        } else if (name === "virtual:defaultSelected") {
+          node.defaultSelected = true;
+          return;
+        }
+        if (valueOrDefault !== getAttribute(node, name)) {
+          setAttribute(node, name, valueOrDefault);
+        }
+        SYNCED_ATTRIBUTES[name]?.added?.(node, valueOrDefault);
+        break;
+      }
+      case property_kind:
+        node[name] = value;
+        break;
+      case event_kind: {
+        if (handlers.has(name)) {
+          removeEventListener(node, name, handleEvent);
+        }
+        const passive = prevent.kind === never_kind;
+        addEventListener(node, name, handleEvent, { passive });
+        this.#updateDebounceThrottle(throttles, name, throttleDelay);
+        this.#updateDebounceThrottle(debouncers, name, debounceDelay);
+        handlers.set(name, (event3) => this.#handleEvent(attribute3, event3));
+        break;
+      }
+    }
+  }
+  #updateDebounceThrottle(map6, name, delay) {
+    const debounceOrThrottle = map6.get(name);
+    if (delay > 0) {
+      if (debounceOrThrottle) {
+        debounceOrThrottle.delay = delay;
+      } else {
+        map6.set(name, { delay });
+      }
+    } else if (debounceOrThrottle) {
+      const { timeout } = debounceOrThrottle;
+      if (timeout) {
+        clearTimeout(timeout);
+      }
+      map6.delete(name);
+    }
+  }
+  #handleEvent(attribute3, event3) {
+    const { currentTarget, type } = event3;
+    const { debouncers, throttles } = currentTarget[meta];
+    const path = getPath(currentTarget);
+    const {
+      prevent_default: prevent,
+      stop_propagation: stop,
+      include
+    } = attribute3;
+    if (prevent.kind === always_kind)
+      event3.preventDefault();
+    if (stop.kind === always_kind)
+      event3.stopPropagation();
+    if (type === "submit") {
+      event3.detail ??= {};
+      event3.detail.formData = [
+        ...new FormData(event3.target, event3.submitter).entries()
+      ];
+    }
+    const data2 = this.#decodeEvent(event3, path, type, include);
+    const throttle = throttles.get(type);
+    if (throttle) {
+      const now = Date.now();
+      const last = throttle.last || 0;
+      if (now > last + throttle.delay) {
+        throttle.last = now;
+        throttle.lastEvent = event3;
+        this.#dispatch(event3, data2);
+      }
+    }
+    const debounce = debouncers.get(type);
+    if (debounce) {
+      clearTimeout(debounce.timeout);
+      debounce.timeout = setTimeout(() => {
+        if (event3 === throttles.get(type)?.lastEvent)
+          return;
+        this.#dispatch(event3, data2);
+      }, debounce.delay);
+    }
+    if (!throttle && !debounce) {
+      this.#dispatch(event3, data2);
+    }
+  }
+}
+var markerComment = (marker, key) => {
+  if (key) {
+    return ` ${marker} key="${escape(key)}" `;
+  } else {
+    return ` ${marker} `;
+  }
+};
+var handleEvent = (event3) => {
+  const { currentTarget, type } = event3;
+  const handler = currentTarget[meta].handlers.get(type);
+  handler(event3);
+};
+var syncedBooleanAttribute = (name) => {
+  return {
+    added(node) {
+      node[name] = true;
+    },
+    removed(node) {
+      node[name] = false;
+    }
+  };
+};
+var syncedAttribute = (name) => {
+  return {
+    added(node, value) {
+      node[name] = value;
+    }
+  };
+};
+var SYNCED_ATTRIBUTES = {
+  checked: syncedBooleanAttribute("checked"),
+  selected: syncedBooleanAttribute("selected"),
+  value: syncedAttribute("value"),
+  autofocus: {
+    added(node) {
+      queueMicrotask(() => {
+        node.focus?.();
+      });
+    }
+  },
+  autoplay: {
+    added(node) {
+      try {
+        node.play?.();
+      } catch (e) {
+        console.error(e);
+      }
+    }
+  }
+};
+
+// build/dev/javascript/lustre/lustre/element/keyed.mjs
+function do_extract_keyed_children(loop$key_children_pairs, loop$keyed_children, loop$children) {
+  while (true) {
+    let key_children_pairs = loop$key_children_pairs;
+    let keyed_children = loop$keyed_children;
+    let children = loop$children;
+    if (key_children_pairs instanceof Empty) {
+      return [keyed_children, reverse(children)];
+    } else {
+      let rest = key_children_pairs.tail;
+      let key = key_children_pairs.head[0];
+      let element$1 = key_children_pairs.head[1];
+      let keyed_element = to_keyed(key, element$1);
+      let _block;
+      if (key === "") {
+        _block = keyed_children;
+      } else {
+        _block = insert2(keyed_children, key, keyed_element);
+      }
+      let keyed_children$1 = _block;
+      let children$1 = prepend(keyed_element, children);
+      loop$key_children_pairs = rest;
+      loop$keyed_children = keyed_children$1;
+      loop$children = children$1;
+    }
+  }
+}
+function extract_keyed_children(children) {
+  return do_extract_keyed_children(children, empty3(), empty_list);
+}
+function element3(tag, attributes, children) {
+  let $ = extract_keyed_children(children);
+  let keyed_children = $[0];
+  let children$1 = $[1];
+  return element("", "", tag, attributes, children$1, keyed_children, false, is_void_html_element(tag, ""));
+}
+function namespaced2(namespace, tag, attributes, children) {
+  let $ = extract_keyed_children(children);
+  let keyed_children = $[0];
+  let children$1 = $[1];
+  return element("", namespace, tag, attributes, children$1, keyed_children, false, is_void_html_element(tag, namespace));
+}
+function fragment2(children) {
+  let $ = extract_keyed_children(children);
+  let keyed_children = $[0];
+  let children$1 = $[1];
+  return fragment("", children$1, keyed_children);
+}
+
+// build/dev/javascript/lustre/lustre/vdom/virtualise.ffi.mjs
+var virtualise = (root2) => {
+  const rootMeta = insertMetadataChild(element_kind, null, root2, 0, null);
+  const { children } = virtualiseChildren(rootMeta, root2, root2.firstChild);
+  if (children.length > 1) {
+    const rootNodeMeta = insertMetadataChild(element_kind, null, root2, 0, null);
+    rootMeta.kind = fragment_kind;
+    rootMeta.node = globalThis.document.createTextNode("");
+    rootMeta.parent = rootNodeMeta;
+    rootNodeMeta.children.push(rootMeta);
+    root2.insertBefore(rootMeta.node, root2.firstChild);
+    return fragment2(toList3(children));
+  }
+  if (children.length === 1) {
+    return children[0][1];
+  }
+  const placeholder = globalThis.document.createTextNode("");
+  insertMetadataChild(text_kind, rootMeta, placeholder, 0, null);
+  root2.insertBefore(placeholder, root2.firstChild);
+  return none2();
+};
+var virtualiseChild = (meta2, domParent, child2, index3) => {
+  if (child2.nodeType === COMMENT_NODE) {
+    const data2 = child2.data.trim();
+    if (data2.startsWith("lustre:fragment")) {
+      return virtualiseFragment(meta2, domParent, child2, index3);
+    }
+    if (data2.startsWith("lustre:map")) {
+      return virtualiseMap(meta2, domParent, child2, index3);
+    }
+    if (data2.startsWith("lustre:memo")) {
+      return virtualiseMemo(meta2, domParent, child2, index3);
+    }
+    return null;
+  }
+  if (child2.nodeType === ELEMENT_NODE) {
+    return virtualiseElement(meta2, child2, index3);
+  }
+  if (child2.nodeType === TEXT_NODE) {
+    return virtualiseText(meta2, child2, index3);
+  }
+  return null;
+};
+var virtualiseElement = (metaParent, node, index3) => {
+  const key = node.getAttribute("data-lustre-key") ?? "";
+  if (key) {
+    node.removeAttribute("data-lustre-key");
+  }
+  const meta2 = insertMetadataChild(element_kind, metaParent, node, index3, key);
+  const tag = node.localName;
+  const namespace = node.namespaceURI;
+  const isHtmlElement = !namespace || namespace === NAMESPACE_HTML;
+  if (isHtmlElement && INPUT_ELEMENTS.includes(tag)) {
+    virtualiseInputEvents(tag, node);
+  }
+  const attributes = virtualiseAttributes(node);
+  const { children } = virtualiseChildren(meta2, node, node.firstChild);
+  const vnode = isHtmlElement ? element3(tag, attributes, toList3(children)) : namespaced2(namespace, tag, attributes, toList3(children));
+  return childResult(key, vnode, node.nextSibling);
+};
+var virtualiseChildren = (meta2, domParent, childNode) => {
+  const children = [];
+  while (childNode && (childNode.nodeType !== COMMENT_NODE || childNode.data.trim() !== "/lustre:fragment")) {
+    const child2 = virtualiseChild(meta2, domParent, childNode, children.length);
+    if (child2) {
+      children.push([child2.key, child2.vnode]);
+      childNode = child2.next;
+    } else {
+      childNode = childNode.nextSibling;
+    }
+  }
+  return { children, end: childNode };
+};
+var virtualiseText = (meta2, node, index3) => {
+  insertMetadataChild(text_kind, meta2, node, index3, null);
+  return childResult("", text2(node.data), node.nextSibling);
+};
+var virtualiseFragment = (metaParent, domParent, node, index3) => {
+  const key = parseKey(node.data);
+  const meta2 = insertMetadataChild(fragment_kind, metaParent, node, index3, key);
+  const { children, end } = virtualiseChildren(meta2, domParent, node.nextSibling);
+  meta2.endNode = end;
+  const vnode = fragment2(toList3(children));
+  return childResult(key, vnode, end?.nextSibling);
+};
+var virtualiseMap = (metaParent, domParent, node, index3) => {
+  const key = parseKey(node.data);
+  const meta2 = insertMetadataChild(map_kind, metaParent, node, index3, key);
+  const child2 = virtualiseNextChild(meta2, domParent, node, 0);
+  if (!child2)
+    return null;
+  const vnode = map5(child2.vnode, (x) => x);
+  return childResult(key, vnode, child2.next);
+};
+var virtualiseMemo = (meta2, domParent, node, index3) => {
+  const key = parseKey(node.data);
+  const child2 = virtualiseNextChild(meta2, domParent, node, index3);
+  if (!child2)
+    return null;
+  domParent.removeChild(node);
+  const vnode = memo2(toList3([ref({})]), () => child2.vnode);
+  return childResult(key, vnode, child2.next);
+};
+var virtualiseNextChild = (meta2, domParent, node, index3) => {
+  while (true) {
+    node = node.nextSibling;
+    if (!node)
+      return null;
+    const child2 = virtualiseChild(meta2, domParent, node, index3);
+    if (child2)
+      return child2;
+  }
+};
+var childResult = (key, vnode, next) => {
+  return { key, vnode, next };
+};
+var virtualiseAttributes = (node) => {
+  const attributes = [];
+  for (let i = 0;i < node.attributes.length; i++) {
+    const attr = node.attributes[i];
+    if (attr.name !== "xmlns") {
+      attributes.push(attribute2(attr.localName, attr.value));
+    }
+  }
+  return toList3(attributes);
+};
+var INPUT_ELEMENTS = ["input", "select", "textarea"];
+var virtualiseInputEvents = (tag, node) => {
+  const value = node.value;
+  const checked = node.checked;
+  if (tag === "input" && node.type === "checkbox" && !checked)
+    return;
+  if (tag === "input" && node.type === "radio" && !checked)
+    return;
+  if (node.type !== "checkbox" && node.type !== "radio" && !value)
+    return;
+  queueMicrotask(() => {
+    node.value = value;
+    node.checked = checked;
+    node.dispatchEvent(new Event("input", { bubbles: true }));
+    node.dispatchEvent(new Event("change", { bubbles: true }));
+    if (globalThis.document.activeElement !== node) {
+      node.dispatchEvent(new Event("blur", { bubbles: true }));
+    }
+  });
+};
+var parseKey = (data2) => {
+  const keyMatch = data2.match(/key="([^"]*)"/);
+  if (!keyMatch)
+    return "";
+  return unescapeKey(keyMatch[1]);
+};
+var unescapeKey = (key) => {
+  return key.replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/&amp;/g, "&").replace(/&#39;/g, "'");
+};
+var toList3 = (arr) => arr.reduceRight((xs, x) => List$NonEmpty(x, xs), empty_list);
+
+// build/dev/javascript/lustre/lustre/runtime/client/runtime.ffi.mjs
+var is_browser = () => !!globalThis.document;
+class Runtime {
+  constructor(root2, [model, effects], view, update2, options) {
+    this.root = root2;
+    this.#model = model;
+    this.#view = view;
+    this.#update = update2;
+    this.root.addEventListener("context-request", (event3) => {
+      if (!(event3.context && event3.callback))
+        return;
+      if (!this.#contexts.has(event3.context))
+        return;
+      event3.stopImmediatePropagation();
+      const context = this.#contexts.get(event3.context);
+      if (event3.subscribe) {
+        const unsubscribe2 = () => {
+          context.subscribers = context.subscribers.filter((subscriber) => subscriber !== event3.callback);
+        };
+        context.subscribers.push([event3.callback, unsubscribe2]);
+        event3.callback(context.value, unsubscribe2);
+      } else {
+        event3.callback(context.value);
+      }
+    });
+    const decodeEvent = (event3, path, name) => decode2(this.#cache, path, name, event3);
+    const dispatch2 = (event3, data2) => {
+      const [cache, result] = dispatch(this.#cache, data2);
+      this.#cache = cache;
+      if (Result$isOk(result)) {
+        const handler = Result$Ok$0(result);
+        if (handler.stop_propagation)
+          event3.stopPropagation();
+        if (handler.prevent_default)
+          event3.preventDefault();
+        this.dispatch(handler.message, false);
+      }
+    };
+    this.#reconciler = new Reconciler(this.root, decodeEvent, dispatch2, options);
+    this.#vdom = virtualise(this.root);
+    this.#cache = new$4();
+    this.#handleEffects(effects);
+    this.#render();
+  }
+  root = null;
+  dispatch(message, shouldFlush = false) {
+    if (this.#shouldQueue) {
+      this.#queue.push(message);
+    } else {
+      const [model, effects] = this.#update(this.#model, message);
+      this.#model = model;
+      this.#scheduleRender(shouldFlush);
+      this.#handleEffects(effects);
+    }
+  }
+  emit(event3, data2) {
+    const target = this.root.host ?? this.root;
+    target.dispatchEvent(new LustreEvent(event3, data2));
+  }
+  provide(key, value) {
+    if (!this.#contexts.has(key)) {
+      this.#contexts.set(key, { value, subscribers: [] });
+    } else {
+      const context = this.#contexts.get(key);
+      if (isEqual2(context.value, value)) {
+        return;
+      }
+      context.value = value;
+      for (let i = context.subscribers.length - 1;i >= 0; i--) {
+        const [subscriber, unsubscribe2] = context.subscribers[i];
+        if (!subscriber) {
+          context.subscribers.splice(i, 1);
+          continue;
+        }
+        subscriber(value, unsubscribe2);
+      }
+    }
+  }
+  subscribe(key, decoder) {
+    if (!key)
+      return;
+    this.#contextSubscriptions.get(key)?.();
+    const target = this.root.host ?? this.root;
+    target.dispatchEvent(new ContextRequestEvent(key, (value, unsubscribe2) => {
+      const previousUnsubscribe = this.#contextSubscriptions.get(key);
+      if (previousUnsubscribe !== unsubscribe2) {
+        previousUnsubscribe?.();
+      }
+      const decoded = run(value, decoder);
+      this.#contextSubscriptions.set(key, unsubscribe2);
+      if (Result$isOk(decoded)) {
+        this.dispatch(Result$Ok$0(decoded), true);
+      }
+    }, true));
+  }
+  unsubscribe(key) {
+    const unsubscribe2 = this.#contextSubscriptions.get(key);
+    if (unsubscribe2) {
+      unsubscribe2();
+      this.#contextSubscriptions.delete(key);
+    }
+  }
+  unsubscribeAll() {
+    for (const [_, unsubscribe2] of this.#contextSubscriptions) {
+      unsubscribe2?.();
+    }
+    this.#contextSubscriptions.clear();
+  }
+  #model;
+  #view;
+  #update;
+  #vdom;
+  #cache;
+  #reconciler;
+  #contexts = new Map;
+  #contextSubscriptions = new Map;
+  #shouldQueue = false;
+  #queue = [];
+  #beforePaint = empty_list;
+  #afterPaint = empty_list;
+  #renderTimer = null;
+  #actions = {
+    dispatch: (message) => this.dispatch(message),
+    emit: (event3, data2) => this.emit(event3, data2),
+    select: () => {},
+    root: () => this.root,
+    provide: (key, value) => this.provide(key, value),
+    subscribe: (key, decoder) => this.subscribe(key, decoder),
+    unsubscribe: (key) => this.unsubscribe(key)
+  };
+  #scheduleRender(shouldFlush = false) {
+    if (this.#renderTimer)
+      return;
+    if (shouldFlush) {
+      this.#renderTimer = "sync";
+      queueMicrotask(() => this.#render());
+    } else {
+      this.#renderTimer = window.requestAnimationFrame(() => this.#render());
+    }
+  }
+  #handleEffects(effects) {
+    this.#shouldQueue = true;
+    let updateCalledDuringEffects = false;
+    while (true) {
+      iterate(effects.synchronous, (effect) => effect(this.#actions));
+      this.#beforePaint = append4(this.#beforePaint, effects.before_paint);
+      this.#afterPaint = append4(this.#afterPaint, effects.after_paint);
+      if (!this.#queue.length)
+        break;
+      const message = this.#queue.shift();
+      [this.#model, effects] = this.#update(this.#model, message);
+      updateCalledDuringEffects = true;
+    }
+    this.#shouldQueue = false;
+    return updateCalledDuringEffects;
+  }
+  #handleAsyncEffects(effects) {
+    if (this.#handleEffects(effects)) {
+      this.#scheduleRender(true);
+    }
+  }
+  #render() {
+    this.#renderTimer = null;
+    const next = this.#view(this.#model);
+    const { patch, cache } = diff(this.#cache, this.#vdom, next);
+    this.#cache = cache;
+    this.#vdom = next;
+    this.#reconciler.push(patch, memos(cache));
+    if (List$isNonEmpty(this.#beforePaint)) {
+      const effects = makeEffect(this.#beforePaint);
+      this.#beforePaint = empty_list;
+      queueMicrotask(() => this.#handleAsyncEffects(effects));
+    }
+    if (List$isNonEmpty(this.#afterPaint)) {
+      const effects = makeEffect(this.#afterPaint);
+      this.#afterPaint = empty_list;
+      window.requestAnimationFrame(() => this.#handleAsyncEffects(effects));
+    }
+  }
+}
+function makeEffect(synchronous) {
+  return {
+    synchronous,
+    after_paint: empty_list,
+    before_paint: empty_list
+  };
+}
+var copiedStyleSheets = new WeakMap;
+class ContextRequestEvent extends Event {
+  constructor(context, callback, subscribe2) {
+    super("context-request", { bubbles: true, composed: true });
+    this.context = context;
+    this.callback = callback;
+    this.subscribe = subscribe2;
+  }
+}
+
+class LustreEvent extends CustomEvent {
+  isLustreEvent = true;
+  constructor(name, detail) {
+    super(name, { detail, bubbles: true, composed: true });
+  }
+}
+
+// build/dev/javascript/lustre/lustre/runtime/client/spa.ffi.mjs
+class Spa {
+  #runtime;
+  constructor(root2, [init, effects], update2, view) {
+    this.#runtime = new Runtime(root2, [init, effects], view, update2);
+  }
+  send(message) {
+    if (Message$isEffectDispatchedMessage(message)) {
+      this.dispatch(message.message, false);
+    } else if (Message$isEffectEmitEvent(message)) {
+      this.emit(message.name, message.data);
+    } else if (Message$isSystemRequestedShutdown(message)) {}
+  }
+  dispatch(message) {
+    this.#runtime.dispatch(message);
+  }
+  emit(event3, data2) {
+    this.#runtime.emit(event3, data2);
+  }
+}
+var start = ({ init, update: update2, view }, selector, flags) => {
+  if (!is_browser())
+    return Result$Error(Error$NotABrowser());
+  const root2 = selector instanceof HTMLElement ? selector : globalThis.document.querySelector(selector);
+  if (!root2)
+    return Result$Error(Error$ElementNotFound(selector));
+  return Result$Ok(new Spa(root2, init(flags), update2, view));
+};
+
+// build/dev/javascript/lustre/lustre/runtime/server/runtime.ffi.mjs
+class Runtime2 {
+  #model;
+  #update;
+  #view;
+  #config;
+  #vdom;
+  #cache;
+  #providers = make();
+  #callbacks = /* @__PURE__ */ new Set;
+  constructor(_, init, update2, view, config, start_arguments) {
+    const [model, effects] = init(start_arguments);
+    this.#model = model;
+    this.#update = update2;
+    this.#view = view;
+    this.#config = config;
+    this.#vdom = this.#view(this.#model);
+    this.#cache = from_node(this.#vdom);
+    this.#handle_effect(effects);
+  }
+  send(message) {
+    if (Message$isClientDispatchedMessage(message)) {
+      const { message: message2 } = message2;
+      const next = this.#handle_client_message(message2);
+      const diff2 = diff(this.#cache, this.#vdom, next);
+      this.#vdom = next;
+      this.#cache = diff2.cache;
+      this.broadcast(reconcile(diff2.patch, memos(diff2.cache)));
+    } else if (Message$isClientRegisteredCallback(message)) {
+      const { callback } = message;
+      this.#callbacks.add(callback);
+      callback(mount(this.#config.open_shadow_root, this.#config.adopt_styles, keys(this.#config.attributes), keys(this.#config.properties), keys(this.#config.contexts), this.#providers, this.#vdom, memos(this.#cache)));
+      if (Option$isSome(this.#config.on_connect)) {
+        this.#dispatch(Option$Some$0(this.#config.on_connect));
+      }
+    } else if (Message$isClientDeregisteredCallback(message)) {
+      const { callback } = message;
+      this.#callbacks.delete(callback);
+      if (Option$isSome(this.#config.on_disconnect)) {
+        this.#dispatch(Option$Some$0(this.#config.on_disconnect));
+      }
+    } else if (Message$isEffectDispatchedMessage(message)) {
+      const { message: message2 } = message2;
+      const [model, effect] = this.#update(this.#model, message2);
+      const next = this.#view(model);
+      const diff2 = diff(this.#cache, this.#vdom, next);
+      this.#handle_effect(effect);
+      this.#model = model;
+      this.#vdom = next;
+      this.#cache = diff2.cache;
+      this.broadcast(reconcile(diff2.patch, memos(diff2.cache)));
+    } else if (Message$isEffectEmitEvent(message)) {
+      const { name, data: data2 } = message;
+      this.broadcast(emit(name, data2));
+    } else if (Message$isEffectProvidedValue(message)) {
+      const { key, value } = message;
+      const existing = get(this.#providers, key);
+      if (Result$isOk(existing) && isEqual2(Result$Ok$0(existing), value)) {
+        return;
+      }
+      this.#providers = insert(this.#providers, key, value);
+      this.broadcast(provide(key, value));
+    } else if (Message$isEffectRequestedContextSubscription(message)) {
+      const { key, decoder } = message;
+      this.broadcast(subscribe(key));
+      this.#config.contexts = insert(this.#config.contexts, key, decoder);
+    } else if (Message$isEffectRemovedContextSubscription(message)) {
+      const { key } = message;
+      this.broadcast(unsubscribe(key));
+      this.#config.contexts = undefined(this.#config.contexts, key);
+    } else if (Message$isSystemRequestedShutdown(message)) {
+      this.#model = null;
+      this.#update = null;
+      this.#view = null;
+      this.#config = null;
+      this.#vdom = null;
+      this.#cache = null;
+      this.#providers = null;
+      this.#callbacks.clear();
+    }
+  }
+  broadcast(message) {
+    for (const callback of this.#callbacks) {
+      callback(message);
+    }
+  }
+  #handle_client_message(message) {
+    if (ServerMessage$isBatch(message)) {
+      const { messages } = message;
+      let model = this.#model;
+      let effect = none();
+      for (let list4 = messages;List$NonEmpty$rest(list4); list4 = List$NonEmpty$rest(list4)) {
+        const result = this.#handle_client_message(List$NonEmpty$first(list4));
+        if (Result$isOk(result)) {
+          model = Result$Ok$0(result)[0];
+          effect = batch(toList2([effect, Result$Ok$0(result)[1]]));
+          break;
+        }
+      }
+      this.#handle_effect(effect);
+      this.#model = model;
+      return this.#view(model);
+    } else if (ServerMessage$isAttributeChanged(message)) {
+      const { name, value } = message;
+      const result = this.#handle_attribute_change(name, value);
+      if (!Result$isOk(result)) {
+        return this.#vdom;
+      }
+      return this.#dispatch(Result$Ok$0(result));
+    } else if (ServerMessage$isPropertyChanged(message)) {
+      const { name, value } = message;
+      const result = this.#handle_properties_change(name, value);
+      if (!Result$isOk(result)) {
+        return this.#vdom;
+      }
+      return this.#dispatch(Result$Ok$0(result));
+    } else if (ServerMessage$isEventFired(message)) {
+      const { path, name, event: event3 } = message2;
+      const [cache, result] = handle(this.#cache, path, name, event3);
+      this.#cache = cache;
+      if (!Result$isOk(result)) {
+        return this.#vdom;
+      }
+      const { message: message2 } = Result$Ok$0(result);
+      return this.#dispatch(message2);
+    } else if (ServerMessage$isContextProvided(message)) {
+      const { key, value } = message;
+      let result = get(this.#config.contexts, key);
+      if (!Result$isOk(result)) {
+        return this.#vdom;
+      }
+      result = run(value, Result$Ok$0(result));
+      if (!Result$isOk(result)) {
+        return this.#vdom;
+      }
+      return this.#dispatch(Result$Ok$0(result));
+    }
+  }
+  #dispatch(message) {
+    const [model, effects] = this.#update(this.#model, message);
+    this.#handle_effect(effects);
+    this.#model = model;
+    return this.#view(this.#model);
+  }
+  #handle_attribute_change(name, value) {
+    const result = get(this.#config.attributes, name);
+    if (!Result$isOk(result)) {
+      return result;
+    }
+    return Result$Ok$0(result)(value);
+  }
+  #handle_properties_change(name, value) {
+    const result = get(this.#config.properties, name);
+    if (!Result$isOk(result)) {
+      return result;
+    }
+    return Result$Ok$0(result)(value);
+  }
+  #handle_effect(effect) {
+    const dispatch2 = (message) => this.send(Message$EffectDispatchedMessage(message));
+    const emit2 = (name, data2) => this.send(Message$EffectEmitEvent(name, data2));
+    const select = () => {
+      return;
+    };
+    const internals = () => {
+      return;
+    };
+    const provide2 = (key, value) => this.send(Message$EffectProvidedValue(key, value));
+    const subscribe2 = (key, decoder) => this.send(Message$EffectRequestedContextSubscription(key, decoder));
+    const unsubscribe2 = (key) => this.send(Message$EffectRemovedContextSubscription(key));
+    globalThis.queueMicrotask(() => {
+      perform(effect, dispatch2, emit2, select, internals, provide2, subscribe2, unsubscribe2);
+    });
+  }
+}
+
+// build/dev/javascript/lustre/lustre.mjs
+class ElementNotFound extends CustomType {
+  constructor(selector) {
+    super();
+    this.selector = selector;
+  }
+}
+var Error$ElementNotFound = (selector) => new ElementNotFound(selector);
+class NotABrowser extends CustomType {
+}
+var Error$NotABrowser = () => new NotABrowser;
+function application(init, update2, view) {
+  return new App(new None, init, update2, view, default_config);
+}
+function start4(app, selector, arguments$) {
+  return guard(!is_browser(), new Error(new NotABrowser), () => {
+    return start(app, selector, arguments$);
+  });
+}
+
+// build/dev/javascript/lustre/lustre/event.mjs
+function on(name, handler) {
+  return event(name, map3(handler, (message) => {
+    return new Handler(false, false, message);
+  }), empty_list, never, never, 0, 0);
+}
+function on_click(message) {
+  return on("click", success(message));
+}
+
+// build/dev/javascript/plinth/global_ffi.mjs
+function setTimeout2(delay, callback) {
+  return globalThis.setTimeout(callback, delay);
+}
+// build/dev/javascript/roir/roir.mjs
+var FILEPATH = "src/roir.gleam";
+
+class Model extends CustomType {
+  constructor(page, time) {
+    super();
+    this.page = page;
+    this.time = time;
+  }
+}
+
+class Home extends CustomType {
+}
+
+class Clock extends CustomType {
+}
+
+class Conversion extends CustomType {
+}
+
+class UserClickedHome extends CustomType {
+}
+
+class UserClickedClock extends CustomType {
+}
+
+class UserClickedConversion extends CustomType {
+}
+
+class ClockTick extends CustomType {
+}
+function to_2digit_base6(num) {
+  return to_string(globalThis.Math.trunc(num / 6) % 6) + to_string(num % 6);
+}
+function time_to_roir(current_time) {
+  let $ = to_calendar(subtract(current_time, hours(4)), utc_offset);
+  let time = $[1];
+  return [
+    globalThis.Math.trunc(time.hours / 6),
+    globalThis.Math.trunc(time.hours / 2) % 3,
+    globalThis.Math.trunc((time.hours * 60 + time.minutes) / 20) % 6,
+    globalThis.Math.trunc(truncate(identity((time.hours * 60 + time.minutes) * 60 + time.seconds) * 27 / 25 + identity(time.nanoseconds) / 925925926) / 36) % 36,
+    truncate(identity((time.hours * 60 + time.minutes) * 60 + time.seconds) * 27 / 25 + identity(time.nanoseconds) / 925925926) % 36
+  ];
+}
+function time_in_roir(current_time) {
+  let time = time_to_roir(current_time);
+  return try$((() => {
+    let $ = time[0];
+    if ($ === 0) {
+      return new Ok("a_");
+    } else if ($ === 1) {
+      return new Ok("o_");
+    } else if ($ === 2) {
+      return new Ok("u_");
+    } else if ($ === 3) {
+      return new Ok("i_");
+    } else {
+      let value = $;
+      return new Error("Unexpected value: #(" + to_string(value) + ", _, _, _, _");
+    }
+  })(), (phase) => {
+    return try$((() => {
+      let $ = time[1];
+      if ($ === 0) {
+        return new Ok("v_");
+      } else if ($ === 1) {
+        return new Ok("q_");
+      } else if ($ === 2) {
+        return new Ok("l_");
+      } else {
+        let value = $;
+        return new Error("Unexpected value: #(_, " + to_string(value) + ", _, _, _");
+      }
+    })(), (chunk) => {
+      let hour = to_string((() => {
+        let h = time[2];
+        return h;
+      })()) + "_";
+      let minute = to_2digit_base6((() => {
+        let m = time[3];
+        return m;
+      })()) + "_";
+      let second = to_2digit_base6((() => {
+        let s = time[4];
+        return s;
+      })());
+      return new Ok(phase + chunk + hour + minute + second);
+    });
+  });
+}
+function view(model) {
+  return html(toList([]), toList([
+    head(toList([]), toList([title(toList([]), "Roir Resources")])),
+    body(toList([]), toList([
+      header(toList([style("margin-bottom", "20px")]), toList([
+        div(toList([style("margin-left", "5px")]), toList([
+          h1(toList([
+            styles(toList([
+              ["display", "inline-grid"],
+              ["margin-right", "75px"]
+            ]))
+          ]), toList([text3("Roir Resources")])),
+          button(toList([
+            on_click(new UserClickedHome),
+            style("margin-right", "50px")
+          ]), toList([h2(toList([]), toList([text3("Home")]))])),
+          button(toList([
+            on_click(new UserClickedClock),
+            style("margin-right", "50px")
+          ]), toList([h2(toList([]), toList([text3("Clock")]))])),
+          button(toList([
+            on_click(new UserClickedConversion),
+            style("margin-right", "50px")
+          ]), toList([
+            h2(toList([]), toList([text3("Unit Conversion")]))
+          ])),
+          a(toList([
+            href("https://conworkshop.com/view_language.php?l=ROIR"),
+            styles(toList([
+              ["margin-right", "50px"],
+              ["display", "inline-grid"]
+            ]))
+          ]), toList([h2(toList([]), toList([text3("CWS")]))])),
+          a(toList([
+            href("https://docs.google.com/document/d/1mwD9ZAoW1PrKS8-Yidn1gpv_qTTFLY26aHr-Rd4gVtc/edit?usp=sharing"),
+            style("display", "inline-grid")
+          ]), toList([
+            h2(toList([]), toList([text3("Reference Doc")]))
+          ]))
+        ]))
+      ])),
+      (() => {
+        let $ = model.page;
+        if ($ instanceof Home) {
+          return div(toList([style("margin-left", "5px")]), toList([
+            h2(toList([]), toList([text3("About Roir")])),
+            p(toList([style("display", "inline-block")]), toList([
+              text3("Roir ("),
+              span(toList([style("display", "inline-block")]), toList([h4(toList([]), toList([text3("rlr")]))])),
+              text3(`) is a Constructed Language (Conlang) created by Selkie Lunarose Yukimori. It is currently incomplete and in active development.
+              For the most comprehensive breakdown of this Conlang, check the `),
+              a(toList([
+                href("https://docs.google.com/document/d/1mwD9ZAoW1PrKS8-Yidn1gpv_qTTFLY26aHr-Rd4gVtc/edit?usp=sharing"),
+                style("text-decoration", "underline")
+              ]), toList([text3("Roir Reference Document")])),
+              text3(", or if you feel inclined you can view the "),
+              a(toList([
+                href("https://conworkshop.com/view_language.php?l=ROIR"),
+                style("text-decoration", "underline")
+              ]), toList([text3("Conworkshop Page")])),
+              text3(". Both are also accessible at the top menu at any time.")
+            ]))
+          ]));
+        } else if ($ instanceof Clock) {
+          return div(toList([]), toList([
+            h4(toList([
+              styles(toList([
+                ["font-size", "5rem"],
+                ["text-align", "center"],
+                ["margin-top", "50px"]
+              ]))
+            ]), toList([
+              text3((() => {
+                let $1 = time_in_roir(add3(model.time, local_offset()));
+                if ($1 instanceof Ok) {
+                  let value = $1[0];
+                  return value;
+                } else {
+                  return "._._.._..";
+                }
+              })())
+            ]))
+          ]));
+        } else {
+          return div(toList([]), toList([text3("This section is unfinished.")]));
+        }
+      })()
+    ]))
+  ]));
+}
+function decimal_part(num) {
+  return num - identity(truncate(num));
+}
+function tick2(dispatch2) {
+  let s_and_n = to_unix_seconds_and_nanoseconds(system_time2());
+  let offset = truncate(926 * (1 - decimal_part(identity((() => {
+    let s = s_and_n[0];
+    return s;
+  })()) * 27 / 25 + identity((() => {
+    let n = s_and_n[1];
+    return n;
+  })()) / 925925926)));
+  setTimeout2(offset, () => {
+    return dispatch2(new ClockTick);
+  });
+  return;
+}
+function update2(model, message) {
+  if (message instanceof UserClickedHome) {
+    return [new Model(new Home, system_time2()), none()];
+  } else if (message instanceof UserClickedClock) {
+    let $ = model.page;
+    if ($ instanceof Clock) {
+      return [new Model(new Clock, system_time2()), none()];
+    } else {
+      return [new Model(new Clock, system_time2()), from2(tick2)];
+    }
+  } else if (message instanceof UserClickedConversion) {
+    return [new Model(new Conversion, system_time2()), none()];
+  } else {
+    let $ = model.page;
+    if ($ instanceof Clock) {
+      return [new Model(model.page, system_time2()), from2(tick2)];
+    } else {
+      return [new Model(model.page, system_time2()), none()];
+    }
+  }
+}
+function init(_) {
+  return [new Model(new Home, system_time2()), none()];
+}
+function main() {
+  let app = application(init, update2, view);
+  let $ = start4(app, "#app", undefined);
+  if (!($ instanceof Ok)) {
+    throw makeError("let_assert", FILEPATH, "roir", 17, "main", "Pattern match failed, no pattern matched the value.", { value: $, start: 405, end: 454, pattern_start: 416, pattern_end: 421 });
+  }
+  return;
+}
+
+// .lustre/build/roir.mjs
+main();
