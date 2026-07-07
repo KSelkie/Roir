@@ -26,9 +26,7 @@ jobs:
         run: gleam deps download
 
       - name: Build Lustre SPA
-        run: |
-          mkdir -p dist
-          gleam run -m lustre/dev build --minify
+        run: gleam run -m lustre/dev build --minify
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
