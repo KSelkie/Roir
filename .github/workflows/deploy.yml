@@ -32,7 +32,7 @@ jobs:
 
       - name: Build Lustre SPA
         run: |
-          mkdir -p distS
+          mkdir -p dist
           gleam run -m lustre/dev build --minify --outdir=dist --base=/roir/
 
       - name: Verify Build Artifacts
