@@ -25,7 +25,7 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v4
         with:
-          node-size: '20'
+          node-version: '20'
 
       - name: Download Gleam dependencies
         run: gleam deps download
@@ -36,5 +36,5 @@ jobs:
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: assets # The directory where Lustre outputs compiled assets
+          folder: dist # The directory where Lustre outputs compiled assets
           branch: gh-pages # The isolated branch GitHub Pages will read from
