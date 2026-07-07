@@ -1,0 +1,39 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - master
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Erlang/OTP
+        uses: erlef/setup-beam@v1
+        with:
+          otp-version: '27' # Specify your preferred OTP version
+          gleam-version: '1.5.0' # Specify your local Gleam version
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-size: '20'
+
+      - name: Download Gleam dependencies
+        run: gleam deps download
+
+      - name: Build Lustre SPA
+        run: gleam run -m lustre/dev build --minify
+
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: assets # The directory where Lustre outputs compiled assets
+          branch: gh-pages # The isolated branch GitHub Pages will read from
