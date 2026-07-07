@@ -28,12 +28,16 @@ jobs:
       - name: Build Lustre SPA
         run: gleam run -m lustre/dev build --minify
 
-      - name: Verify Build Artifacts
-        run: ls dist
+      - name: Correct and Verify Build Artifacts
+        run: |
+          cd dist
+          sed -i 's_src="/_src="./_g' index.html
+          sed -i 's_href="/_href="./_g' index.html
+          cat index.html
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: dist
-          branch: gh-pages # The isolated branch GitHub Pages will read from
+          branch: gh-pages
           clean: true
