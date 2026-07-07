@@ -18,18 +18,18 @@ jobs:
       - name: Set up Erlang/OTP
         uses: erlef/setup-beam@v1
         with:
-          otp-version: '27' # Specify your preferred OTP version
-          gleam-version: '1.17.0' # Specify your local Gleam version
+          otp-version: '27'
+          gleam-version: '1.17.0'
           rebar3-version: '3.27.0'
 
       - name: Download Gleam dependencies
         run: gleam deps download
 
       - name: Build Lustre SPA
-        run: gleam run -m lustre/dev build
-
-      - name: Verify Build Artifacts
-        run: ls -la dist
+        run: |
+          gleam run -m lustre/dev build
+          sed -i 's_src="/_src="Roir/dist/_g' dist/index.html
+          sed -i 's_href="/_href="Roir/dist/_g' dist/index.html
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
