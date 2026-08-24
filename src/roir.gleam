@@ -181,7 +181,7 @@ fn view(model: Model) -> Element(Message) {
         ])
 
         Clock -> h.div([], [
-          h.h4([a.styles([#("font-size", "5rem"), #("text-align", "center"), #("margin-top", "50px")])], [h.text(case time_in_roir(t.add(model.time, calendar.local_offset())) {
+          h.h4([a.styles([#("font-size", "475%"), #("text-align", "center"), #("margin-top", "50px")])], [h.text(case time_in_roir(t.add(model.time, calendar.local_offset())) {
             Ok(value) -> value
             Error(_) -> "._._.._.."
           })])
