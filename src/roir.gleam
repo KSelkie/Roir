@@ -1,3 +1,4 @@
+import gleam/string
 import gleam/float
 import gleam/time/duration
 import gleam/int
@@ -184,7 +185,10 @@ fn view(model: Model) -> Element(Message) {
           h.h4([a.styles([#("font-size", "475%"), #("text-align", "center"), #("margin-top", "50px")])], [h.text(case time_in_roir(t.add(model.time, calendar.local_offset())) {
             Ok(value) -> value
             Error(_) -> "._._.._.."
-          })])
+          })]),
+          h.h3([a.styles([#("font-size", "475%"), #("text-align", "center"), #("margin-top", "50px")])], [h.text(time_tuple_to_string(time_to_roir(t.add(model.time, calendar.local_offset()))))]),
+          h.p([a.styles([#("text-align", "center"), #("margin-top", "70px")])], [h.text("Standard clock does not tick on the second")]),
+          h.h3([a.styles([#("font-size", "475%"), #("text-align", "center")])], [h.text(string.slice(t.to_rfc3339(model.time, calendar.local_offset()), 11, 8))])
         ])
 
         Conversion -> h.div([], [distance_conversion(model), weight_conversion(model), time_conversion(model), temp_conversion(model)])
@@ -459,4 +463,73 @@ pub fn time_to_roir(current_time: t.Timestamp) -> #(Int, Int, Int, Int, Int) {
     {float.truncate({{int.to_float({{{time.hours * 60} + time.minutes} * 60} + time.seconds) *. 27.0} /. 25.0} +. {int.to_float(time.nanoseconds) /. 925925926.0}) / 36} % 36,
     float.truncate({{int.to_float({{{time.hours * 60} + time.minutes} * 60} + time.seconds) *. 27.0} /. 25.0} +. {int.to_float(time.nanoseconds) /. 925925926.0}) % 36
   )
+}
+
+fn time_tuple_to_string(time: #(Int, Int, Int, Int, Int)) -> String {
+  let #(a, b, c, d, e) = time
+  int.to_string(a + 1) <> ":" <> int.to_string(b + 1) <> ":" <> int.to_string(c) <> ":" <> string.pad_start(int.to_string(d), 2, "0") <> ":" <> string.pad_start(int.to_string(e), 2, "0")
+}
+
+pub fn to_base6(num: Int, decimal: Int, roir: Bool) -> String {
+  let base6num = base6_recursion(string.to_graphemes(int.to_base36(num)))
+  let base6decimal = base6_recursion(string.to_graphemes(int.to_base36(decimal)))
+
+  case string.starts_with(base6num, "0") {
+    True -> string.drop_start(base6num, 1)
+    False -> base6num
+  } <> case base6decimal {
+    "00" -> ""
+    _ -> case roir {
+      True -> "_"
+      False -> "."
+    } <> case string.ends_with(base6decimal, "0") {
+      True -> string.drop_end(base6decimal, 1)
+      False -> base6decimal
+    }
+  }
+}
+
+fn base6_recursion(graphemes: List(String)) -> String {
+  case graphemes {
+    [] -> ""
+    [a, ..rest] -> case a {
+      "0" -> "00"
+      "1" -> "01"
+      "2" -> "02"
+      "3" -> "03"
+      "4" -> "04"
+      "5" -> "05"
+      "6" -> "10"
+      "7" -> "11"
+      "8" -> "12"
+      "9" -> "13"
+      "a" -> "14"
+      "b" -> "15"
+      "c" -> "20"
+      "d" -> "21"
+      "e" -> "22"
+      "f" -> "23"
+      "g" -> "24"
+      "h" -> "25"
+      "i" -> "30"
+      "j" -> "31"
+      "k" -> "32"
+      "l" -> "33"
+      "m" -> "34"
+      "n" -> "35"
+      "o" -> "40"
+      "p" -> "41"
+      "q" -> "42"
+      "r" -> "43"
+      "s" -> "44"
+      "t" -> "45"
+      "u" -> "50"
+      "v" -> "51"
+      "w" -> "52"
+      "x" -> "53"
+      "y" -> "54"
+      "z" -> "55"
+      _ -> ""
+    } <> base6_recursion(rest)
+  }
 }
