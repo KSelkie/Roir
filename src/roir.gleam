@@ -99,7 +99,7 @@ type Message {
   None
 }
 
-fn update(model : Model, message: Message) -> #(Model, effect.Effect(Message)) {
+fn update(model: Model, message: Message) -> #(Model, effect.Effect(Message)) {
   case message {
     UserClickedHome -> #(Model(Home, t.system_time(), model.dist_conversion, model.weight_conversion, model.time_conversion, model.temp_conversion), effect.none())
     UserClickedClock -> case model.page {
@@ -207,10 +207,10 @@ fn distance_conversion(model: Model) -> Element(Message) {
         "Inches" -> 50.0 /. 1.27
         "Meters" -> 1.0
         "Centimeters" -> 100.0
-        "Zoith" -> 1.36048896 /. 37.47405725
+        "Zoith" -> 3.779136 /. 3747.405725
         "Miles" -> 1.25 /. 2011.68
         "Kilometers" -> 0.001
-        "Zaith" -> 91403.9610016 /. 1.49896229
+        "Zaith" -> 6347.497291776 /. 3.747405725
         "Thou" -> 50000.0 /. 1.27
         "Millimeters" -> 1000.0
         _ -> 0.0
@@ -234,10 +234,10 @@ fn distance_conversion(model: Model) -> Element(Message) {
         "Inches" -> 50.0 /. 1.27
         "Meters" -> 1.0
         "Centimeters" -> 100.0
-        "Zoith" -> 1.36048896 /. 37.47405725
+        "Zoith" -> 3.779136 /. 3747.405725
         "Miles" -> 1.25 /. 2011.68
         "Kilometers" -> 0.001
-        "Zaith" -> 91403.9610016 /. 1.49896229
+        "Zaith" -> 6347.497291776 /. 3.747405725
         "Thou" -> 50000.0 /. 1.27
         "Millimeters" -> 1000.0
         _ -> 0.0
